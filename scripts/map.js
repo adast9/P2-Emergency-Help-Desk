@@ -37,7 +37,6 @@ function InitMap() {
 }
 
 function PlaceMarker(location) {
-    console.log(location.getPosition);
     if(marker) {
         marker.setPosition(location);
         marker.setAnimation(google.maps.Animation.DROP);
