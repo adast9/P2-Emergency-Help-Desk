@@ -1,12 +1,12 @@
 #map {
     height: 550px;
     width: 700px;
-    border: outset green 10px;
+    border: outset pink 10px;
     border-radius: 25px;
 }
 
 html, body {
-    background-color: pink;
+    background-color: ghostwhite;
     height: 100%;
     margin: 10px;
     padding: 0;
