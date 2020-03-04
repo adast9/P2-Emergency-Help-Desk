@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>P2 Demo</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <script src="scripts.js"></script> 
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&callback=initMap"></script>
+    </head>
+
+    <body>
+        <h2>Drag the Marker to the Emergency</h2>
+
+        <input id="address" type="textbox" value="" placeholder="Search Google Maps">
+        <input id="search" type="button" value="Search">
+        <input id="gps" type="button" value="GPS">
+
+        <br><br>
+
+        <div id="map"></div>
+
+        <br>
+
+        <textarea id="desc" rows="4" cols="50" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea>
+
+        <br><br>
+
+        <input id="submit" type="button" value="Submit">
+        <br><br>
+
+        <script>
+          const handleSuccess = function(stream) {
+            const context = new AudioContext();
+            const source = context.createMediaStreamSource(stream);
+            const processor = context.createScriptProcessor(1024, 1, 1);
+
+            source.connect(processor);
+            processor.connect(context.destination);
+
+            processor.onaudioprocess = function(e) {
+              // Do something with the data, e.g. convert it to WAV
+              console.log(e.inputBuffer);
+            };
+          };
+
+          navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+              .then(handleSuccess);
+        </script>
+    </body>
+</html>
