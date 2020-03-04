@@ -1,6 +1,8 @@
 #map {
     height: 550px;
     width: 700px;
+    border: outset greenb 10px;
+    border-radius: 25px;
 }
 
 html, body {
