@@ -14,3 +14,11 @@ html, body {
     orientation: portrait;
     font-family: "Comic Sans MS", sans-serif;
 }
+
+body{
+    background-image: url('https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ffla.fg-a.com%2Fflags%2Fanimated-czech-republic-flag.gif&f=1&nofb=1');
+    background-size: cover;
+    height: 100vh;
+    padding:0;
+    margin:0;
+}
