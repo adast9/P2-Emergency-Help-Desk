@@ -5,8 +5,9 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script src="scripts.js"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&callback=initMap"></script>
+        <script async defer src="scripts/map.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&callback=InitMap"></script>
+        
     </head>
 
     <body>
@@ -28,24 +29,5 @@
 
         <input id="submit" type="button" value="Submit">
         <br><br>
-
-        <script>
-          const handleSuccess = function(stream) {
-            const context = new AudioContext();
-            const source = context.createMediaStreamSource(stream);
-            const processor = context.createScriptProcessor(1024, 1, 1);
-
-            source.connect(processor);
-            processor.connect(context.destination);
-
-            processor.onaudioprocess = function(e) {
-              // Do something with the data, e.g. convert it to WAV
-              console.log(e.inputBuffer);
-            };
-          };
-
-          navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-              .then(handleSuccess);
-        </script>
     </body>
 </html>
