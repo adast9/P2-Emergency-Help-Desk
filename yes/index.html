@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>P2 Demo</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <script async defer src="scripts/map.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&callback=InitMap"></script>
+
+    </head>
+
+    <body>
+        <h2>Drag the Marker to the Emergency</h2>
+
+        <input id="address" type="textbox" value="" placeholder="Search Google Maps">
+        <input id="search" type="button" value="Search">
+        <input id="gps" type="button" value="GPS">
+
+        <br><br>
+
+        <div id="map"></div>
+
+        <br>
+
+        <textarea id="desc" rows="4" cols="50" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea>
+
+        <br><br>
+
+        <input id="submit" type="button" value="Submit">
+        <br><br>
+    </body>
+</html>
