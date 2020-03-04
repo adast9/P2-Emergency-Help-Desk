@@ -1,16 +1,18 @@
 #map {
-    height: 550px;
-    width: 700px;
-    border: outset green 10px;
+    height: 450px;
+    width: 600px;
+    border: outset deeppink 20px;
     border-radius: 25px;
 }
 
 html, body {
-    background-color: pink;
+    background-color: hotpink;
+    color: pink;
     height: 100%;
     margin: 10px;
     padding: 0;
-    font-family: "tahoma", sans-serif;
+    orientation: portrait;
+    font-family: "Comic Sans MS", sans-serif;
 }
 
 body{
