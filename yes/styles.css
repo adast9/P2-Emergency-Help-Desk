@@ -1,24 +1,24 @@
 #map {
-    height: 50%;
-    width: 50%;
-    border: outset slategrey 20px;
+    height: 450px;
+    width: 600px;
+    border: outset deeppink 20px;
     border-radius: 25px;
 }
 
 html, body {
-    background-color: darkslategrey;
-    color: slategrey;
+    background-color: hotpink;
+    color: pink;
     height: 100%;
-    margin: 5%;
+    margin: 10px;
     padding: 0;
     orientation: portrait;
-    font-family: "Calibri", sans-serif;
+    font-family: "Comic Sans MS", sans-serif;
 }
 
 body{
     background-image: url('https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ffla.fg-a.com%2Fflags%2Fanimated-czech-republic-flag.gif&f=1&nofb=1');
     background-size: cover;
-    height: 50%;
+    height: 100vh;
     padding:0;
     margin:0;
 }
