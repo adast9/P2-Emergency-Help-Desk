@@ -7,17 +7,6 @@ body {
   margin: 0;
 }
 
-.header {
-  padding: 30px;
-  text-align: center;
-  background: #1abc9c;
-  color: white;
-}
-
-.header h1 {
-  font-size: 40px;
-}
-
 .navbar {
   overflow: hidden;
   background-color: #333;
