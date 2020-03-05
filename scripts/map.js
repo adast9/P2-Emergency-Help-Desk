@@ -7,7 +7,8 @@ const submitButton = document.getElementById('submit')
 function InitMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 56.2, lng: 10.3333283},
-        zoom: 7
+        zoom: 7,
+        tilt: 0
     });
     infoWindow = new google.maps.InfoWindow;
 

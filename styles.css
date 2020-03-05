@@ -76,7 +76,7 @@ body {
 
 #map {
     height:450px;
-    width:100%;
+    max-width:900px;
 }
 
 .footer {
