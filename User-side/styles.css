@@ -7,22 +7,6 @@ body {
   margin: 0;
 }
 
-/*Er sat ind i EMD-side.html*/
-/*iframe {
-  float:left;
-}
-
-ol {
-  border: 3px solid gray;
-  font-size: 21px;
-  width: 300  px;
-  height: 250px;
-  padding: 30px;
-  float: left;
-  overflow-y : auto;
-}
-*/
-
 .navbar {
   overflow: hidden;
   background-color: #333;
