@@ -1,0 +1,13 @@
+p {
+  border-style: groove;
+  border-width: 1px;
+  width: 820px;
+  height: 180px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+}
+
+textarea {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+}
