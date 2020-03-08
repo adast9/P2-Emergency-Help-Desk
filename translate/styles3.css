@@ -11,3 +11,10 @@ textarea {
   font-family: "Times New Roman", Times, serif;
   font-size: 15px;
 }
+
+.goog-te-banner-frame.skiptranslate {
+        display: none !important;
+    }
+    body {
+        top: 0px !important;
+    }
