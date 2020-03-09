@@ -1,38 +1,51 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script async defer src="scriptForTranslation.js"></script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <link rel="stylesheet" type="text/css" href="styles3.css">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script async defer src="../scripts/scriptForTranslation.js"></script>
+        <link rel="stylesheet" type="text/css" href="../styles.css">
+        <script async defer src="../scripts/record.js"></script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <title class="notranslate">Translate</title>
+    </head>
 
-  <title class="notranslate">Translate</title>
-</head>
+    <body>
+        <header>
+            <div class="logo">
+                112<br>
+                Help
+            </div>
+            <div id="google_translate_element"></div>
+            <nav>
+                <ul class="nav_links">
+                    <li class ="header-list"><a class ="nava" href="../User-side">112 Webapp</a></li>
+                    <li class ="header-list"><a class ="nava" href="../User-side/info">Info</a></li>
+                    <li class ="header-list"><a class ="nava" href="../EMD-side">EMD-side</a></li>
+                    <li class ="header-list"><a class ="nava" href="">Translate</a></li>
+                </ul>
+            </nav>
+            <a class="nava" href="tel:42422292"><button class ="button-header">Call 112</button></a>
+        </header>
 
-<body>
-  <header>
-    <h2 class="notranslate">Translate Text</h2>
-  </header>
+        <ul>
+            <li><a class="notranslate" href="../User-side">112 Wep-App</a></li>
+            <li><a class="notranslate" href="../EMD-side">EMD-side</a></li>
+            <li><a class="notranslate" href="../User-side/info">Info</a></li>
+            <li><a class="notranslate" href="">Translate</a></li>
+        </ul>
 
-  <ul>
-    <li><a class="notranslate" href="../User-side">112 Wep-App</a></li>
-    <li><a class="notranslate" href="../EMD-side">EMD-side</a></li>
-    <li><a class="notranslate" href="../User-side/info">Info</a></li>
-    <li><a class="notranslate" href="">Translate</a></li>
-  </ul>
+        <textarea class="notranslate" placeholder="Text to be translated" rows="10" cols="100" type="text" id="textSource"></textarea>
 
-  <textarea class="notranslate" placeholder="Text to be translated" rows="10" cols="100" type="text" id="textSource"></textarea>
+        <br><br>
 
-  <br><br>
+        <button class="notranslate" type="button" onclick="pushTextArea()">Translate</button>
 
-  <button class="notranslate" type="button" onclick="pushTextArea()">Translate</button>
+        <br><br>
 
-  <br><br>
+        <div id="google_translate_element"></div>
 
-  <div id="google_translate_element"></div>
+        <p id="waitingForText"></p>
 
-  <p id="waitingForText"></p>
-
-</body>
+    </body>
 </html>

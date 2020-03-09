@@ -94,7 +94,7 @@ body {
     padding: 0;
 }
 
-li, .nava, .button-header {
+.header-list, .nava, .button-header {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -159,3 +159,38 @@ header {
     body {
         top: 0px !important;
     }
+
+
+/*EMD SIDE*/
+
+iframe {
+  float:left;
+}
+
+ol {
+  border: 3px solid gray;
+  font-size: 21px;
+  width: 300  px;
+  height: 250px;
+  padding: 30px;
+  float: left;
+  overflow-y : auto;
+}
+
+
+
+/*TRANSLATE*/
+
+p {
+  border-style: groove;
+  border-width: 1px;
+  width: 740px;
+  height: 180px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+}
+
+textarea {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+}
