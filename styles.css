@@ -167,7 +167,7 @@ iframe {
   float:left;
 }
 
-ol {
+.emergency-info {
   border: 3px solid gray;
   font-size: 21px;
   width: 300  px;
