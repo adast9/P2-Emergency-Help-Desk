@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>112 Webapp</title>
+        <title>112Help</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="../styles.css">
@@ -12,34 +12,23 @@
     </head>
 
     <body>
-        <header>
-            <div class="logo">
-                112<br>
-                Help
-            </div>
-            <div id="google_translate_element"></div>
-            <nav>
-                <ul class="nav_links">
-                    <li class ="header-list"><a class ="nava" href="">112 Webapp</a></li>
-                    <li class ="header-list"><a class ="nava" href="info">Info</a></li>
-                    <li class ="header-list"><a class ="nava" href="../EMD-side">EMD-side</a></li>
-                    <li class ="header-list"><a class ="nava" href="../translate">Translate</a></li>
-                </ul>
-            </nav>
-            <a class="nava" href="tel:42422292"><button class ="button-header">Call 112</button></a>
-        </header>
+        <div class="navbar">
+          <a href="" class="active"><div class="nav-text">112Help</div></a>    
+          <a href="/info"><div class="nav-text">Info</div></a>
+          <a href="tel:42422292" class="right"  ><div class="nav-text">Call 112</div></a>
+        </div>
 
         <div class="main">
-            <h2 style="padding-bottom: 20px;">Drag the Marker to the Emergency</h2>
+            <h2>Drag the Marker to the Emergency</h2>
             <input id="address" type="textbox" value="" placeholder="Search Google Maps">
             <input id="search" type="button" value="Search">
             <input id="gps" type="button" value="GPS">
-
             <br><br>
 
             <div id="map"></div>
             <br>
-            <textarea id="desc" rows="4" cols="50" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea>
+
+            <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea>
             <br><br>
 
             <input id="submit" type="button" value="Submit">
@@ -49,9 +38,11 @@
             <input id="stop-audio-rec" type="button" value="Stop">
             <a id="download" class="button-base">Download</a>
         </div>
+        <br>
 
         <div class="footer">
-            <h2>Footer</h2>
+            <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
         </div>
     </body>
 </html>
+ 
