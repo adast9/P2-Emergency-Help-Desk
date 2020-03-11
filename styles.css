@@ -10,6 +10,8 @@ body {
 }
 
 .navbar {
+    height: 52px;
+    width: 100%;
     z-index: 5;
     overflow: hidden;
     background-color: #333;
@@ -70,12 +72,20 @@ body {
 
 /*Flexes the page so that it supports smartphone screens*/
 @media screen and (max-width: 700px) {
+    .navbar {
+        height: 52px;
+    }
+
     .row {
         flex-direction: column;
     }
 }
 
 @media screen and (max-width: 400px) {
+    .navbar {
+        height: auto;
+    }
+
     .navbar a {
         float: none;
         width: 100%;
