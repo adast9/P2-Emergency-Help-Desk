@@ -158,3 +158,9 @@ iframe {
   	float: left;
   	overflow-y : auto;
 }
+
+/**************** Corona *****************/
+section {
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT4kENpsfZGaw7Gr7HOYLW-fNsXIuVjyojTgg67UXMX0N3VlEmk");
+  background-size: 500px 150px
+}

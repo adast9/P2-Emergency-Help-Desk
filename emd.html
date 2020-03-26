@@ -4,6 +4,8 @@
         <title>112Help - EMD Side</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script async defer src="/scripts/scriptForEMD.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG2FzWVQDuWt7CVnrc2nQZkBL1uUphGWc&sensor=TRUE"></script>
 
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -11,44 +13,24 @@
 
     <body>
         <div class="navbar">
-            <a href="index.html"><div class="nav-text">112Help</div></a>    
+            <a href="index.html"><div class="nav-text">112Help</div></a>
             <a href="info.html"><div class="nav-text">Info</div></a>
+            <a href="translate.html"><div class="nav-text">Translate</div></a>
         </div>
 
         <div id="google_translate_element"></div>
 
         <br><br>
-        <iframe src="https://www.google.com/maps/d/embed?mid=1rudfo805cLVljjqh_Hs_X7SplC4AtH4j" width="650" height="480"></iframe>
+        <div id="map" style="width: 500px; height: 400px; float: left;"></div>
 
-        <section>
-            <ol class="emergency-info">
-                <li>Strandvejen 4, 9000 Aalborg
-                    <ul>
-                        <li>Cardiac arrest</li>
-                        <li> <a href="javascript: void(0)">Audio</a> | <a href="javascript: void(0)">Text</a> </li>
-                    </ul>
-                </li>
-                <li>Hobrovej 750, 9230 Svenstrup J
-                    <ul>
-                        <li>Stab Wound</li>
-                        <li> <a href="javascript: void(0)">Audio</a> | <a href="javascript: void(0)">Text</a> </li>
-                    </ul>
-                </li>
-                <li>Rømøvej 12, 9900 Frederikshavn
-                    <ul>
-                        <li>Carbon monoxide poisoning</li>
-                        <li> <a href="javascript: void(0)">Audio</a> | <a href="javascript: void(0)">Text</a> </li>
-                    </ul>
-                </li>
-                <li>
-                    ..............................
-                </li>
-                <li>
-                    ..............................
-                </li>
-            </ol>
-        </section>
-        <br>
+        <table id="table" border="1" style="float: middle; font-size:20px;">
+      <tr>
+        <th>No.</th>
+        <th>Location</th>
+        <th>Longitude</th>
+        <th>Latitude</th>
+      </tr>
+    </table>
 
         <div class="footer">
             <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
