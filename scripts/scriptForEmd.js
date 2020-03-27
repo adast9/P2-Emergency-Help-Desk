@@ -1,7 +1,8 @@
 let locations = [
   [1, "Aalborg", 57.047218, 9.920100],
   [2, "Frederikshavn", 57.442711, 10.521006],
-  [3, "Aarhus", 56.162939, 10.203921]
+  [3, "Aarhus", 56.162939, 10.203921],
+  [4, "Vendsyssel", 57.285998856, 10.040666504]
 ];
 
 // Table
@@ -9,7 +10,7 @@ for(let i = 0; i < locations.length; i++)
   {
       // create a new row
       let newRow = table.insertRow(table.length);
-      for(var j = 0; j < locations[i].length; j++)
+      for(let j = 0; j < locations[i].length; j++)
       {
           // create a new cell
           let cell = newRow.insertCell(j);
@@ -39,7 +40,7 @@ for (i = 0; i < locations.length; i++) {
 
   google.maps.event.addListener(marker, "click", (function(marker, i) {
     return function() {
-      infowindow.setContent(locations[i][0]);
+      infowindow.setContent(locations[i][1]);
       infowindow.open(map, marker);
     }
   })(marker, i));
