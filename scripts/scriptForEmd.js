@@ -1,7 +1,7 @@
 let locations = [
   [1, "Aalborg", "Knife-wound", 57.047218, 9.920100],
   [2, "Frederikshavn", "cardiac arrest", 57.442711, 10.521006],
-  [3, "Aarhus", "dislocated arm",56.162939, 10.203921],
+  [3, "Aarhus", "dislocated shoulder",56.162939, 10.203921],
   [4, "Vendsyssel", "broken leg", 57.285998856, 10.040666504]
 ];
 
