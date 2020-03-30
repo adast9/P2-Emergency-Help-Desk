@@ -1,0 +1,15 @@
+{
+  "name": "cms",
+  "version": "1.0.1",
+  "description": "nodejs cms",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "C1-14 gang",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.6"
+  }
+}
