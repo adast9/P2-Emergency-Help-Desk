@@ -37,5 +37,26 @@
     <div class="footer">
       <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
     </div>
+    <script type="text/javascript">
+        let ws = new WebSocket("ws://localhost:25654");
+
+        ws.onopen = function() {
+            console.log("hello");
+        }
+
+        /*function sendData(type, data) {
+            ws.send(JSON.stringify({
+                type: type,
+                data: data
+            }));
+        }*/
+
+        //On send button click, send message to server and add to the log
+        /*document.querySelector('button').onclick = function() {
+            sendData("message", text.value);
+            log.innerHTML += name + ": " + text.value + "<br>";
+        }*/
+    </script>
+    
   </body>
 </html>
