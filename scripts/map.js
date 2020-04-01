@@ -1,4 +1,4 @@
-let map, infoWindow, marker;
+let map, infoWindow, marker, markerPosition;
 const searchBar = document.getElementById('address');
 const searchButton = document.getElementById('search');
 const gpsButton = document.getElementById('gps');
@@ -14,6 +14,7 @@ function InitMap() {
 
     // This event listener will place the marker when the map is clicked.
     map.addListener('click', function(event) {
+        markerPosition = event.latLng;
         PlaceMarker(event.latLng);
     });
 
@@ -78,7 +79,7 @@ function Geolocate() {
 
 function SubmitEmergency() {
     document.getElementById('address').value = "";
-    document.getElementById('desc').value = "";
+    //document.getElementById('desc').value = "";
     alert("Your request has been submitted.");
 }
 

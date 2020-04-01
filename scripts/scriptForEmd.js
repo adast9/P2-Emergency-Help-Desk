@@ -5,6 +5,7 @@ let locations = [
   [4, "Vendsyssel", "broken leg", 57.285998856, 10.040666504]
 ];
 
+
 // Table
 for(let i = 0; i < locations.length; i++)
   {
@@ -43,4 +44,13 @@ for (i = 0; i < locations.length; i++) {
       infowindow.open(map, marker);
     }
   })(marker, i));
+}
+
+function PlaceMarker(location) {
+    marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP
+    });
 }

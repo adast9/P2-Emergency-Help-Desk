@@ -67,17 +67,9 @@
             }
 
             function SubmitButton() {
-                //console.log("testing");
-                ws.send(document.getElementById('desc').value);
+                console.log(markerPosition);
+                ws.send(JSON.stringify(markerPosition));
             }
-
-           /*function sendData(type, data) {
-                ws.send(JSON.stringify({
-                    type: type,
-                    data: data
-                }));
-            }*/
         </script>
-
     </body>
 </html>
