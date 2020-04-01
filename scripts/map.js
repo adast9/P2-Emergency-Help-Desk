@@ -78,9 +78,13 @@ function Geolocate() {
 }
 
 function SubmitEmergency() {
-    document.getElementById('address').value = "";
-    //document.getElementById('desc').value = "";
-    alert("Your request has been submitted.");
+    if(marker) {
+        document.getElementById('address').value = "";
+        document.getElementById('desc').value = "";
+        alert("Your request has been submitted.");
+    } else {
+        alert("You need to mark your location on the map.");
+    }
 }
 
 function Search(geocoder, resultsMap) {

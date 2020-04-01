@@ -26,9 +26,8 @@
 
       <table id="table" border="1" style="float: middle; font-size:20px;">
       <tr>
-        <th>No.</th>
-        <th>Location</th>
-        <th>Situation</th>
+        <th>ID</th>
+        <th>Description</th>
         <th>Longitude</th>
         <th>Latitude</th>
       </tr>
@@ -41,28 +40,14 @@
         let ws = new WebSocket("ws://localhost:25654");
 
         ws.onopen = function() {
-            ws.send("EMD")
+            ws.send("EMD");
         }
 
         //On message recieved from server, add it to the log
         ws.onmessage = function(event) {
             json = JSON.parse(event.data);
-            PlaceMarker(json);
+            AddEmergency(json);
         }
-
-        /*function sendData(type, data) {
-            ws.send(JSON.stringify({
-                type: type,
-                data: data
-            }));
-        }*/
-
-        //On send button click, send message to server and add to the log
-        /*document.querySelector('button').onclick = function() {
-            sendData("message", text.value);
-            log.innerHTML += name + ": " + text.value + "<br>";
-        }*/
     </script>
-    
   </body>
 </html>

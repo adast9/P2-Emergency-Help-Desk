@@ -67,8 +67,12 @@
             }
 
             function SubmitButton() {
-                console.log(markerPosition);
-                ws.send(JSON.stringify(markerPosition));
+                if(markerPosition) {
+                    ws.send(JSON.stringify({
+                        desc: document.getElementById('desc').value,
+                        pos: markerPosition
+                    }));
+                }
             }
         </script>
     </body>
