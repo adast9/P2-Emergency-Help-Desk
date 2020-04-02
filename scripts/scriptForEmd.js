@@ -20,21 +20,21 @@ function AddEmergency(e) {
     row.insertCell().innerHTML = e.pos.lat;
     row.insertCell().innerHTML = e.pos.lng;
 
-    /*let btnCell = row.insertCell();
+    let btnCell = row.insertCell();
     let btn = document.createElement("BUTTON");
     btn.innerHTML = "Delete";
-    btn.onclick = function(){DeleteEmergency(emergencies.length-1, row)};
-    btnCell.appendChild(btn);*/
+    btn.onclick = function(){DeleteEmergency(e.id)};
+    btnCell.appendChild(btn);
 
     PlaceMarker(e.pos);
 }
 
-/*function DeleteEmergency(eIndex, row) {
+function DeleteEmergency(eIndex, row) {
     //emergencies.splice(eIndex);
     table.deleteRow(row.rowIndex);
 
     console.log(emergencies);
-}*/
+}
 
 function PlaceMarker(location) {
     marker = new google.maps.Marker({
@@ -43,6 +43,70 @@ function PlaceMarker(location) {
         draggable: true,
         animation: google.maps.Animation.DROP
     });
+}
+
+let ws = new WebSocket("ws://localhost:25654");
+
+ws.onopen = function() {
+    console.log("Connected to the server.");
+    
+    SendToServer({
+        type: "EMDConnect"
+    });
+}
+
+//On message recieved from server, add it to the log
+ws.onmessage = function(event) {
+    json = JSON.parse(event.data);
+
+    switch(json.type) {
+        case "Case":
+            AddCase(json);
+            break;
+        case "DeleteCaseRow":
+            for (var i = 0; i < table.rows.length; i++) {
+                if(table.rows[i].cells[0].innerHTML == json.id) {
+                    table.deleteRow(i);
+                    break;
+                }
+            }
+
+            //DELETE THE MARKER
+
+            break;
+        default:
+            console.log("Received some weird data... ");
+            break;
+    }
+
+    //AddCase(json);
+}
+
+function AddCase(e) {
+    let row = table.insertRow();
+    row.insertCell().innerHTML = e.id;
+    row.insertCell().innerHTML = e.desc;
+    row.insertCell().innerHTML = e.pos.lat;
+    row.insertCell().innerHTML = e.pos.lng;
+
+    let btnCell = row.insertCell();
+    let btn = document.createElement("BUTTON");
+    btn.innerHTML = "Close";
+    btn.onclick = function(){CloseCase(e.id, row.rowIndex)};
+    btnCell.appendChild(btn);
+
+    PlaceMarker(e.pos);
+}
+
+function CloseCase(id, rowIndex) {
+    SendToServer({
+        type: "CloseCase",
+        id: id
+    });
+}
+
+function SendToServer(data) {
+    ws.send(JSON.stringify(data));
 }
 
 /*
