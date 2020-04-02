@@ -62,22 +62,14 @@
             let ws = new WebSocket("ws://localhost:25654");
             submitButton.addEventListener('click', function(){ SubmitButton(); });
 
-            ws.onopen = function() {
-                console.log("hello");
-            }
-
             function SubmitButton() {
-                //console.log("testing");
-                ws.send(document.getElementById('desc').value);
+                if(markerPosition) {
+                    ws.send(JSON.stringify({
+                        desc: document.getElementById('desc').value,
+                        pos: markerPosition
+                    }));
+                }
             }
-
-           /*function sendData(type, data) {
-                ws.send(JSON.stringify({
-                    type: type,
-                    data: data
-                }));
-            }*/
         </script>
-
     </body>
 </html>
