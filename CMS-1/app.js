@@ -6,10 +6,13 @@ const path = require('path');
 const hbs = require('express-handlebars');
 const {mongoDbUrl, PORT} = require('./config/configuration');
 const flash = require("connect-flash");
-const session =require("express-session");
+const session = require("express-session");
+const mongodb = require("mongodb");
 
 const app = express();
 
+// Includes cors for cross resource sharing
+app.use(require("cors")())
 
 // Configure Mongoose to Connect to MongoDB
 mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
