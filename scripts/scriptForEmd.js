@@ -49,7 +49,7 @@ let ws = new WebSocket("ws://localhost:25654");
 
 ws.onopen = function() {
     console.log("Connected to the server.");
-    
+
     SendToServer({
         type: "EMDConnect"
     });
@@ -61,6 +61,7 @@ ws.onmessage = function(event) {
 
     switch(json.type) {
         case "Case":
+            console.log("New case recieved. id: %d", json.id);
             AddCase(json);
             break;
         case "DeleteCaseRow":
@@ -78,8 +79,6 @@ ws.onmessage = function(event) {
             console.log("Received some weird data... ");
             break;
     }
-
-    //AddCase(json);
 }
 
 function AddCase(e) {
