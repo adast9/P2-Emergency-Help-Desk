@@ -9,7 +9,9 @@ module.exports =  {
 
 
     getPosts: (req, res) => {
-       res.render("admin/posts/index");
+      Post.find().then(posts => {
+        res.render("admin/posts/index", {posts: posts});
+      });
     },
 
     submitPosts: (req, res) => {
