@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   title: {
     type: String,
-    required: false //Skal ændres til true
+    required: true //Skal ændres til true
   },
 
   status: {
@@ -14,7 +14,7 @@ const PostSchema = new Schema({
 
   description: {
     type: String,
-    required: false //Skal også ændres til true
+    required: true //Skal også ændres til true
   },
 
   Date: {
