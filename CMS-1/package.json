@@ -1,13 +1,13 @@
 {
-  "name": "cms-tutorial",
+  "name": "CMS",
   "version": "1.0.1",
   "description": "Nodejs CMS Application",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
-  "author": "Indranil Mukherjee",
-  "license": "ISC",
+  "author": "C1-14 gang",
+  "license": "",
   "dependencies": {
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",

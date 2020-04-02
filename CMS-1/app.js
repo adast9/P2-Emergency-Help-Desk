@@ -12,7 +12,7 @@ const mongodb = require("mongodb");
 const app = express();
 
 // Includes cors for cross resource sharing
-app.use(require("cors")())
+app.use(require("cors")());
 
 // Configure Mongoose to Connect to MongoDB
 mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
