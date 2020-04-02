@@ -62,10 +62,6 @@
             let ws = new WebSocket("ws://localhost:25654");
             submitButton.addEventListener('click', function(){ SubmitButton(); });
 
-            ws.onopen = function() {
-                console.log("hello");
-            }
-
             function SubmitButton() {
                 if(markerPosition) {
                     ws.send(JSON.stringify({

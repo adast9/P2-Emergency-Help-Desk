@@ -1,35 +1,45 @@
 let server = require('ws').Server;
 let s = new server({ port: 25654 });
 let emds = [];
-let emergencies = [];
+let cases = [];
 let counter = 0;
 
 console.log("Listening on port 25654...");
 
-s.on('connection', function(client) {
-	client.on('message', function(data) {
+// TODO: save current emergencies to file
+// TODO: get markers to show on map with id / label
+
+s.on('connection', function(ws) {
+	ws.on('message', function(data) {
+		// If a client sends the message "EMD", add them to the EMD array
+		// and send them all the current cases.
 		if(data == "EMD") {
-			console.log("EMD added to array.");
-			emds.push(client);
-			if(emergencies.length > 0) {
-				emergencies.forEach(function(eme) {
-					client.send(JSON.stringify(eme));
-				});
-			}
+			emds.push(ws);
+			cases.forEach(function (entry) {
+				ws.send(JSON.stringify(entry));
+			});
 			return;
 		}
 
 		json = JSON.parse(data);
-		let obj = {
+		let caseObject = {
 			id: ++counter,
-			who: client,
+			who: ws,
 			desc: json.desc,
 			pos: json.pos
 		};
-		emergencies.push(obj);
+		console.log("New case received! id: " + caseObject.id);
+		cases.push(caseObject);
 
-		emds.forEach(function e(client) {
-			client.send(JSON.stringify(obj));
+		emds.forEach(function (emd) {
+			emd.send(JSON.stringify(caseObject));
 		});
+	});
+
+	ws.on('close', function() {
+		// When a client disconnects, check if they are in the EMD array. 
+		// If they are, remove them from the array.
+		let i = emds.indexOf(ws);
+		if (i !== -1) emds.splice(i, 1);
 	});
 });
