@@ -36,18 +36,5 @@
     <div class="footer">
       <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
     </div>
-    <script type="text/javascript">
-        let ws = new WebSocket("ws://localhost:25654");
-
-        ws.onopen = function() {
-            ws.send("EMD");
-        }
-
-        //On message recieved from server, add it to the log
-        ws.onmessage = function(event) {
-            json = JSON.parse(event.data);
-            AddEmergency(json);
-        }
-    </script>
   </body>
 </html>
