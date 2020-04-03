@@ -55,6 +55,7 @@ s.on('connection', function(client) {
                         break;
                     }
                 }
+                console.log("Case closed (id: %d)", json.id);
                 SaveCases();
                 BroadcastToEMDs({
                     type: "DeleteCaseRow",
@@ -78,7 +79,7 @@ function BroadcastToEMDs(data) {
 // Saves current cases to file, which can be loaded in the case of a server restart/crash.
 // NOTE: Can be improved if we only add/delete entries in the file when they are added/deleted instead of saving the entire array constantly.
 function SaveCases() {
-    console.log("Saving current cases... ");
+    //console.log("Saving current cases... ");
 
     //Delete any already existing data in save file 
     fs.truncate('cases.txt', 0, function(){});
@@ -87,15 +88,15 @@ function SaveCases() {
     fs.writeFile('cases.txt', JSON.stringify(cases, ["type", "id", "desc", "pos", "lat", "lng"], 4), (err) => {
         if (err) {
             console.log("Failed to save cases. " + err);
-        } else {
+        } /*else {
             console.log("Cases saved successfully. ");
-        }
+        }*/
     });
 }
 
 // Load current cases from file 
 function LoadCases() {
-    console.log("Loading current cases from previous session... ");
+    //console.log("Loading current cases from previous session... ");
 
     fs.readFile('cases.txt', {encoding: 'utf-8'}, function(err, data){
         if(err) {
@@ -103,9 +104,13 @@ function LoadCases() {
         } else {
             try {
                 cases = JSON.parse(data);
-                console.log("Cases loaded successfully. ");
+                //console.log("Cases loaded successfully. ");
+
+                if(cases.length > 0) 
+                    counter = cases[cases.length-1].id;
+                
             } catch(jsonError) {
-                console.log("Failed to load cases. " + jsonError);
+                console.log("There were no cases to load or cases.txt is broken.");
             }
         }
     });
