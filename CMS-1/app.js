@@ -8,6 +8,7 @@ const {mongoDbUrl, PORT} = require('./config/configuration');
 const flash = require("connect-flash");
 const session = require("express-session");
 const mongodb = require("mongodb");
+const methodOverride = require("method-override");
 
 const app = express();
 
@@ -42,7 +43,8 @@ app.use(globalVariables);
 app.engine('handlebars', hbs({defaultLayout: 'default'}));
 app.set('view engine' , 'handlebars');
 
-
+/*Method Override middleware*/
+app.use(methodOverride("newMethod"));
 
 /* Routes */
 const defaultRoutes = require('./routes/defaultRoutes');
