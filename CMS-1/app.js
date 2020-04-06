@@ -39,6 +39,10 @@ app.use(session({
 
 app.use(flash());
 
+/* Passport Initialize */
+app.use(passport.initialize());
+app.use(passport.session());
+
 /* Global Variables*/
 app.use(globalVariables);
 

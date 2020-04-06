@@ -35,7 +35,7 @@ passport.use(new LocalStrategy({
             return done(null, false, req.flash("error_message", "Invalid Email or Password"));
           }
 
-          return done(null, user, req.flash("succes_message", "Login was successful"));
+          return done(null, user, req.flash("success_message", "Login was successful"));
       });
   });
 }));

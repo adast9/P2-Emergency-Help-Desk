@@ -10,11 +10,11 @@ module.exports = {
     },
 
     loginGet: (req, res) => {
-        res.render('default/login');
+        res.render('default/login', {message: req.flash('error')});
     },
 
     loginPost: (req, res) => {
-      // res.send("Congratulations, you've successfully submitted the data.");
+
     },
 
     registerGet: (req, res) => {
