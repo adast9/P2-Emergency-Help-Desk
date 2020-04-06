@@ -24,11 +24,12 @@ router.route('/posts')
 
 router.route('/posts/create')
     .get(adminController.createPosts)
-    .post(adminController.submitPosts);;
+    .post(adminController.submitPosts);
 
 
 router.route("/posts/edit/:id")
-  .get(adminController.editPost);
+  .get(adminController.editPost)
+  .put(adminController.editPostSubmit);
 
 router.route("/posts/delete/:id")
   .delete(adminController.deletePost);
