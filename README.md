@@ -18,3 +18,4 @@ Ting vi mangler at kigge på i CMS:
 - I register-siden gemmer den ikke indtastet information hvis der opstår en error.
 - I forhold til at logge ind kunne man specificere at det f.eks. kun er bestemte google-kontoer der kan login (Vi bruger passports-local, her skal bruges en anden packages i stedet)
 - Rykke register væk fra frontend hen til backend (Admin-siden)
+- error_message(flash) for login-siden fungerer ikke 
