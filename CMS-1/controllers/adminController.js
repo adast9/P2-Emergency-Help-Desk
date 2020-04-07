@@ -1,4 +1,5 @@
 const Post = require("../models/PostModel").Post;
+const Comment = require("../models/CommentModel").Comment;
 const {isEmpty} = require("../config/functions");
 
 
@@ -90,6 +91,15 @@ module.exports =  {
           req.flash("success_message", `The post ${deletedPost.title} has been deleted.`);
           res.redirect("/admin/posts");
       });
+    },
+
+    /*Comment route section */
+    getComments: (req, res) => {
+        Comment.find()
+        .populate("user")
+        .then(comments => {
+            res.render("admin/comments/index", {comments: comments});
+        })
     }
 
 };

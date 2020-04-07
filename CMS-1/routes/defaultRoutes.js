@@ -60,11 +60,21 @@ router.route("/login")
         failureFlash: true,
         successFlash: true,
         session: true
-    }) ,defaultController.loginPost);
+    }), defaultController.loginPost);
 
 
 router.route("/register")
     .get(defaultController.registerGet)
     .post(defaultController.registerPost);
+
+router.route("/post/:id")
+    .get(defaultController.singlePost)
+    .post(defaultController.submitComment);
+
+router.get("/logout", (req, res) => {
+    req.logOut();
+    req.flash('success_message', "Logout was successful");
+    res.redirect("/");
+});
 
 module.exports = router;
