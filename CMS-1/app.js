@@ -1,14 +1,16 @@
 /* Importing Different Modules */
 const {globalVariables} = require("./config/configuration");
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const hbs = require('express-handlebars');
-const {mongoDbUrl, PORT} = require('./config/configuration');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const hbs = require("express-handlebars");
+const {mongoDbUrl, PORT} = require("./config/configuration");
 const flash = require("connect-flash");
 const session = require("express-session");
 const mongodb = require("mongodb");
 const methodOverride = require("method-override");
+const fileUpload = require("express-fileupload");
+const passport = require("passport");
 
 const app = express();
 
@@ -26,7 +28,7 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true }
 /* Configure express*/
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 /*Flash and sesseion*/
 app.use(session({
@@ -37,21 +39,30 @@ app.use(session({
 
 app.use(flash());
 
+/* Passport Initialize */
+app.use(passport.initialize());
+app.use(passport.session());
+
+/* Global Variables*/
 app.use(globalVariables);
 
+/* File Upload */
+app.use(fileUpload());
+
+
 /* Setup View Engine To Use Handlebars */
-app.engine('handlebars', hbs({defaultLayout: 'default'}));
-app.set('view engine' , 'handlebars');
+app.engine("handlebars", hbs({defaultLayout: "default"}));
+app.set("view engine" , "handlebars");
 
 /*Method Override middleware*/
 app.use(methodOverride("newMethod"));
 
 /* Routes */
-const defaultRoutes = require('./routes/defaultRoutes');
-const adminRoutes = require('./routes/adminRoutes');
+const defaultRoutes = require("./routes/defaultRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
-app.use('/', defaultRoutes);
-app.use('/admin', adminRoutes);
+app.use("/", defaultRoutes);
+app.use("/admin", adminRoutes);
 
 
 /* Start The Server */

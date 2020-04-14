@@ -3,7 +3,7 @@
 
     <div class="row p-4">
         <div class="col-md-10">
-            <form action="/admin/posts/create" method="post">
+            <form action="/admin/posts/edit/{{post._id}}?newMethod=PUT" method="post">
 
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -32,7 +32,7 @@
                 </div>
 
 
-                <button class="btn btn-outline-success btn-lg" type="submit">Create Post</button>
+                <button class="btn btn-outline-warning btn-lg" type="submit">Edit Post</button>
 
 
             </form>
