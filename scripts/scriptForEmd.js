@@ -1,4 +1,4 @@
-let map = new google.maps.Map(document.getElementById("map"), {
+let map = new google.maps.Map(document.getElementById("emd-map"), {
     zoom: 6.6,
     center: new google.maps.LatLng(56.263920, 9.501785),
     mapTypeId: google.maps.MapTypeId.ROADMAP
