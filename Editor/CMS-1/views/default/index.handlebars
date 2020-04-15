@@ -11,28 +11,27 @@
         <!-- Blog Post -->
 
 
+        <ol id='list'>
 
-        {{#each posts}}
-        <div class="card mb-4" id="{{id}}">
-            <img class="card-img-top" src="https://placeimg.com/750/300/tech" alt="Card image cap">
-            <div class="card-body">
-                <h2 class="card-title">{{title}}</h2>
-                <p class="card-text">{{description}}</p>
-                <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-                Posted on {{creationDate}} by
-                <a href="#">Admin</a>
-            </div>
-            <script>
-                document.getElementById("{{id}}").title = "{{title}}";
+          {{#each posts}}
+          <li class="card mb-4" id="{{id}}">
+              <img class="card-img-top" src="https://placeimg.com/750/300/tech" alt="Card image cap">
+              <div class="card-body">
+                  <h2 class="card-title">{{title}}</h2>
+                  <p class="card-text">{{description}}</p>
+                  <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
+              </div>
+              <div class="card-footer text-muted">
+                  Posted on {{creationDate}} by
+                  <a href="#">Admin</a>
+              </div>
+              <script>
+                  document.getElementById("{{id}}").title = "{{title}}";
+              </script>
+          </li>
+          {{/each}}
 
-                function search_posts() {
-                    console.log("test");
-                }
-            </script>
-        </div>
-        {{/each}}
+      </ol>
 
         <!-- Pagination -->
         <!-- <ul class="pagination justify-content-center mb-4">
@@ -54,7 +53,7 @@
             <h5 class="card-header">Search</h5>
             <div class="card-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="search_posts">
+                    <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="search_posts()">
                     <!-- <span class="input-group-btn">
                   <button class="btn btn-secondary" type="button">Search</button>
                 </span> -->
