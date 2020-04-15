@@ -13,7 +13,7 @@
 
 
         {{#each posts}}
-        <div class="card mb-4">
+        <div class="card mb-4" id="{{id}}">
             <img class="card-img-top" src="https://placeimg.com/750/300/tech" alt="Card image cap">
             <div class="card-body">
                 <h2 class="card-title">{{title}}</h2>
@@ -24,7 +24,11 @@
                 Posted on {{creationDate}} by
                 <a href="#">Admin</a>
             </div>
-            <script>alert("test")</script>
+            <script>
+                blogpost = document.getElementById("{{id}}");
+                blogpost.title = "{{title}}";
+                blogposts.push(blogpost);
+            </script>
         </div>
         {{/each}}
 
