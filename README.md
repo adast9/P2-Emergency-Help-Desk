@@ -1,7 +1,7 @@
 # P2-Emergency-Help-Desk
 
 <!-- CMS packages -->
-Bare kopier hele linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\cms-1>
+Bare kopier hele linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\Editor\cms-1>
 
 npm i nodemon mongodb mongoose connect-flash cors express express-handlebars express-session method-override handlebars@4.5.3 express-fileupload bcryptjs passport passport-local
 
@@ -20,4 +20,4 @@ Ting vi mangler at kigge på i CMS:
 - Rykke register væk fra frontend hen til backend (Admin-siden)
 - error_message(flash) for login-siden fungerer ikke og logout flash-message dur ikke
 - find ud af om hvor lang tid en cookie varer for en users session
-- lige nu kan man kun kommentere på post hvis man er logget ind (hvis man er en admin) 
+- lige nu kan man kun kommentere på post hvis man er logget ind (hvis man er en admin)
