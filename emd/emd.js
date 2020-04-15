@@ -14,12 +14,14 @@ ws.onopen = function() {
     });
 }
 
+const caseList = document.getElementById('cases');
+
 ws.onmessage = function(event) {
     json = JSON.parse(event.data);
 
     switch(json.type) {
         case "Case":
-            console.log("New case recieved. id: %d", json.id);
+            console.log(`New case received. ID: ${parseInt(json.id)}`);
             AddCase(json);
             break;
         case "DeleteCaseRow":
@@ -39,7 +41,7 @@ ws.onmessage = function(event) {
 }
 
 function AddCase(e) {
-    let row = table.insertRow();
+    let row = caseList.insertRow();
 
     //ID Button
     let idBtnCell = row.insertCell();
@@ -60,6 +62,12 @@ function AddCase(e) {
     closeBtn.innerHTML = "Close";
     closeBtn.onclick = function(){CloseCase(e.id)};
     closeBtnCell.appendChild(closeBtn);
+
+    idBtn.addEventListener('click', () => {
+    document.getElementById('journalHeader').textContent = "Case ID: " + e.id;
+    document.createElement('INPUT').setAttribute("type","text");
+    document.getElementById('citizenDescription').textContent = e.desc;
+    })
 }
 
 function PlaceMarker(id, location) {

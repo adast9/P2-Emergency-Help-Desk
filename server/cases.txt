@@ -1,8 +1,8 @@
 [
     {
         "type": "Case",
-        "id": 14,
-        "desc": "GHJGHJ",
+        "id": 1,
+        "desc": "Burned leg",
         "pos": {
             "lat": 55.283722567266025,
             "lng": 10.377273612500012
@@ -10,8 +10,8 @@
     },
     {
         "type": "Case",
-        "id": 16,
-        "desc": "GHJGHJGHJGH",
+        "id": 2,
+        "desc": "Car crash",
         "pos": {
             "lat": 58.819880622910915,
             "lng": 7.780131028791866
@@ -19,7 +19,7 @@
     },
     {
         "type": "Case",
-        "id": 17,
+        "id": 3,
         "desc": "sdfsdf",
         "pos": {
             "lat": 52.162162322213305,
@@ -64,7 +64,7 @@
     },
     {
         "type": "Case",
-        "id": 22,
+        "id": 55,
         "desc": "asdasd",
         "pos": {
             "lat": 54.50300135509153,
