@@ -22,11 +22,6 @@
             <a href="/authentication/authentication.html"><div class="nav-text">EMD-Login</div></a>
         </div>
 
-<nav>
-  <input type="button" id="clickCorona" value="Corona info">
-  <input type="button" id="clickFirstAid" value="First Aid">
-</nav>
-
       </header>
 
       <main>
@@ -37,10 +32,8 @@
             <input id="address" type="textbox" value="" placeholder="Search Google Maps">
             <input id="search" type="button" value="Search">
             <input id="gps" type="button" value="GPS">
-            <br><br>
 
             <div id="map"></div>
-            <br>
 
             <!--
 
@@ -49,10 +42,8 @@
              -->
 
             <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea>
-            <br><br>
 
             <input id="submit" type="button" value="Submit">
-            <br><br>
 
             <input id="start-audio-rec" type="button" value="Record">
             <input id="stop-audio-rec" type="button" value="Stop">
@@ -64,27 +55,6 @@
             <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
         </div>
 
-        <script type="text/javascript">
-            let ws = new WebSocket("ws://localhost:25654");
-            submitButton.addEventListener('click', function(){ SubmitButton(); });
-
-            ws.onopen = function() {
-                console.log("Connected to the server.");
-            }
-
-            function SubmitButton() {
-                if(markerPosition) {
-                    SendToServer({
-                        type: "CreateCase",
-                        desc: document.getElementById('desc').value,
-                        pos: markerPosition
-                    });
-                }
-            }
-
-            function SendToServer(data) {
-                ws.send(JSON.stringify(data));
-            }
-        </script>
+        <script src="scripts/public/websocket.js"></script>
     </body>
 </html>
