@@ -26,6 +26,10 @@
             </div>
             <script>
                 document.getElementById("{{id}}").title = "{{title}}";
+
+                function search_posts() {
+                    console.log("test");
+                }
             </script>
         </div>
         {{/each}}
@@ -50,15 +54,13 @@
             <h5 class="card-header">Search</h5>
             <div class="card-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for a Post">
-                    <span class="input-group-btn">
+                    <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="search_posts">
+                    <!-- <span class="input-group-btn">
                   <button class="btn btn-secondary" type="button">Search</button>
-                </span>
+                </span> -->
                 </div>
             </div>
         </div>
-
-
 
         <!-- Side Widget -->
         <!-- <div class="card my-4">
