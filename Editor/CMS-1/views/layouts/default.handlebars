@@ -8,14 +8,13 @@
 <!-- Page Content -->
 <div class="container">
 
-    <script>
-        let blogposts = [];
-    </script>
-
     {{{ body }}}
 
     <script>
-        console.log(blogposts);
+        let blogposts = document.getElementsByClassName('card mb-4');
+        for (var i = 0; i < blogposts.length; i++) {
+            console.log(blogposts[i].title);
+        }
     </script>
 
 </div>

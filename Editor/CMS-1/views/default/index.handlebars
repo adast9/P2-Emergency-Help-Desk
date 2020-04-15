@@ -25,9 +25,7 @@
                 <a href="#">Admin</a>
             </div>
             <script>
-                blogpost = document.getElementById("{{id}}");
-                blogpost.title = "{{title}}";
-                blogposts.push(blogpost);
+                document.getElementById("{{id}}").title = "{{title}}";
             </script>
         </div>
         {{/each}}
