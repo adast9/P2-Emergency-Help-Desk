@@ -1,11 +1,11 @@
 const fs = require('fs');
 const server = require('ws').Server;
-const s = new server({ port: 25654 });
+const s = new server({ port: 3001 });
 let emds = [];
 let cases = [];
 let counter = 0;
 
-console.log("Listening on port 25654...");
+console.log("Listening on port 3001...");
 LoadCases();
 
 // TODO: save current emergencies to file

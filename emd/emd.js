@@ -1,10 +1,10 @@
-let map = new google.maps.Map(document.getElementById("emd-map"), {
+let map = new google.maps.Map(document.getElementById("map"), {
     zoom: 6.6,
     center: new google.maps.LatLng(56.263920, 9.501785),
     mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 
-let ws = new WebSocket("ws://localhost:25654");
+let ws = new WebSocket("ws://localhost:3001");
 
 ws.onopen = function() {
     console.log("Connected to the server.");

@@ -142,51 +142,6 @@ textarea {
     padding: 20px;
 }
 
-
-/********   EMD   *********/
-
-/*iframe {
-  	float:left;
-}*/
-
-/*.emergency-info {
-  	border: 3px solid gray;
-  	font-size: 21px;
-  	width: 300px;
-  	height: 250px;
-  	padding: 30px;
-  	float: left;
-  	overflow-y : auto;
-}*/
-
-.column-cases {
-    float: left;
-    width: 25%;
-    height: 100%;
-    overflow-y: auto;
-}
-
-.column-map {
-    float: left;
-    width: 40%;
-    height: 100%;
-}
-
-#case-chat {
-    float: left;
-    width: 100%;
-    height: 25%;
-    overflow-wrap: break-word;
-    overflow-y: auto;
-}
-
-.column-journal {
-    float: left;
-    width: 35%;
-    height: 100%;
-    overflow-y: auto;
-}
-
 /**************** Corona *****************/
 section {
   background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT4kENpsfZGaw7Gr7HOYLW-fNsXIuVjyojTgg67UXMX0N3VlEmk");
