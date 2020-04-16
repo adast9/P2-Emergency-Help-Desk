@@ -30,7 +30,7 @@
             <div id="map"></div>
             <div id = "chat">
                 <div id = "chatname">
-                    <strong>Test</strong>
+                    <strong id="chatId"></strong>
                 </div>
                 <div id = "chatlog"></div>
                 <div id = "chatcontrols">
@@ -43,16 +43,15 @@
 
         <div class="column-right">
           <p>Press Case ID to display patient journal</p>
-          <form>
               <label><h2 id="journalHeader"></h2></label><br>
               <label>Name:</label><input type="text"><br>
-              <label>Time:</label><span id="timeOfEmergency"><br>
+              <label>Time:</label><span id="timeOfEmergency"></span><br>
               <label>Written location:</label><input type="text"><br>
               <label>AML location:</label><input type="text"><br>
-              <label>Clicked location:</label><input type="text"><br>
+              <label>Clicked coordinates:</label><span id="clickedCoordinates"></span><br>
               <label>Case description by citizen: </label><span id="citizenDescription"></span><br>
               <label>Case description by dispatcher: </label><input type="text"><br>
-            </form>
+              <label>Chat log:</label> <span id="chatLog"></span>
         </div>
 
         </div>

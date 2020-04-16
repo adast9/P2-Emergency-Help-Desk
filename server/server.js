@@ -39,7 +39,8 @@ s.on('connection', function(client) {
                     type: "Case",
                     id: ++counter,
                     who: client,
-                    time: json.time,
+                    time: getTimeOfEmergency(), // Date.now() || new Date().toISOString() (another way of formatting but easier)
+                    chatlog: json.chat,
                     desc: json.desc,
                     pos: json.pos
                 };
@@ -115,4 +116,33 @@ function LoadCases() {
             }
         }
     });
+}
+
+//when the server receives the new case
+function getTimeOfEmergency() {
+  let time = new Date();
+  let month = (time.getMonth())+1;
+  if (month < 10 ) {
+      month = `0${month}`;
+  }
+  let day = time.getDate();
+  if (day < 10) {
+      day = `0${day}`;
+  }
+  let year = time.getFullYear();
+  let hours = time.getHours();
+  if (hours < 10) {
+      hours = `0${hours}`
+  }
+  let minutes = time.getMinutes();
+  if (minutes < 10) {
+      minutes = `0${minutes}`
+  }
+  let seconds = time.getSeconds();
+  if (seconds < 10) {
+      seconds = `0${seconds}`
+  }
+
+  let timeOfEmergency = `${hours}:${minutes}:${seconds}   ${day}-${month}-${year}`;
+  return timeOfEmergency;
 }

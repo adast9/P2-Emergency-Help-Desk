@@ -10,7 +10,7 @@ function SubmitButton() {
         SendToServer({
             type: "CreateCase",
             desc: document.getElementById('desc').value,
-            pos: markerPosition
+            pos: markerPosition,
         });
     }
 }
