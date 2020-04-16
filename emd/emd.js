@@ -4,6 +4,14 @@ let map = new google.maps.Map(document.getElementById("map"), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 
+const caseList = document.getElementById('cases');
+const journalID = document.getElementById('journal-id');
+const journalName = document.getElementById('journal-name');
+const journalPhone = document.getElementById('journal-phone');
+const journalCPR = document.getElementById('journal-cpr');
+const journalLocation = document.getElementById('journal-location');
+const journalDescription = document.getElementById('journal-description');
+
 let ws = new WebSocket("ws://localhost:3001");
 
 ws.onopen = function() {
@@ -14,17 +22,15 @@ ws.onopen = function() {
     });
 }
 
-const caseList = document.getElementById('cases');
-
 ws.onmessage = function(event) {
-    json = JSON.parse(event.data);
+    data = JSON.parse(event.data);
 
-    switch(json.type) {
+    switch(data.type) {
         case "Case":
-            console.log(`New case received. ID: ${parseInt(json.id)}`);
-            AddCase(json);
+            console.log(`New case received. ID: ${parseInt(data.id)}`);
+            AddCase(data);
             break;
-        case "DeleteCaseRow":
+        case "CloseCase":
             for (var i = 0; i < table.rows.length; i++) {
                 if(table.rows[i].id == json.id) {
                     // Remove the marker from the map and delete the row from the table.
@@ -40,35 +46,34 @@ ws.onmessage = function(event) {
     }
 }
 
-function AddCase(e) {
+function AddCase(data) {
     let row = caseList.insertRow();
 
     //ID Button
     let idBtnCell = row.insertCell();
     let idBtn = document.createElement("BUTTON");
-    idBtn.innerHTML = e.id;
-    idBtn.onclick = function(){map.setCenter(e.pos)};
+    idBtn.innerHTML = data.id;
     idBtnCell.appendChild(idBtn);
+    row.insertCell().innerHTML = "Open";
+    row.insertCell().innerHTML = data.time;
+    row.marker = PlaceMarker(data.id, data.pos);
+    row.id = data.id;
 
-    row.insertCell().innerHTML = e.desc;
-    row.insertCell().innerHTML = e.time;
-    row.insertCell().innerHTML = e.pos.lat;
-    row.insertCell().innerHTML = e.pos.lng;
-    row.marker = PlaceMarker(e.id, e.pos);
-    row.id = e.id;
-
-    //Close Button
+    /*//Close Button
     let closeBtnCell = row.insertCell();
     let closeBtn = document.createElement("BUTTON");
     closeBtn.innerHTML = "Close";
-    closeBtn.onclick = function(){CloseCase(e.id)};
-    closeBtnCell.appendChild(closeBtn);
+    closeBtn.onclick = function(){CloseCase(data.id)};
+    closeBtnCell.appendChild(closeBtn);*/
 
     idBtn.addEventListener('click', () => {
-    document.getElementById('journalHeader').textContent = "Case ID: " + e.id;
-    document.createElement('INPUT').setAttribute("type","text");
-    document.getElementById('citizenDescription').textContent = ` ${e.desc}`;
-    document.getElementById('timeOfEmergency').textContent = e.time;
+        map.setCenter(data.pos)
+        journalID.innerHTML = "Case ID: " + data.id;
+        journalName.innerHTML = "Name: " + data.name;
+        journalPhone.innerHTML = "Phone: " + data.phone;
+        journalCPR.innerHTML = "CPR: " + data.cpr;
+        journalLocation.innerHTML = "Location: " + data.location;
+        journalDescription.innerHTML = "Description: " + data.desc;
     })
 }
 
@@ -78,7 +83,6 @@ function PlaceMarker(id, location) {
         map: map,
         label: id.toString(),
         draggable: false,
-        //animation: google.maps.Animation.DROP
     });
 }
 
@@ -98,7 +102,7 @@ function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
 
-function getTimeOfEmergency() {
+/*function getTimeOfEmergency() {
   let time = new Date();
   let month = (time.getMonth())+1;
   if (month < 10 ) {
@@ -123,4 +127,4 @@ function getTimeOfEmergency() {
   }
 
   let timeOfEmergency = `${hours}:${minutes}:${seconds}  ${day}-${month}-${year}`;
-}
+}*/
