@@ -10,24 +10,6 @@
 
     {{{ body }}}
 
-    <script>
-        let blogposts = document.getElementsByClassName('card mb-4');
-        
-        function search_posts() {
-          let input = document.getElementById('searchbar').value
-          input = input.toLowerCase();
-
-          for (i = 0; i < blogposts.length; i++) {
-              if (!blogposts[i].title.toLowerCase().includes(input)) {
-                  blogposts[i].style.display = "none";
-              }
-              else {
-                  blogposts[i].style.display = "list-item";
-              }
-          }
-        }
-    </script>
-
 </div>
 <!-- /.container -->
 {{> default/footer }}

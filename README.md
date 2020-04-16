@@ -21,9 +21,12 @@ Ting vi mangler at kigge på i CMS:
 
 - v2 -
 Flash package skal skiftes ud med nyt ikke package kode.
-Creator of post skal være brugeren login og ikke bare admin.
-Under edit-post, skal man også kunne ændre fileupload.
+Under edit-post, skal man også kunne ændre fileupload + author.
 Man skal kunne uploade pdf i fileupload.
 Fixe en masse sampletext.
 Fixe navbar generelt med hvad der skal vises og hvad der skal smides ud.
 Kommentarer skal fjernes
+
+DONE
+Fixe tal efter man har søgt
+Creator of post skal være brugeren login og ikke bare admin.

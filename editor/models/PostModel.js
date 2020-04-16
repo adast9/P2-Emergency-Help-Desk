@@ -8,6 +8,11 @@ const PostSchema = new Schema({
         required: true
     },
 
+    author: {
+        type: String,
+        required: true
+    },
+
     status: {
         type: String,
         default: "public"
@@ -27,10 +32,6 @@ const PostSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "user"
   },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "category"
-    },
 
     comments: [
       {
@@ -46,7 +47,7 @@ const PostSchema = new Schema({
 
     file: {
         type: String,
-        default: ""
+        default: "test"
     }
 
 });
