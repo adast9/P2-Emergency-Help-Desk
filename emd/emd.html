@@ -14,7 +14,7 @@
 
     <body>
         <div class="column-left">
-            <table class="table table-bordered table-hover" style="width: 100%; font-size:20px">
+            <table id="cases" class="table table-bordered table-hover" style="width: 100%; font-size:20px">
                 <thead class="thead-dark">
                     <tr>
                         <th>#</th>
@@ -23,72 +23,6 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td><button class="btn btn-outline-dark">1</button></td>
-                    <td>Car crash</td>
-                    <td>14:50</td>
-                    <td>Taken</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">2</button></td>
-                    <td>[New Case]</td>
-                    <td>14:55</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">3</button></td>
-                    <td>[New Case]</td>
-                    <td>14:57</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">4</button></td>
-                    <td>[New Case]</td>
-                    <td>14:59</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">5</button></td>
-                    <td>Car crash</td>
-                    <td>14:50</td>
-                    <td>Taken</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">6</button></td>
-                    <td>[New Case]</td>
-                    <td>14:55</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">7</button></td>
-                    <td>[New Case]</td>
-                    <td>14:57</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">8</button></td>
-                    <td>[New Case]</td>
-                    <td>14:59</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">9</button></td>
-                    <td>Car crash</td>
-                    <td>14:50</td>
-                    <td>Taken</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">10</button></td>
-                    <td>[New Case]</td>
-                    <td>14:55</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-outline-dark">11</button></td>
-                    <td>[New Case]</td>
-                    <td>14:57</td>
-                    <td>Free</td>
-                </tr>
             </table>
         </div>
 
@@ -108,7 +42,19 @@
         </div>
 
         <div class="column-right">
-            [Journal]
+          <p>Press Case ID to display patient journal</p>
+          <form>
+              <label><h2 id="journalHeader"></h2></label><br>
+              <label>Name:</label><input type="text"><br>
+              <label>Time:</label><input type="text" value=""><br>
+              <label>Written location:</label><input type="text"><br>
+              <label>AML location:</label><input type="text"><br>
+              <label>Clicked location:</label><input type="text"><br>
+              <label>Case description by citizen: </label><span id="citizenDescription"></span><br>
+              <label>Case description by dispatcher: </label><input type="text"><br>
+            </form>
+        </div>
+
         </div>
 
         <script type="text/javascript">
