@@ -1,7 +1,6 @@
 const Post = require("../models/PostModel").Post;
 const bcrypt = require("bcryptjs");
 const User = require("../models/UserModel").User;
-const Comment = require("../models/CommentModel").Comment;
 
 module.exports = {
 
@@ -84,31 +83,7 @@ module.exports = {
             }
             else {
                     res.render("default/singlePost", {post: post, comments: post.comments});
-                }
-            })
-        },
-
-    submitComment: (req, res) => {
-      if (req.user) {
-        Post.findById(req.body.id).then(post => {
-          const newComment = new Comment({
-            user: req.user.id,
-            body: req.body.comment_body
-          });
-
-          post.comments.push(newComment);
-          post.save().then(savedPost =>{
-              newComment.save().then(savedComment => {
-                  req.flash("success_message", "Your comment is being reviewed")
-                  res.redirect(`/post/${post._id}`);
-              });
-          });
+            }
         })
-      }
-      else {
-          req.flash("error_message", "Login to comment");
-          res.redirect("/login");
-      }
     }
-
 };

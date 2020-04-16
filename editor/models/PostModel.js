@@ -33,21 +33,9 @@ const PostSchema = new Schema({
       ref: "user"
   },
 
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "comment"
-      }
-  ],
-
-    allowComments: {
-        type: Boolean,
-        default: false
-    },
-
     file: {
         type: String,
-        default: "test"
+        default: ""
     }
 
 });

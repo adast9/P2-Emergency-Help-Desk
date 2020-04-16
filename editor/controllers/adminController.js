@@ -1,5 +1,4 @@
 const Post = require("../models/PostModel").Post;
-const Comment = require("../models/CommentModel").Comment;
 const {isEmpty} = require("../config/functions");
 
 
@@ -16,7 +15,6 @@ module.exports =  {
     },
 
     submitPosts: (req, res) => {
-       const commentsAllowed = req.body.allowComments ? true: false;
 
        //Check for input file
        let filename = "";
@@ -33,12 +31,27 @@ module.exports =  {
            });
        }
 
+       // if(isEmpty(req.files)) {
+       //     let file = "./public/uploads/stock-image.jpg";
+       //     filename = file.name;
+       // }
+       // else{
+       //     let file = req.files.uploadedFile;
+       //     filename = file.name;
+       //
+       //     let uploadDir = "./public/uploads/";
+       //
+       //     file.mv(uploadDir+filename, (err) => {
+       //       if (err)
+       //        throw err;
+       //     });
+       // }
+
        const newPost = new Post({
          title: req.body.title,
          author: req.body.author,
          description: req.body.description,
          status: req.body.status,
-         allowComments: commentsAllowed,
          file: `/uploads/${filename}`
        });
 
@@ -61,7 +74,6 @@ module.exports =  {
     },
 
     editPostSubmit: (req, res) => {
-        const commentsAllowed = req.body.allowComments ? true: false;
         const id = req.params.id;
 
         Post.findById(id)
@@ -70,9 +82,7 @@ module.exports =  {
                 post.title = req.body.title;
                 post.author = req.body.author;
                 post.file = req.body.file;
-                post.title = req.body.title;
                 post.status = req.body.status;
-                post.allowComments = req.body.allowComments;
                 post.description = req.body.description;
 
                 post.save().then(updatePost => {
@@ -88,15 +98,5 @@ module.exports =  {
           req.flash("success_message", `The post ${deletedPost.title} has been deleted.`);
           res.redirect("/admin/posts");
       });
-    },
-
-    /*Comment route section */
-    getComments: (req, res) => {
-        Comment.find()
-        .populate("user")
-        .then(comments => {
-            res.render("admin/comments/index", {comments: comments});
-        })
     }
-
 };
