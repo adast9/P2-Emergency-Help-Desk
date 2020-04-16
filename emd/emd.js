@@ -59,13 +59,6 @@ function AddCase(data) {
     row.marker = PlaceMarker(data.id, data.pos);
     row.id = data.id;
 
-    /*//Close Button
-    let closeBtnCell = row.insertCell();
-    let closeBtn = document.createElement("BUTTON");
-    closeBtn.innerHTML = "Close";
-    closeBtn.onclick = function(){CloseCase(data.id)};
-    closeBtnCell.appendChild(closeBtn);*/
-
     idBtn.addEventListener('click', () => {
         map.setCenter(data.pos)
         journalID.innerHTML = "Case ID: " + data.id;
@@ -74,6 +67,15 @@ function AddCase(data) {
         journalCPR.innerHTML = "CPR: " + data.cpr;
         journalLocation.innerHTML = "Location: " + data.location;
         journalDescription.innerHTML = "Description: " + data.desc;
+        /*
+        document.getElementById('journalHeader').textContent = `Case ID: ${e.id}`;
+        document.getElementById('citizenDescription').textContent = ` ${e.desc}`;
+        document.getElementById('timeOfEmergency').textContent = ` ${e.time || 'Not found'}`;
+        // document.getElementById('').textContent = ` ${e.time}`;
+        document.getElementById('clickedCoordinates').textContent = ` ${e.pos.lat} x ${e.pos.lng}`;
+        document.getElementById('chatId').textContent = `Case ID: ${e.id}`;
+        document.getElementById('chatLog').textContent = `Chat log: ${e.id}`;
+        */
     })
 }
 

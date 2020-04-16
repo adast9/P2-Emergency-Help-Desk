@@ -35,8 +35,4 @@ router.route("/posts/edit/:id")
 router.route("/posts/delete/:id")
   .delete(adminController.deletePost);
 
-/*Admin comment routes */
-router.route("/comment")
-  .get(adminController.getComments);
-
 module.exports = router;
