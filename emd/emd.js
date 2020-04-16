@@ -51,6 +51,7 @@ function AddCase(e) {
     idBtnCell.appendChild(idBtn);
 
     row.insertCell().innerHTML = e.desc;
+    row.insertCell().innerHTML = e.time;
     row.insertCell().innerHTML = e.pos.lat;
     row.insertCell().innerHTML = e.pos.lng;
     row.marker = PlaceMarker(e.id, e.pos);
@@ -66,7 +67,8 @@ function AddCase(e) {
     idBtn.addEventListener('click', () => {
     document.getElementById('journalHeader').textContent = "Case ID: " + e.id;
     document.createElement('INPUT').setAttribute("type","text");
-    document.getElementById('citizenDescription').textContent = e.desc;
+    document.getElementById('citizenDescription').textContent = ` ${e.desc}`;
+    document.getElementById('timeOfEmergency').textContent = e.time;
     })
 }
 
@@ -94,4 +96,31 @@ function CloseCase(id) {
 
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
+}
+
+function getTimeOfEmergency() {
+  let time = new Date();
+  let month = (time.getMonth())+1;
+  if (month < 10 ) {
+      month = `0${month}`;
+  }
+  let day = time.getDate();
+  if (day < 10) {
+      day = `0${day}`;
+  }
+  let year = time.getFullYear();
+  let hours = time.getHours();
+  if (hours < 10) {
+      hours = `0${hours}`
+  }
+  let minutes = time.getMinutes();
+  if (minutes < 10) {
+      minutes = `0${minutes}`
+  }
+  let seconds = time.getSeconds();
+  if (seconds < 10) {
+      seconds = `0${seconds}`
+  }
+
+  let timeOfEmergency = `${hours}:${minutes}:${seconds}  ${day}-${month}-${year}`;
 }

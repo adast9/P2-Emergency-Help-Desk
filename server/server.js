@@ -13,12 +13,12 @@ LoadCases();
 
 s.on('connection', function(client) {
     client.on('close', function() {
-        // When a client disconnects, check if they are in the EMD array. 
+        // When a client disconnects, check if they are in the EMD array.
         // If they are, remove them from the array.
         let i = emds.indexOf(client);
-        if (i !== -1) { 
+        if (i !== -1) {
             console.log("EMD disconnected.");
-            emds.splice(i, 1); 
+            emds.splice(i, 1);
         }
     });
 
@@ -34,11 +34,12 @@ s.on('connection', function(client) {
                 });
                 break;
             case "CreateCase":
-                // Make the data into an object, add it to cases array, send it to all EMDs 
+                // Make the data into an object, add it to cases array, send it to all EMDs
                 let caseObject = {
                     type: "Case",
                     id: ++counter,
                     who: client,
+                    time: json.time,
                     desc: json.desc,
                     pos: json.pos
                 };
@@ -51,7 +52,7 @@ s.on('connection', function(client) {
             case "CloseCase":
                 for (let i = 0; i < cases.length; i++) {
                     if(cases[i].id == json.id) {
-                        cases.splice(i, 1); 
+                        cases.splice(i, 1);
                         break;
                     }
                 }
@@ -81,11 +82,11 @@ function BroadcastToEMDs(data) {
 function SaveCases() {
     //console.log("Saving current cases... ");
 
-    //Delete any already existing data in save file 
+    //Delete any already existing data in save file
     fs.truncate('cases.txt', 0, function(){});
 
     // Write this simplified cases array to a file the server can read from next time it starts.
-    fs.writeFile('cases.txt', JSON.stringify(cases, ["type", "id", "desc", "pos", "lat", "lng"], 4), (err) => {
+    fs.writeFile('cases.txt', JSON.stringify(cases, ["type", "id", "time", "desc", "pos", "lat", "lng"], 4), (err) => {
         if (err) {
             console.log("Failed to save cases. " + err);
         } /*else {
@@ -94,7 +95,7 @@ function SaveCases() {
     });
 }
 
-// Load current cases from file 
+// Load current cases from file
 function LoadCases() {
     //console.log("Loading current cases from previous session... ");
 
@@ -106,9 +107,9 @@ function LoadCases() {
                 cases = JSON.parse(data);
                 //console.log("Cases loaded successfully. ");
 
-                if(cases.length > 0) 
+                if(cases.length > 0)
                     counter = cases[cases.length-1].id;
-                
+
             } catch(jsonError) {
                 console.log("There were no cases to load or cases.txt is broken.");
             }
