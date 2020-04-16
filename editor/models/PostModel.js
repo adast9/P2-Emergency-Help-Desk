@@ -10,7 +10,7 @@ const PostSchema = new Schema({
 
     status: {
         type: String,
-        default: 'public'
+        default: "public"
     },
 
     description: {

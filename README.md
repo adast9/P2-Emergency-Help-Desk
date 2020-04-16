@@ -15,9 +15,15 @@ For at slukke serveren skal man trykke "ctrl + c" og skrive y i ens terminal
 
 
 Ting vi mangler at kigge på i CMS:
-- I register-siden gemmer den ikke indtastet information hvis der opstår en error.
-- I forhold til at logge ind kunne man specificere at det f.eks. kun er bestemte google-kontoer der kan login (Vi bruger passports-local, her skal bruges en anden packages i stedet)
 - Rykke register væk fra frontend hen til backend (Admin-siden)
 - error_message(flash) for login-siden fungerer ikke og logout flash-message dur ikke
 - find ud af om hvor lang tid en cookie varer for en users session
-- lige nu kan man kun kommentere på post hvis man er logget ind (hvis man er en admin)
+
+- v2 -
+Flash package skal skiftes ud med nyt ikke package kode.
+Creator of post skal være brugeren login og ikke bare admin.
+Under edit-post, skal man også kunne ændre fileupload.
+Man skal kunne uploade pdf i fileupload.
+Fixe en masse sampletext.
+Fixe navbar generelt med hvad der skal vises og hvad der skal smides ud.
+Kommentarer skal fjernes
