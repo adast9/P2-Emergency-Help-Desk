@@ -28,9 +28,17 @@
 
         <div class="column-middle">
             <div id="map"></div>
-            <div id="chat">
-                [Chat]
+            <div id = "chat">
+                <div id = "chatname">
+                    <strong>Test</strong>
+                </div>
+                <div id = "chatlog"></div>
+                <div id = "chatcontrols">
+                    <input type = "text" placeholder = "Enter message here..." id = "text">
+                    <button id = "but">Send</button>
+                </div>
             </div>
+
         </div>
 
         <div class="column-right">
@@ -48,5 +56,18 @@
         </div>
 
         </div>
+
+        <script type="text/javascript">
+    		let log = document.getElementById('chatlog');
+    		let text = document.getElementById('text');
+    		let name = prompt("Enter a nickname...");
+            let button = document.getElementById("but");
+
+    		//On send button click, send message to server and add to the log
+    		but.onclick = function() {
+    			log.innerHTML += name + ": " + text.value + "<br>";
+    		}
+    	</script>
+
     </body>
 </html>
