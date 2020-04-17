@@ -67,6 +67,7 @@ function AddCase(data) {
         let caseId = document.createElement('h2');
         caseId.textContent = `Case ID: ${e.id}`;
         journal.appendChild(caseId);
+        chatId.innerHTML = 'Case ID: ' + data.id;
 
         let citizenName = document.createElement('p');
         citizenName.innerHTML = `<span>Name:</span> \${e.name}`;
