@@ -4,6 +4,14 @@ let map = new google.maps.Map(document.getElementById("map"), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 
+const caseList = document.getElementById('cases');
+const journalID = document.getElementById('journal-id');
+const journalName = document.getElementById('journal-name');
+const journalPhone = document.getElementById('journal-phone');
+const journalCPR = document.getElementById('journal-cpr');
+const journalLocation = document.getElementById('journal-location');
+const journalDescription = document.getElementById('journal-description');
+
 let ws = new WebSocket("ws://localhost:3001");
 
 ws.onopen = function() {
@@ -14,17 +22,15 @@ ws.onopen = function() {
     });
 }
 
-const caseList = document.getElementById('cases');
-
 ws.onmessage = function(event) {
-    json = JSON.parse(event.data);
+    data = JSON.parse(event.data);
 
-    switch(json.type) {
+    switch(data.type) {
         case "Case":
-            console.log(`New case received. ID: ${parseInt(json.id)}`);
-            AddCase(json);
+            console.log(`New case received. ID: ${parseInt(data.id)}`);
+            AddCase(data);
             break;
-        case "DeleteCaseRow":
+        case "CloseCase":
             for (var i = 0; i < table.rows.length; i++) {
                 if(table.rows[i].id == json.id) {
                     // Remove the marker from the map and delete the row from the table.
@@ -40,30 +46,18 @@ ws.onmessage = function(event) {
     }
 }
 
-function AddCase(e) {
+function AddCase(data) {
     let row = caseList.insertRow();
 
     //ID Button
     let idBtnCell = row.insertCell();
     let idBtn = document.createElement("BUTTON");
-    idBtn.innerHTML = e.id;
-    idBtn.onclick = function(){map.setCenter(e.pos)};
+    idBtn.innerHTML = data.id;
     idBtnCell.appendChild(idBtn);
-
-    row.insertCell().innerHTML = e.desc;
-    row.insertCell().innerHTML = e.time;
-    row.insertCell().innerHTML = e.status;
-    // row.insertCell().innerHTML = e.pos.lat;
-    // row.insertCell().innerHTML = e.pos.lng;
-    row.marker = PlaceMarker(e.id, e.pos);
-    row.id = e.id;
-
-    //Close Button
-    let closeBtnCell = row.insertCell();
-    let closeBtn = document.createElement("BUTTON");
-    closeBtn.innerHTML = "Close";
-    closeBtn.onclick = function(){CloseCase(e.id)};
-    closeBtnCell.appendChild(closeBtn);
+    row.insertCell().innerHTML = "Open";
+    row.insertCell().innerHTML = data.time;
+    row.marker = PlaceMarker(data.id, data.pos);
+    row.id = data.id;
 
     //displaying the journal entry for the corresponding case ID
     idBtn.addEventListener('click', () => {
@@ -73,6 +67,14 @@ function AddCase(e) {
         let caseId = document.createElement('h2');
         caseId.textContent = `Case ID: ${e.id}`;
         journal.appendChild(caseId);
+
+        let citizenName = document.createElement('p');
+        citizenName.innerHTML = `<span>Name:</span> \${e.name}`;
+        journal.appendChild(citizenName);
+
+        let citizenCPR = document.createElement('p');
+        citizenCPR.innerHTML = `<span>CPR Number:</span> \${e.cpr}`;
+        journal.appendChild(citizenCPR);
 
         let citizenDescription = document.createElement('p');
         citizenDescription.innerHTML = `<span>Description by citizen:</span> ${e.desc}`;
@@ -121,7 +123,6 @@ function PlaceMarker(id, location) {
         map: map,
         label: id.toString(),
         draggable: false,
-        //animation: google.maps.Animation.DROP
     });
 }
 
@@ -140,3 +141,30 @@ function CloseCase(id) {
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
+
+/*function getTimeOfEmergency() {
+  let time = new Date();
+  let month = (time.getMonth())+1;
+  if (month < 10 ) {
+      month = `0${month}`;
+  }
+  let day = time.getDate();
+  if (day < 10) {
+      day = `0${day}`;
+  }
+  let year = time.getFullYear();
+  let hours = time.getHours();
+  if (hours < 10) {
+      hours = `0${hours}`
+  }
+  let minutes = time.getMinutes();
+  if (minutes < 10) {
+      minutes = `0${minutes}`
+  }
+  let seconds = time.getSeconds();
+  if (seconds < 10) {
+      seconds = `0${seconds}`
+  }
+
+  let timeOfEmergency = `${hours}:${minutes}:${seconds}  ${day}-${month}-${year}`;
+}*/

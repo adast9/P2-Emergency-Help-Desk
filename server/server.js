@@ -6,10 +6,7 @@ let cases = [];
 let counter = 0;
 
 console.log("Listening on port 3001...");
-LoadCases();
-
-// TODO: save current emergencies to file
-// TODO: get markers to show on map with id / label
+//LoadCases();
 
 s.on('connection', function(client) {
     client.on('close', function() {
@@ -22,10 +19,10 @@ s.on('connection', function(client) {
         }
     });
 
-    client.on('message', function(data) {
-        let json = JSON.parse(data);
+    client.on('message', function(message) {
+        let data = JSON.parse(message);
 
-        switch(json.type) {
+        switch(data.type) {
             case "EMDConnect":
                 console.log("EMD connected.");
                 emds.push(client);
@@ -33,35 +30,29 @@ s.on('connection', function(client) {
                     client.send(JSON.stringify(entry));
                 });
                 break;
-            case "CreateCase":
-                // Make the data into an object, add it to cases array, send it to all EMDs
-                let caseObject = {
-                    type: "Case",
-                    id: ++counter,
-                    who: client,
-                    time: getTimeOfEmergency(), // Date.now() || new Date().toISOString() (another way of formatting but easier)
-                    chatlog: json.chat,
-                    desc: json.desc,
-                    pos: json.pos
-                };
-                console.log("Case created (id: %d)", caseObject.id);
-                cases.push(caseObject);
+            case "Case":
+                // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
+                data.id = ++counter;
+                data.creator = client;
+                data.emd = null;
 
-                BroadcastToEMDs(caseObject);
-                SaveCases();
+                console.log("Case created (id: %d)", data.id);
+                cases.push(data);
+                BroadcastToEMDs(data);
+                //SaveCases();
                 break;
             case "CloseCase":
                 for (let i = 0; i < cases.length; i++) {
-                    if(cases[i].id == json.id) {
+                    if(cases[i].id == data.id) {
                         cases.splice(i, 1);
                         break;
                     }
                 }
-                console.log("Case closed (id: %d)", json.id);
-                SaveCases();
+                console.log("Case closed (id: %d)", data.id);
+                //SaveCases();
                 BroadcastToEMDs({
-                    type: "DeleteCaseRow",
-                    id: json.id
+                    type: "CloseCase",
+                    id: data.id
                 });
                 break;
             default:
