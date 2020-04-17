@@ -1,87 +1,64 @@
 <div class="container">
-  <div class="alert alert-secondary text-center">
-    <h1>All Posts</h1>
-  </div>
-  <table class="table table-bordered" id="myTable">
-      <thead class="bg-dark text-center">
-      <tr class="text-white">
-          <th>Title</th>
-          <th>Author</th>
-          <th>Description</th>
-          <th>Actions</th>
-      </tr>
-      </thead>
+    <div class="alert alert-secondary text-center">
+        <h1>All Posts</h1>
+    </div>
 
-      <tbody class="text-center">
-      {{#each posts}}
-          <tr class="searchclass">
-              <td>{{title}}</td>
-              <td>{{author}}</td>
-              <td>{{description}}</td>
-              <td class="d-flex justify-content-center">
-                <a href="/admin/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
+    <table class="table table-bordered" id="myTable">
+        <thead class="bg-dark text-center">
+            <tr class="text-white">
+                <th>Title</th>
+                <th>Author</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-                <form action="/admin/posts/delete/{{id}}?newMethod=DELETE" method="post">
-                  <button class="btn btn-sm btn-danger" type="submit">Delete Post</button>
-                </form>
+        <tbody class="text-center">
+            {{#each posts}}
+            <tr>
+                <td>{{title}}</td>
+                <td>{{author}}</td>
+                <td>{{description}}</td>
+                <td class="d-flex justify-content-center">
+                    <a href="/admin/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
+                    <form action="/admin/posts/delete/{{id}}?newMethod=DELETE" method="post">
+                    <button class="btn btn-sm btn-danger" type="submit">Delete Post</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 
-              </td>
-          </tr>
-      </li>
-      {{/each}}
-      </tbody>
-  </ol>
-  </table>
-
-
-  <!-- <script>
-      let blogposts = document.getElementsByClassName('searchclass');
-
-      function search_posts() {
-        let input = document.getElementById('searchbar').value
-        input = input.toLowerCase();
-
-        for (i = 0; i < blogposts.length; i++) {
-            if (!blogposts[i].title.toLowerCase().includes(input)) {
-                blogposts[i].style.display = "none";
-            }
-            else {
-                blogposts[i].style.display = "list-item";
+    <script>
+    function search_posts() {
+        let input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Søger gennem titler (dette kan ændres)
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
         }
-      }
-  </script> -->
-
-  <script>
-  function search_posts() {
-      let input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                  tr[i].style.display = "";
-              } else {
-                  tr[i].style.display = "none";
-              }
-          }
     }
- }
-</script>
+    </script>
 
-  <div class="col-md-4">
-      <div class="card my-4">
-          <h5 class="card-header">Search</h5>
-          <div class="card-body">
-              <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
-              </div>
-          </div>
-      </div>
-  </div>
-
+    <div class="col-md-4">
+        <div class="card my-4">
+            <h5 class="card-header">Search among post titles</h5>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
