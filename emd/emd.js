@@ -12,6 +12,7 @@ const journalCPR = document.getElementById('journal-cpr');
 const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
+const chatHeader = document.getElementById('chatId');
 
 let ws = new WebSocket("ws://localhost:3001");
 
@@ -73,7 +74,7 @@ function AddCase(data) {
       journalDescription.innerHTML = "Description: " + data.desc;
 
         // changing the Case ID in chat to corresponding case
-        document.getElementById('chatId').textContent = "Case ID: " + data.id;
+        chatHeader.textContent = "Case ID: " + data.id;
     })
   }
 
