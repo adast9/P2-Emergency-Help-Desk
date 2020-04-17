@@ -2,23 +2,22 @@
   <div class="alert alert-secondary text-center">
     <h1>All Posts</h1>
   </div>
-  <table class="table table-bordered">
+  <table class="table table-bordered" id="myTable">
       <thead class="bg-dark text-center">
       <tr class="text-white">
           <th>Title</th>
           <th>Author</th>
           <th>Description</th>
-          <th>Status</th>
           <th>Actions</th>
       </tr>
       </thead>
+
       <tbody class="text-center">
       {{#each posts}}
-          <tr>
+          <tr class="searchclass">
               <td>{{title}}</td>
               <td>{{author}}</td>
               <td>{{description}}</td>
-              <td>{{status}}</td>
               <td class="d-flex justify-content-center">
                 <a href="/admin/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
 
@@ -28,8 +27,61 @@
 
               </td>
           </tr>
+      </li>
       {{/each}}
-
       </tbody>
+  </ol>
   </table>
+
+
+  <!-- <script>
+      let blogposts = document.getElementsByClassName('searchclass');
+
+      function search_posts() {
+        let input = document.getElementById('searchbar').value
+        input = input.toLowerCase();
+
+        for (i = 0; i < blogposts.length; i++) {
+            if (!blogposts[i].title.toLowerCase().includes(input)) {
+                blogposts[i].style.display = "none";
+            }
+            else {
+                blogposts[i].style.display = "list-item";
+            }
+        }
+      }
+  </script> -->
+
+  <script>
+  function search_posts() {
+      let input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+              } else {
+                  tr[i].style.display = "none";
+              }
+          }
+    }
+ }
+</script>
+
+  <div class="col-md-4">
+      <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
+              </div>
+          </div>
+      </div>
+  </div>
+
 </div>

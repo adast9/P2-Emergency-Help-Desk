@@ -15,8 +15,6 @@
        <!-- Date -->
        <p>Posted on {{post.creationDate}}</p>
 
-       <hr>
-
        <!-- Preview Image -->
        <!-- <img class="img-fluid rounded" src="{{post.file}}" alt=""> -->
 
@@ -25,9 +23,10 @@
        <!-- Post Content -->
        <p class="lead">{{post.description}}</p>
 
-       <!-- PDF Viewer -->
-
        <hr>
+
+       <!-- PDF Viewer -->
+       <embed src="{{post.file2}}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="700em"/>
 
    </div>
 </div>

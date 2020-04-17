@@ -12,12 +12,13 @@ const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
 const passport = require("passport");
 
+/* Small const for easier use of express */
 const app = express();
 
-// Includes cors for cross resource sharing
+/* Cors */
 app.use(require("cors")());
 
-// Configure Mongoose to Connect to MongoDB
+/* Configure Mongoose to Connect to MongoDB */
 mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => {
         console.log("MongoDB Connected Successfully.");
@@ -25,21 +26,22 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true }
         console.log("Database connection failed.");
 });
 
-/* Configure express*/
+/* Express*/
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
 
-/*Flash and sesseion*/
+/* Sesseion*/
 app.use(session({
   secret: "anysecret",
   saveUninitialized: true,
   resave: true
 }));
 
+/* Flash */
 app.use(flash());
 
-/* Passport Initialize */
+/* Passport */
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -50,11 +52,10 @@ app.use(globalVariables);
 app.use(fileUpload());
 
 
-/* Setup View Engine To Use Handlebars */
+/* Handlebars */
 app.engine("handlebars", hbs({defaultLayout: "default"}));
 app.set("view engine" , "handlebars");
 
-/*Method Override middleware*/
 app.use(methodOverride("newMethod"));
 
 /* Routes */

@@ -13,11 +13,6 @@ const PostSchema = new Schema({
         required: true
     },
 
-    status: {
-        type: String,
-        default: "public"
-    },
-
     description: {
         type: String,
         required: true
@@ -36,8 +31,12 @@ const PostSchema = new Schema({
     file: {
         type: String,
         default: ""
-    }
+    },
 
+    file2: {
+        type: String,
+        default: ""
+    }
 });
 
 module.exports = {Post: mongoose.model('post', PostSchema )};

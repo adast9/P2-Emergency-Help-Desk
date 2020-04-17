@@ -18,41 +18,41 @@ module.exports =  {
 
        //Check for input file
        let filename = "";
+       let filename2 = "";
 
        if(!isEmpty(req.files)) {
            let file = req.files.uploadedFile;
            filename = file.name;
 
-           let uploadDir = "./public/uploads/";
+           let uploadDir = "./public/uploads/images/";
 
            file.mv(uploadDir+filename, (err) => {
              if (err)
               throw err;
            });
-       }
 
-       // if(isEmpty(req.files)) {
-       //     let file = "./public/uploads/stock-image.jpg";
-       //     filename = file.name;
-       // }
-       // else{
-       //     let file = req.files.uploadedFile;
-       //     filename = file.name;
-       //
-       //     let uploadDir = "./public/uploads/";
-       //
-       //     file.mv(uploadDir+filename, (err) => {
-       //       if (err)
-       //        throw err;
-       //     });
-       // }
+           let file2 = req.files.uploadedFile2;
+           filename2 = file2.name;
+
+           let uploadDir2 = "./public/uploads/pdf/";
+
+
+           file2.mv(uploadDir2+filename2, (err) => {
+             if (err)
+              throw err;
+           });
+       }
+       else {
+
+       }
 
        const newPost = new Post({
          title: req.body.title,
          author: req.body.author,
          description: req.body.description,
          status: req.body.status,
-         file: `/uploads/${filename}`
+         file: `/uploads/images/${filename}`,
+         file2: `/uploads/pdf/${filename2}`
        });
 
        newPost.save().then(post => {
@@ -84,6 +84,7 @@ module.exports =  {
                 post.file = req.body.file;
                 post.status = req.body.status;
                 post.description = req.body.description;
+                post.file2 = req.body.file2;
 
                 post.save().then(updatePost => {
                     req.flash("success_message", `The post ${updatePost.title} has been updated.`)

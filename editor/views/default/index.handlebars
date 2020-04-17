@@ -1,14 +1,6 @@
-
 <div class="row">
-
-    <!-- Blog Entries Column -->
     <div class="col-md-8">
-
-        <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
-        </h1>
-
-        <!-- Blog Post -->
+        <h1 class="my-4">Health realated posts: </h1>
 
         <script>
             let blogposts = document.getElementsByClassName('card mb-4');
@@ -32,11 +24,7 @@
 
           {{#each posts}}
           <li class="card mb-4" id="{{id}}">
-              {{#if file}}
-                  <img class="card-img-top" src="{{file}}" alt="Card image cap">
-              {{else}}
-                  <img class="card-img-top" src="https://placeimg.com/750/350/tech" alt="Post image">
-              {{/if}}
+                  <img class="card-img-top" src="{{file}}" alt="Image is missing">
               <div class="card-body">
                   <h2 class="card-title">{{title}}</h2>
                   <p class="card-text">{{description}}</p>
@@ -65,30 +53,18 @@
 
     </div>
 
-    <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
 
-        <!-- Search Widget -->
+
+
+    <!-- Search -->
+    <div class="col-md-4">
         <div class="card my-4">
             <h5 class="card-header">Search</h5>
             <div class="card-body">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="search_posts()">
-                    <!-- <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Search</button>
-                </span> -->
                 </div>
             </div>
         </div>
-
-        <!-- Side Widget -->
-        <!-- <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-                You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-            </div>
-        </div> -->
-
     </div>
-
 </div>

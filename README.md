@@ -1,9 +1,9 @@
 # P2-Emergency-Help-Desk
 
-<!-- CMS packages -->
+<!-- Editor -->
 Bare kopier hele linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\editor\>
 
-npm i nodemon mongodb mongoose connect-flash cors express express-handlebars express-session method-override handlebars@4.5.3 express-fileupload bcryptjs passport passport-local
+npm i nodemon mongodb mongoose connect-flash cors express express-handlebars express-session method-override handlebars@4.5.3 express-fileupload bcryptjs passport passport-local --save
 
 
 
@@ -14,20 +14,21 @@ Her kan man så finde sin side på localhost:3000
 For at slukke serveren skal man trykke "ctrl + c" og skrive y i ens terminal
 
 
-Ting vi mangler at kigge på i CMS:
+To do:
 - Rykke register væk fra frontend hen til backend (Admin-siden)
 - error_message(flash) for login-siden fungerer ikke og logout flash-message dur ikke
+- Flash package skal skiftes ud med nyt ikke package kode.
+- Fixe navbar generelt med hvad der skal vises og hvad der skal smides ud
+- Searchbar i posts
+- I view/default/index.handlebars er der javascript kode til search bar som skal flyttes
+- Fixe file upload ved edit post(potentielt bruge Multer)
+- Fixe sådan at hvis man ikke uploader en pdf-fil skal den ikke sige "Cannot get pdf file" samt hvis man ikke uploader et billede skal der komme et stock image op i stedet
+- Noget pagination ved x antal posts
 
-- v2 -
-Flash package skal skiftes ud med nyt ikke package kode.
-Man skal kunne uploade pdf i fileupload.
-Fixe en masse sampletext.
-Fixe navbar generelt med hvad der skal vises og hvad der skal smides ud + searchbar for posts.
-I view/default/index.handlebars er der javascript kode til search bar som skal flyttes
-Fixe file upload ved edit post
 
-DONE
-Fixe tal efter man har søgt
-Creator of post skal være brugeren login og ikke bare admin.
-Kommentarer skal fjernes
-Under edit-post, skal man også kunne ændre fileupload + author.
+Done:
+- Fixe tal efter man har søgt
+- Creator of post skal være brugeren login og ikke bare admin.
+- Kommentarer skal fjernes
+- Under edit-post, skal man også kunne ændre fileupload + author.
+- Man skal kunne uploade pdf i fileupload.
