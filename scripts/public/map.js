@@ -2,7 +2,6 @@ let map, infoWindow, marker, markerPosition;
 const searchBar = document.getElementById('address');
 const searchButton = document.getElementById('search');
 const gpsButton = document.getElementById('gps');
-const submitButton = document.getElementById('submit')
 
 function InitMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -33,7 +32,6 @@ function InitMap() {
 
     searchButton.addEventListener('click', function(){ Search(geocoder, map); });
     gpsButton.addEventListener('click', function(){ Geolocate(); });
-    submitButton.addEventListener('click', function(){ SubmitEmergency(); });
 
     Geolocate();
 }
@@ -77,21 +75,12 @@ function Geolocate() {
     }
 }
 
-function SubmitEmergency() {
-    if(marker) {
-        document.getElementById('address').value = "";
-        document.getElementById('desc').value = "";
-        alert("Your request has been submitted.");
-    } else {
-        alert("You need to mark your location on the map.");
-    }
-}
-
 function Search(geocoder, resultsMap) {
     var address = document.getElementById('address').value;
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
+            markerPosition = results[0].geometry.location;
             PlaceMarker(results[0].geometry.location);
             map.setZoom(16);
         } else {

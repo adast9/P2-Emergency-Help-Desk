@@ -18,9 +18,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>#</th>
-                        <th>Case</th>
-                        <th>Time</th>
                         <th>Status</th>
+                        <th>Time</th>
                     </tr>
                 </thead>
             </table>
@@ -29,45 +28,46 @@
         <div class="column-middle">
             <div id="map"></div>
             <div id = "chat">
-                <div id = "chatname">
-                    <strong>Test</strong>
+                <div id = "chatId">
+                    <strong id="chatId"></strong>
                 </div>
                 <div id = "chatlog"></div>
                 <div id = "chatcontrols">
                     <input type = "text" placeholder = "Enter message here..." id = "text">
-                    <button id = "but">Send</button>
+                    <button id ="chat-button-dispatcher">Send</button>
                 </div>
             </div>
-
         </div>
 
+        <!-- Here the journal entry is created from emd.js -->
         <div class="column-right">
-          <p>Press Case ID to display patient journal</p>
-          <form>
-              <label><h2 id="journalHeader"></h2></label><br>
-              <label>Name:</label><input type="text"><br>
-              <label>Time:</label><span id="timeOfEmergency"><br>
-              <label>Written location:</label><input type="text"><br>
-              <label>AML location:</label><input type="text"><br>
-              <label>Clicked location:</label><input type="text"><br>
-              <label>Case description by citizen: </label><span id="citizenDescription"></span><br>
-              <label>Case description by dispatcher: </label><input type="text"><br>
-            </form>
-        </div>
+            <h2 id="journal-header">Press Case ID to display patient journal</h2>
+            <div id="journal" style="display:none;">
+                <p id="journal-name"></p>
+                <p id="journal-phone"></p>
+                <p id="journal-cpr"></p>
+                <p id="journal-location"></p>
+                <p id="journal-fulltime"></p>
+                <p id="journal-description"></p>
+                <p id="journal-dispatcher-notes"></p><input type="submit" id="dispatcher-notes-button" value="Save notes"><br>
 
+                <button id="exit-journal-button">Close Journal</button>
+                <button id="close-case-button">Delete Case</button>
+            </div>
         </div>
 
         <script type="text/javascript">
     		let log = document.getElementById('chatlog');
     		let text = document.getElementById('text');
-    		let name = prompt("Enter a nickname...");
-            let button = document.getElementById("but");
+    		let name = "Dispatcher";
+        let chatButtonDispatcher = document.getElementById("chat-button-dispatcher");
 
     		//On send button click, send message to server and add to the log
-    		but.onclick = function() {
-    			log.innerHTML += name + ": " + text.value + "<br>";
+    		chatButtonDispatcher.onclick = function() {
+    			log.innerHTML += `${name}: ${text.value}<br>`; //needs to be saved on server * HUSK!
+          text.value = '';
+                log.scrollTop = log.scrollHeight;
     		}
     	</script>
-
     </body>
 </html>
