@@ -35,6 +35,8 @@ s.on('connection', function(client) {
                 data.id = ++counter;
                 data.creator = client;
                 data.emd = null;
+                data.timeDate = new Date().toLocaleDateString();
+                data.timeClock = getTimeClock();
 
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
@@ -110,30 +112,17 @@ function LoadCases() {
 }
 
 //when the server receives the new case
-function getTimeOfEmergency() {
-  let time = new Date();
-  let month = (time.getMonth())+1;
-  if (month < 10 ) {
-      month = `0${month}`;
-  }
-  let day = time.getDate();
-  if (day < 10) {
-      day = `0${day}`;
-  }
-  let year = time.getFullYear();
-  let hours = time.getHours();
-  if (hours < 10) {
-      hours = `0${hours}`
-  }
-  let minutes = time.getMinutes();
-  if (minutes < 10) {
-      minutes = `0${minutes}`
-  }
-  let seconds = time.getSeconds();
-  if (seconds < 10) {
-      seconds = `0${seconds}`
-  }
+function getTimeClock() {
+    let time = new Date();
+    let hours = time.getHours();
+    if (hours < 10)
+        hours = `0${hours}`;
+    let minutes = time.getMinutes();
+    if (minutes < 10)
+        minutes = `0${minutes}`;
+    let seconds = time.getSeconds();
+    if (seconds < 10)
+        seconds = `0${seconds}`
 
-  let timeOfEmergency = `${hours}:${minutes}:${seconds}   ${day}-${month}-${year}`;
-  return timeOfEmergency;
+    return hours + ":" + minutes + ":" + seconds;
 }

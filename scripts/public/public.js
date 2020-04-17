@@ -9,14 +9,13 @@ ws.onopen = function() {
 
 function SubmitCase() {
     if(markerPosition) {
-    	let data = {
-    		type: "Case",
-    		name: document.getElementById('name').value,
-			phone: document.getElementById('phone').value,
-			cpr: document.getElementById('cpr').value,
-			location: document.getElementById('location').value,
+    	  let data = {
+    		    type: "Case",
+    		    name: document.getElementById('name').value,
+			      phone: document.getElementById('phone').value,
+			      cpr: document.getElementById('cpr').value,
+			      location: document.getElementById('location').value,
             desc: document.getElementById('desc').value,
-			time: new Date().toLocaleTimeString(),
             pos: markerPosition
     	};
 

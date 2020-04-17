@@ -10,6 +10,7 @@ const journalName = document.getElementById('journal-name');
 const journalPhone = document.getElementById('journal-phone');
 const journalCPR = document.getElementById('journal-cpr');
 const journalLocation = document.getElementById('journal-location');
+const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 
 let ws = new WebSocket("ws://localhost:3001");
@@ -55,65 +56,23 @@ function AddCase(data) {
     idBtn.innerHTML = data.id;
     idBtnCell.appendChild(idBtn);
     row.insertCell().innerHTML = "Open";
-    row.insertCell().innerHTML = data.time;
+    row.insertCell().innerHTML = data.timeClock;
     row.marker = PlaceMarker(data.id, data.pos);
     row.id = data.id;
 
     //displaying the journal entry for the corresponding case ID
     idBtn.addEventListener('click', () => {
-
-        let journal = document.createElement('div');
-
-        let caseId = document.createElement('h2');
-        caseId.textContent = `Case ID: ${e.id}`;
-        journal.appendChild(caseId);
-
-        let citizenName = document.createElement('p');
-        citizenName.innerHTML = `<span>Name:</span> \${e.name}`;
-        journal.appendChild(citizenName);
-
-        let citizenCPR = document.createElement('p');
-        citizenCPR.innerHTML = `<span>CPR Number:</span> \${e.cpr}`;
-        journal.appendChild(citizenCPR);
-
-        let citizenDescription = document.createElement('p');
-        citizenDescription.innerHTML = `<span>Description by citizen:</span> ${e.desc}`;
-        journal.appendChild(citizenDescription);
-
-        let timeOfEmergency = document.createElement('p');
-        timeOfEmergency.innerHTML = `<span>Time and date:</span> ${e.time || 'Not found'}`;
-        journal.appendChild(timeOfEmergency);
-
-        let typedAddress = document.createElement('p');
-        typedAddress.innerHTML = `<span>Typed address:</span> \${e.address}`;
-        journal.appendChild(typedAddress);
-
-        let amlAddress = document.createElement('p');
-        amlAddress.innerHTML = `<span>Address recorded by AML:</span> \${e.amlAddress}`;
-        journal.appendChild(amlAddress);
-
-        let clickedCoordinates = document.createElement('p');
-        clickedCoordinates.innerHTML = `<span>Clicked coordinates</span> ${e.pos.lat} x ${e.pos.lng}}`;
-        journal.appendChild(clickedCoordinates);
-
-        let chatLog = document.createElement('p');
-        chatLog.innerHTML = `<span>Saved chat log:</span><br>-chatlog her-`;
-
-        let closeJournalButton = document.createElement('button');
-        closeJournalButton.textContent = "Close journal";
-        closeJournalButton.setAttribute("id", "close-journal-button");
-        journal.appendChild(closeJournalButton);
-
-
-
-        document.getElementById('journal').innerHTML = journal.innerHTML;
-
-        document.getElementById('close-journal-button').addEventListener('click', () => {
-            document.getElementById('journal').innerHTML = '<p class="press-case-id">Press Case ID to display patient journal</p>';
-        });
+      map.setCenter(data.pos)
+      journalID.innerHTML = "Case ID: " + data.id;
+      journalName.innerHTML = "Name: " + data.name;
+      journalPhone.innerHTML = "Phone: " + data.phone;
+      journalCPR.innerHTML = "CPR: " + data.cpr;
+      journalLocation.innerHTML = "Location: " + data.location;
+      journalTime.innerHTML = "Time created: " + data.timeDate + " " + data.timeClock;
+      journalDescription.innerHTML = "Description: " + data.desc;
 
         // changing the Case ID in chat to corresponding case
-        document.getElementById('chatId').textContent = `Case ID: ${e.id}`;
+        document.getElementById('chatId').textContent = "Case ID: " + data.id;
     })
   }
 
@@ -141,30 +100,3 @@ function CloseCase(id) {
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
-
-/*function getTimeOfEmergency() {
-  let time = new Date();
-  let month = (time.getMonth())+1;
-  if (month < 10 ) {
-      month = `0${month}`;
-  }
-  let day = time.getDate();
-  if (day < 10) {
-      day = `0${day}`;
-  }
-  let year = time.getFullYear();
-  let hours = time.getHours();
-  if (hours < 10) {
-      hours = `0${hours}`
-  }
-  let minutes = time.getMinutes();
-  if (minutes < 10) {
-      minutes = `0${minutes}`
-  }
-  let seconds = time.getSeconds();
-  if (seconds < 10) {
-      seconds = `0${seconds}`
-  }
-
-  let timeOfEmergency = `${hours}:${minutes}:${seconds}  ${day}-${month}-${year}`;
-}*/

@@ -19,7 +19,7 @@
                     <tr>
                         <th>#</th>
                         <th>Status</th>
-                        <th>Created</th>
+                        <th>Time</th>
                     </tr>
                 </thead>
             </table>
@@ -42,14 +42,21 @@
         <!-- Here the journal entry is created from emd.js -->
         <div class="column-right" id="journal">
           <p class="press-case-id">Press Case ID to display patient journal</p>
+
+            <h2 id="journal-id"></h2>
+            <p id="journal-name"></p>
+            <p id="journal-phone"></p>
+            <p id="journal-cpr"></p>
+            <p id="journal-location"></p>
+            <p id="journal-fulltime"></p>
+            <p id="journal-description"></p>
+
         </div>
-
-
 
         <script type="text/javascript">
     		let log = document.getElementById('chatlog');
     		let text = document.getElementById('text');
-    		let name = prompt("Enter a nickname...");
+    		let name = "Dispatcher";
         let chatButtonDispatcher = document.getElementById("chatButtonDispatcher");
 
     		//On send button click, send message to server and add to the log
