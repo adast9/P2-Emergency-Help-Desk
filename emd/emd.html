@@ -34,34 +34,37 @@
                 <div id = "chatlog"></div>
                 <div id = "chatcontrols">
                     <input type = "text" placeholder = "Enter message here..." id = "text">
-                    <button id ="chatButtonDispatcher">Send</button>
+                    <button id ="chat-button-dispatcher">Send</button>
                 </div>
             </div>
         </div>
 
         <!-- Here the journal entry is created from emd.js -->
-        <div class="column-right" id="journal">
-          <p class="press-case-id">Press Case ID to display patient journal</p>
+        <div class="column-right">
+            <h2 id="journal-header">Press Case ID to display patient journal</h2>
+            <div id="journal" style="display:none;">
+                <p id="journal-name"></p>
+                <p id="journal-phone"></p>
+                <p id="journal-cpr"></p>
+                <p id="journal-location"></p>
+                <p id="journal-fulltime"></p>
+                <p id="journal-description"></p>
+                <p id="journal-dispatcher-notes"></p><input type="submit" id="dispatcher-notes-button" value="Save notes"><br>
 
-            <h2 id="journal-id"></h2>
-            <p id="journal-name"></p>
-            <p id="journal-phone"></p>
-            <p id="journal-cpr"></p>
-            <p id="journal-location"></p>
-            <p id="journal-fulltime"></p>
-            <p id="journal-description"></p>
-
+                <button id="exit-journal-button">Close Journal</button>
+                <button id="close-case-button">Delete Case</button>
+            </div>
         </div>
 
         <script type="text/javascript">
     		let log = document.getElementById('chatlog');
     		let text = document.getElementById('text');
     		let name = "Dispatcher";
-        let chatButtonDispatcher = document.getElementById("chatButtonDispatcher");
+        let chatButtonDispatcher = document.getElementById("chat-button-dispatcher");
 
     		//On send button click, send message to server and add to the log
     		chatButtonDispatcher.onclick = function() {
-    			log.innerHTML += `${name}: ${text.value}<br>`;
+    			log.innerHTML += `${name}: ${text.value}<br>`; //needs to be saved on server * HUSK!
           text.value = '';
                 log.scrollTop = log.scrollHeight;
     		}

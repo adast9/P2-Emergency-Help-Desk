@@ -5,13 +5,28 @@ let map = new google.maps.Map(document.getElementById("map"), {
 });
 
 const caseList = document.getElementById('cases');
-const journalID = document.getElementById('journal-id');
+const journalHeader = document.getElementById('journal-header');
+const journal = document.getElementById('journal');
 const journalName = document.getElementById('journal-name');
 const journalPhone = document.getElementById('journal-phone');
 const journalCPR = document.getElementById('journal-cpr');
 const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
+const journalDispatcherNotes = document.getElementById('journal-dispatcher-notes');
+const closeJournalButton = document.getElementById('exit-journal-button');
+closeJournalButton.onclick = function() {
+    journalHeader.innerHTML = "Press Case ID to display patient journal";
+    journal.style.display = "none";
+};
+const closeCaseButton = document.getElementById('close-case-button');
+closeCaseButton.onclick = function() {
+    //delete case from the server
+}
+const dispatcherNotesButton = document.getElementById('dispatcher-notes-button');
+dispatcherNotesButton.onclick = function() {
+  //save notes to case on server
+}
 
 let ws = new WebSocket("ws://localhost:3001");
 
@@ -64,13 +79,16 @@ function AddCase(data) {
     idBtn.addEventListener('click', () => {
 
       map.setCenter(data.pos)
-      journalID.innerHTML = "Case ID: " + data.id;
+      journalHeader.innerHTML = "Case ID: " + data.id;
       journalName.innerHTML = "Name: " + data.name;
       journalPhone.innerHTML = "Phone: " + data.phone;
       journalCPR.innerHTML = "CPR: " + data.cpr;
       journalLocation.innerHTML = "Location: " + data.location;
       journalTime.innerHTML = "Time created: " + data.timeDate + " " + data.timeClock;
       journalDescription.innerHTML = "Description: " + data.desc;
+      journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
+
+      journal.style.display = 'block';
 
         // changing the Case ID in chat to corresponding case
         document.getElementById('chatId').textContent = "Case ID: " + data.id;

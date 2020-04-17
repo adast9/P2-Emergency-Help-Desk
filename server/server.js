@@ -37,6 +37,8 @@ s.on('connection', function(client) {
                 data.emd = null;
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
+                data.chatLog = '';
+                data.statusOpen = true;
 
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
