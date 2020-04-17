@@ -29,29 +29,21 @@
         <div class="column-middle">
             <div id="map"></div>
             <div id = "chat">
-                <div id = "chatname">
+                <div id = "chatId">
                     <strong id="chatId"></strong>
                 </div>
                 <div id = "chatlog"></div>
                 <div id = "chatcontrols">
                     <input type = "text" placeholder = "Enter message here..." id = "text">
-                    <button id = "but">Send</button>
+                    <button id ="chatButtonDispatcher">Send</button>
                 </div>
             </div>
 
         </div>
 
-        <div class="column-right">
-          <p>Press Case ID to display patient journal</p>
-              <label><h2 id="journalHeader"></h2></label><br>
-              <label>Name:</label><input type="text"><br>
-              <label>Time:</label><span id="timeOfEmergency"></span><br>
-              <label>Written location:</label><input type="text"><br>
-              <label>AML location:</label><input type="text"><br>
-              <label>Clicked coordinates:</label><span id="clickedCoordinates"></span><br>
-              <label>Case description by citizen: </label><span id="citizenDescription"></span><br>
-              <label>Case description by dispatcher: </label><input type="text"><br>
-              <label>Chat log:</label> <span id="chatLog"></span>
+        <!-- Here the journal entry is created from emd.js -->
+        <div class="column-right" id="journal">
+          <p class="press-case-id">Press Case ID to display patient journal</p>
         </div>
 
         </div>
@@ -60,13 +52,13 @@
     		let log = document.getElementById('chatlog');
     		let text = document.getElementById('text');
     		let name = prompt("Enter a nickname...");
-            let button = document.getElementById("but");
+        let chatButtonDispatcher = document.getElementById("chatButtonDispatcher");
 
     		//On send button click, send message to server and add to the log
-    		but.onclick = function() {
-    			log.innerHTML += name + ": " + text.value + "<br>";
+    		chatButtonDispatcher.onclick = function() {
+    			log.innerHTML += `${name}: ${text.value}<br>`;
+          text.value = '';
     		}
     	</script>
-
     </body>
 </html>
