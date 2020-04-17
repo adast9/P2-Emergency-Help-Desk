@@ -27,6 +27,7 @@ const dispatcherNotesButton = document.getElementById('dispatcher-notes-button')
 dispatcherNotesButton.onclick = function() {
   //save notes to case on server
 }
+const chatHeader = document.getElementById('chatId');
 
 let ws = new WebSocket("ws://localhost:3001");
 
@@ -91,7 +92,7 @@ function AddCase(data) {
       journal.style.display = 'block';
 
         // changing the Case ID in chat to corresponding case
-        document.getElementById('chatId').textContent = "Case ID: " + data.id;
+        chatHeader.textContent = "Case ID: " + data.id;
     })
   }
 
