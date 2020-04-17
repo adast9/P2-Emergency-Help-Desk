@@ -63,6 +63,7 @@
     		chatButtonDispatcher.onclick = function() {
     			log.innerHTML += `${name}: ${text.value}<br>`;
           text.value = '';
+                log.scrollTop = log.scrollHeight;
     		}
     	</script>
     </body>

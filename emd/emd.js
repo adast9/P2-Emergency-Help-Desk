@@ -62,6 +62,7 @@ function AddCase(data) {
 
     //displaying the journal entry for the corresponding case ID
     idBtn.addEventListener('click', () => {
+<<<<<<< HEAD
       map.setCenter(data.pos)
       journalID.innerHTML = "Case ID: " + data.id;
       journalName.innerHTML = "Name: " + data.name;
@@ -70,6 +71,59 @@ function AddCase(data) {
       journalLocation.innerHTML = "Location: " + data.location;
       journalTime.innerHTML = "Time created: " + data.timeDate + " " + data.timeClock;
       journalDescription.innerHTML = "Description: " + data.desc;
+=======
+
+        let journal = document.createElement('div');
+
+        let caseId = document.createElement('h2');
+        caseId.textContent = `Case ID: ${e.id}`;
+        journal.appendChild(caseId);
+        chatId.innerHTML = 'Case ID: ' + data.id;
+
+        let citizenName = document.createElement('p');
+        citizenName.innerHTML = `<span>Name:</span> \${e.name}`;
+        journal.appendChild(citizenName);
+
+        let citizenCPR = document.createElement('p');
+        citizenCPR.innerHTML = `<span>CPR Number:</span> \${e.cpr}`;
+        journal.appendChild(citizenCPR);
+
+        let citizenDescription = document.createElement('p');
+        citizenDescription.innerHTML = `<span>Description by citizen:</span> ${e.desc}`;
+        journal.appendChild(citizenDescription);
+
+        let timeOfEmergency = document.createElement('p');
+        timeOfEmergency.innerHTML = `<span>Time and date:</span> ${e.time || 'Not found'}`;
+        journal.appendChild(timeOfEmergency);
+
+        let typedAddress = document.createElement('p');
+        typedAddress.innerHTML = `<span>Typed address:</span> \${e.address}`;
+        journal.appendChild(typedAddress);
+
+        let amlAddress = document.createElement('p');
+        amlAddress.innerHTML = `<span>Address recorded by AML:</span> \${e.amlAddress}`;
+        journal.appendChild(amlAddress);
+
+        let clickedCoordinates = document.createElement('p');
+        clickedCoordinates.innerHTML = `<span>Clicked coordinates</span> ${e.pos.lat} x ${e.pos.lng}}`;
+        journal.appendChild(clickedCoordinates);
+
+        let chatLog = document.createElement('p');
+        chatLog.innerHTML = `<span>Saved chat log:</span><br>-chatlog her-`;
+
+        let closeJournalButton = document.createElement('button');
+        closeJournalButton.textContent = "Close journal";
+        closeJournalButton.setAttribute("id", "close-journal-button");
+        journal.appendChild(closeJournalButton);
+
+
+
+        document.getElementById('journal').innerHTML = journal.innerHTML;
+
+        document.getElementById('close-journal-button').addEventListener('click', () => {
+            document.getElementById('journal').innerHTML = '<p class="press-case-id">Press Case ID to display patient journal</p>';
+        });
+>>>>>>> c8aa3a7368b5688efc4d33c66ed2cca78e3b36bc
 
         // changing the Case ID in chat to corresponding case
         document.getElementById('chatId').textContent = "Case ID: " + data.id;
