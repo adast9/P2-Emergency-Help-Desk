@@ -3,7 +3,7 @@
 
     <div class="row p-4">
         <div class="col-md-10">
-            <form action="/admin/posts/edit/{{post._id}}?newMethod=PUT" method="post">
+            <form action="/admin/posts/edit/{{post._id}}?newMethod=PUT" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -16,7 +16,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="file">Preview image upload</label>
+                  <label for="file">Thumbnail upload</label>
+                  <p>Current uploaded image-file: {{post.file}} </p>
                   <input type="file" class="form-control" id="file" name="uploadedFile">
                 </div>
 
@@ -27,6 +28,7 @@
 
                 <div class="form-group">
                   <label for="file2">PDF upload</label>
+                  <p>Current uploaded pdf-file: {{post.file2}} </p>
                   <input type="file" class="form-control" id="file2" name="uploadedFile2">
                 </div>
 

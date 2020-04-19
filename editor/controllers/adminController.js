@@ -36,22 +36,23 @@ module.exports =  {
 
            let uploadDir2 = "./public/uploads/pdf/";
 
-
            file2.mv(uploadDir2+filename2, (err) => {
              if (err)
               throw err;
            });
        }
-       else {
 
+       if(filename === "" && filename2 === "") {
+           filename = "stock-image.jpg";
+           filename2 = "sample.pdf";
        }
 
        const newPost = new Post({
          title: req.body.title,
          author: req.body.author,
+         file: `/uploads/images/${filename}`,
          description: req.body.description,
          status: req.body.status,
-         file: `/uploads/images/${filename}`,
          file2: `/uploads/pdf/${filename2}`
        });
 
@@ -74,17 +75,53 @@ module.exports =  {
     },
 
     editPostSubmit: (req, res) => {
+
+        let filename = "";
+        let filename2 = "";
+
+        if(!isEmpty(req.files)) {
+            let file = req.files.uploadedFile;
+            filename = file.name;
+
+            let uploadDir = "./public/uploads/images/";
+
+            file.mv(uploadDir+filename, (err) => {
+              if (err)
+               throw err;
+            });
+
+            let file2 = req.files.uploadedFile2;
+            filename2 = file2.name;
+
+            let uploadDir2 = "./public/uploads/pdf/";
+
+            file2.mv(uploadDir2+filename2, (err) => {
+              if (err)
+               throw err;
+            });
+        }
+
         const id = req.params.id;
 
         Post.findById(id)
             .then(post => {
+                if(filename === "" && filename2 === "") {
+                    post.title = req.body.title;
+                    post.author = req.body.author;
+                    post.file = post.file;
+                    post.status = req.body.status;
+                    post.description = req.body.description;
+                    post.file2 = post.file2;
+                }
 
-                post.title = req.body.title;
-                post.author = req.body.author;
-                post.file = req.body.file;
-                post.status = req.body.status;
-                post.description = req.body.description;
-                post.file2 = req.body.file2;
+                else if(filename != "" && filename2 != ""){
+                    post.title = req.body.title;
+                    post.author = req.body.author;
+                    post.file = `/uploads/images/${filename}`;
+                    post.status = req.body.status;
+                    post.description = req.body.description;
+                    post.file2 = `/uploads/pdf/${filename2}`;
+                }
 
                 post.save().then(updatePost => {
                     req.flash("success_message", `The post ${updatePost.title} has been updated.`)

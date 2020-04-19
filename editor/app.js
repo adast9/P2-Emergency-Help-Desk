@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
 
-/* Sesseion*/
+/* Session*/
 app.use(session({
   secret: "anysecret",
   saveUninitialized: true,
