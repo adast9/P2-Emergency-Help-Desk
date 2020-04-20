@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
@@ -145,5 +145,50 @@ textarea {
 /**************** Corona *****************/
 section {
   background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT4kENpsfZGaw7Gr7HOYLW-fNsXIuVjyojTgg67UXMX0N3VlEmk");
-  background-size: 500px 150px
+  background-size: 500px 150px;
+}
+
+/* Public Live Chat */
+
+#chat {
+    float: left;
+    width: 100%;
+    height: 200px;
+    background-color:#e89db7;
+    overflow: auto;
+    border: #e097b1 3px inset;
+}
+
+#chat-header {
+    background: #343a40;
+    top: 0;
+    width: 100%;
+    height: 10%;
+    text-align: center;
+    color: white;
+}
+
+#chatlog {
+    overflow-y: auto;
+    height: 78%;
+}
+
+#chatcontrols {
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#chatcontrols button {
+    width: auto;
+    background-color:;
+    justify-content: right;
+}
+
+#chatcontrols input#text {
+    float: left;
+    width: 100%;
+    display: inline-block;
+    justify-content: left;
 }

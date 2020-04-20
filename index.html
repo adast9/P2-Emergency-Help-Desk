@@ -4,7 +4,7 @@
         <title>112Help</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script async defer src="scripts/public/map.js"></script>
         <script async defer src="scripts/public/public.js"></script>
@@ -36,19 +36,45 @@
 
             <div id="map"></div>
 
-            <br>    
             <h2>Fill out with your details</h2>
-            <label>Name: </label><input type="text" id="name"><br><br>
-            <label>Phone Number: </label><input type="text" id="phone"><br><br>
-            <label>CPR Number: </label><input type="text" id="cpr"><br><br> 
-            <label>Location: </label><input type="text" id="location"><br><br>
-            <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea><br><br>   
+            <p><label>Name: </label><input type="text" id="citizen-name"></p>
+            <p><label>Phone Number: </label><input type="text" id="phone"></p>
+            <p><label>CPR Number: </label><input type="text" id="cpr"></p>
+            <p><label>Location: </label><input type="text" id="location"></p>
+            <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea></p>
+
             <input id="submit" type="button" value="Submit">
         </div>
+
+        <div id="chat">
+            <div id = "chat-header">
+                <strong>Chat with a dispatcher</strong>
+            </div>
+            <div id="chatlog"></div>
+            <div id="chatcontrols">
+                <input type="text" placeholder="Enter message here..." id="text">
+                <button id="chat-button-public">Send</button>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+    		let log = document.getElementById('chatlog');
+    		let text = document.getElementById('text');
+        let name = document.getElementById('citizen-name');
+        let chatButtonPublic = document.getElementById("chat-button-public");
+
+    		//On send button click, send message to server and add to the log
+    		chatButtonPublic.onclick = function() {
+    		    log.innerHTML += `${name.value}: ${text.value}<br>`; //needs to be saved on server * HUSK!
+            text.value = '';
+            log.scrollTop = log.scrollHeight;
+        }
+        </script>
       </main>
 
         <div class="footer">
             <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>
         </div>
+    <script src="scripts/public/record-audio.js"></script>
     </body>
 </html>

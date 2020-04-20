@@ -9,15 +9,16 @@ ws.onopen = function() {
 
 function SubmitCase() {
     if(markerPosition) {
-    	  let data = {
+        let data = {
     		    type: "Case",
     		    name: document.getElementById('name').value,
 			      phone: document.getElementById('phone').value,
 			      cpr: document.getElementById('cpr').value,
 			      location: document.getElementById('location').value,
             desc: document.getElementById('desc').value,
+            chatlog: document.getElementById('chat').value,
             pos: markerPosition
-    	};
+        };
 
     	SendToServer(data);
         console.log("Case submitted.")
