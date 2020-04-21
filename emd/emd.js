@@ -50,6 +50,7 @@ ws.onmessage = function(event) {
     switch(data.type) {
         case "Case":
             console.log(`New case received. ID: ${parseInt(data.id)}`);
+            console.log(data);
             AddCase(data);
             break;
         case "AllowOpenCase":
@@ -95,7 +96,7 @@ function AddCase(data) {
     let idBtn = document.createElement("BUTTON");
     idBtn.innerHTML = row.id;
     idBtnCell.appendChild(idBtn);
-    row.insertCell().innerHTML = (data.emd == false) ? "Open" : "Locked";
+    row.insertCell().innerHTML = (data.emdID == null) ? "Open" : "Locked";
     row.insertCell().innerHTML = data.timeClock;
 
     //displaying the journal entry for the corresponding case ID
