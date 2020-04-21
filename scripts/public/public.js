@@ -16,8 +16,9 @@ function SubmitCase() {
 			cpr: document.getElementById('cpr').value,
 			location: document.getElementById('location').value,
             desc: document.getElementById('desc').value,
+            chatlog: document.getElementById('chat').value,
             pos: markerPosition
-    	};
+        };
 
         SendToServer(data);
         console.log("Case submitted.")
