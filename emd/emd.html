@@ -54,19 +54,5 @@
                 <button id="close-case-button">Delete Case</button>
             </div>
         </div>
-
-        <script type="text/javascript">
-    		let log = document.getElementById('chatlog');
-    		let text = document.getElementById('text');
-    		let name = "Dispatcher";
-        let chatButtonDispatcher = document.getElementById("chat-button-dispatcher");
-
-    		//On send button click, send message to server and add to the log
-    		chatButtonDispatcher.onclick = function() {
-    			log.innerHTML += `${name}: ${text.value}<br>`; //needs to be saved on server * HUSK!
-          text.value = '';
-                log.scrollTop = log.scrollHeight;
-    		}
-    	</script>
     </body>
 </html>

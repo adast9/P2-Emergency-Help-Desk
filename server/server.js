@@ -34,7 +34,7 @@ s.on('connection', function(client) {
                 // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
                 data.id = ++counter;
                 data.creator = client;
-                data.emd = null;
+                data.emd = false;
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = '';
@@ -44,15 +44,23 @@ s.on('connection', function(client) {
                 BroadcastToEMDs(data);
                 //SaveCases();
                 break;
-            case "OpenCase":
+            case "RequestOpenCase":
                 for (var i = 0; i < cases.length; i++) {
                     if (cases[i].id == data.id) {
-                        cases[i].emd = client;
-                        BroadcastToEMDs({
-                            type: "OpenCase",
-                            id: cases[i].id,
-                            emd: client
-                        });
+                        if (cases[i].emd) {
+                            client.send(JSON.stringify({
+                                type: "DenyOpenCase"
+                            }));
+                        } else {
+                            cases[i].emd = true;
+                            let caseToSend = JSON.parse(JSON.stringify(cases[i]));
+                            caseToSend.type = "AllowOpenCase";
+                            client.send(JSON.stringify(caseToSend));
+                            BroadcastToEMDs({
+                                type: "CaseOpened",
+                                id: data.id
+                            })
+                        }
                         break;
                     }
                 }
@@ -60,26 +68,14 @@ s.on('connection', function(client) {
             case "CloseCase":
                 for (var i = 0; i < cases.length; i++) {
                     if (cases[i].id == data.id) {
-                        cases[i].emd = null;
+                        cases[i].emd = false;
                         BroadcastToEMDs({
-                            type: "CloseCase",
-                            id: cases[i].id
+                            type: "CaseClosed",
+                            id: data.id
                         });
                         break;
                     }
                 }
-                /*for (let i = 0; i < cases.length; i++) {
-                    if(cases[i].id == data.id) {
-                        cases.splice(i, 1);
-                        break;
-                    }
-                }
-                console.log("Case closed (id: %d)", data.id);
-                //SaveCases();
-                BroadcastToEMDs({
-                    type: "CloseCase",
-                    id: data.id
-                });*/
                 break;
             default:
                 console.log("Received some weird data...");
