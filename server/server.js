@@ -38,15 +38,37 @@ s.on('connection', function(client) {
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = '';
-                data.statusOpen = true;
 
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
                 BroadcastToEMDs(data);
                 //SaveCases();
                 break;
+            case "OpenCase":
+                for (var i = 0; i < cases.length; i++) {
+                    if (cases[i].id == data.id) {
+                        cases[i].emd = client;
+                        BroadcastToEMDs({
+                            type: "OpenCase",
+                            id: cases[i].id,
+                            emd: client
+                        });
+                        break;
+                    }
+                }
+                break;
             case "CloseCase":
-                for (let i = 0; i < cases.length; i++) {
+                for (var i = 0; i < cases.length; i++) {
+                    if (cases[i].id == data.id) {
+                        cases[i].emd = null;
+                        BroadcastToEMDs({
+                            type: "CloseCase",
+                            id: cases[i].id
+                        });
+                        break;
+                    }
+                }
+                /*for (let i = 0; i < cases.length; i++) {
                     if(cases[i].id == data.id) {
                         cases.splice(i, 1);
                         break;
@@ -57,7 +79,7 @@ s.on('connection', function(client) {
                 BroadcastToEMDs({
                     type: "CloseCase",
                     id: data.id
-                });
+                });*/
                 break;
             default:
                 console.log("Received some weird data...");

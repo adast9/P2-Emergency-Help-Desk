@@ -15,9 +15,17 @@ const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalDispatcherNotes = document.getElementById('journal-dispatcher-notes');
 const closeJournalButton = document.getElementById('exit-journal-button');
+
+let currentCase = null;
+
 closeJournalButton.onclick = function() {
     journalHeader.innerHTML = "Press Case ID to display patient journal";
     journal.style.display = "none";
+
+    SendToServer({
+        type: "CloseCase",
+        id: currentCase.id
+    });
 };
 const closeCaseButton = document.getElementById('close-case-button');
 closeCaseButton.onclick = function() {
@@ -47,7 +55,10 @@ ws.onmessage = function(event) {
             console.log(`New case received. ID: ${parseInt(data.id)}`);
             AddCase(data);
             break;
-        case "CloseCase":
+        case "OpenCase":
+            OpenCase(data);
+            break;
+        /*case "CloseCase":
             for (var i = 0; i < table.rows.length; i++) {
                 if(table.rows[i].id == json.id) {
                     // Remove the marker from the map and delete the row from the table.
@@ -56,6 +67,9 @@ ws.onmessage = function(event) {
                     break;
                 }
             }
+            break;*/
+        case "CloseCase":
+            CloseCase(data);
             break;
         default:
             console.log("Received some weird data... ");
@@ -65,36 +79,80 @@ ws.onmessage = function(event) {
 
 function AddCase(data) {
     let row = caseList.insertRow();
+    row.marker = PlaceMarker(data.id, data.pos);
+    row.id = data.id;
+    row.pos = data.pos;
+    row.name = data.name;
+    row.phone = data.phone;
+    row.cpr = data.cpr;
+    row.location = data.location;
+    row.timeDate = data.timeDate;
+    row.timeClock = data.timeClock;
+    row.desc = data.desc;
+    row.creater = data.creator;
+    row.emd = data.emd;
+    row.chatlog = data.chatlog;
 
     //ID Button
     let idBtnCell = row.insertCell();
     let idBtn = document.createElement("BUTTON");
-    idBtn.innerHTML = data.id;
+    idBtn.innerHTML = row.id;
     idBtnCell.appendChild(idBtn);
-    row.insertCell().innerHTML = "Open";
-    row.insertCell().innerHTML = data.timeClock;
-    row.marker = PlaceMarker(data.id, data.pos);
-    row.id = data.id;
+    row.insertCell().innerHTML = (row.emd == null) ? "Open" : "Locked";
+    row.insertCell().innerHTML = row.timeClock;
 
     //displaying the journal entry for the corresponding case ID
     idBtn.addEventListener('click', () => {
-
-      map.setCenter(data.pos)
-      journalHeader.innerHTML = "Case ID: " + data.id;
-      journalName.innerHTML = "Name: " + data.name;
-      journalPhone.innerHTML = "Phone: " + data.phone;
-      journalCPR.innerHTML = "CPR: " + data.cpr;
-      journalLocation.innerHTML = "Location: " + data.location;
-      journalTime.innerHTML = "Time created: " + data.timeDate + " " + data.timeClock;
-      journalDescription.innerHTML = "Description: " + data.desc;
-      journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
-
-      journal.style.display = 'block';
-
-        // changing the Case ID in chat to corresponding case
-        chatHeader.textContent = "Case ID: " + data.id;
+        if (row.emd == null) {
+            currentCase = row;
+            map.setCenter(currentCase.pos)
+            UpdateJournal();
+            UpdateChat();
+            SendToServer({
+                type: "OpenCase",
+                id: currentCase.id
+            });
+        } else {
+            alert("This case is already being handled by another operator.");
+        }
     })
-  }
+}
+
+function UpdateJournal() {
+    journalHeader.innerHTML = "Case ID: " + currentCase.id;
+    journalName.innerHTML = "Name: " + currentCase.name;
+    journalPhone.innerHTML = "Phone: " + currentCase.phone;
+    journalCPR.innerHTML = "CPR: " + currentCase.cpr;
+    journalLocation.innerHTML = "Location: " + currentCase.location;
+    journalTime.innerHTML = "Time created: " + currentCase.timeDate + " " + currentCase.timeClock;
+    journalDescription.innerHTML = "Description: " + currentCase.desc;
+    journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
+    journal.style.display = 'block';
+}
+
+function UpdateChat() {
+    chatHeader.textContent = "Case ID: " + currentCase.id;
+}
+
+function OpenCase(data) {
+    for (var i = 0; i < caseList.rows.length; i++) {
+        if(caseList.rows[i].id == data.id) {
+            caseList.rows[i].cells[1].innerHTML = "Locked";
+            caseList.rows[i].emd = data.emd;
+            break;
+        }
+    }
+}
+
+function CloseCase(data) {
+    for (var i = 0; i < caseList.rows.length; i++) {
+        if(caseList.rows[i].id == data.id) {
+            caseList.rows[i].cells[1].innerHTML = "Open";
+            caseList.rows[i].emd = null;
+            break;
+        }
+    }
+}
 
 function PlaceMarker(id, location) {
     return new google.maps.Marker({
@@ -105,17 +163,17 @@ function PlaceMarker(id, location) {
     });
 }
 
-function CloseCase(id) {
+/*function deleteCase(id) {
     let check = prompt("Write 'DELETE' to close the case.");
 
     if(check == "DELETE") {
         SendToServer({
-            type: "CloseCase",
+            type: "deleteCase",
             id: id
         });
         alert(`Case deleted. (id: ${id})`);
     }
-}
+}*/
 
 function SendToServer(data) {
     ws.send(JSON.stringify(data));

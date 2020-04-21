@@ -9,17 +9,17 @@ ws.onopen = function() {
 
 function SubmitCase() {
     if(markerPosition) {
-    	  let data = {
-    		    type: "Case",
-    		    name: document.getElementById('name').value,
-			      phone: document.getElementById('phone').value,
-			      cpr: document.getElementById('cpr').value,
-			      location: document.getElementById('location').value,
+        let data = {
+            type: "Case",
+    		name: document.getElementById('name').value,
+			phone: document.getElementById('phone').value,
+			cpr: document.getElementById('cpr').value,
+			location: document.getElementById('location').value,
             desc: document.getElementById('desc').value,
             pos: markerPosition
     	};
 
-    	SendToServer(data);
+        SendToServer(data);
         console.log("Case submitted.")
     } else {
         alert("You need to mark your location on the map.");
