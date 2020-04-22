@@ -1,19 +1,43 @@
+const name = document.getElementById('citizen-name');
+const phone = document.getElementById('phone');
+const cpr =  document.getElementById('cpr');
+const loc = document.getElementById('location');
+const desc = document.getElementById('desc');
 const submitButton = document.getElementById('submit');
+const chatLog = document.getElementById('chat-log');
+const chatInput = document.getElementById('chat-input');
+const chatSendButton = document.getElementById("chat-send");
+let ws = new WebSocket("ws://localhost:3001");
+let caseID = null;
+
 submitButton.onclick = function() { SubmitCase() };
 
-let ws = new WebSocket("ws://localhost:3001");
-ws.onopen = function() { console.log("Connected to the server."); }
+ws.onopen = function() {
+    console.log("Connected to the server.");
+}
+
+ws.onmessage = function(event) {
+    data = JSON.parse(event.data);
+
+    switch (data.type) {
+        case "CaseCreated":
+            caseID = data.id;
+            break;
+        case "ChatMessage":
+            chatLog.innerHTML += data.message;
+            break;
+    }
+}
 
 function SubmitCase() {
     if(markerPosition) {
         let data = {
             type: "Case",
-    		name: document.getElementById('citizen-name').value,
-			phone: document.getElementById('phone').value,
-			cpr: document.getElementById('cpr').value,
-			location: document.getElementById('location').value,
-            desc: document.getElementById('desc').value,
-            chatlog: document.getElementById('chat').value,
+    		name: name.value,
+			phone: phone.value,
+			cpr: cpr.value,
+			location: loc.value,
+            desc: desc.value,
             pos: markerPosition
         };
 
@@ -22,6 +46,19 @@ function SubmitCase() {
     } else {
         alert("You need to mark your location on the map.");
     }
+}
+
+chatSendButton.onclick = function() {
+    let msg = "Civillian: " + chatInput.value + "<br>";
+	chatLog.innerHTML += msg;
+    chatLog.scrollTop = chatLog.scrollHeight;
+    SendToServer({
+        type: "ChatMessage",
+        message: msg,
+        caseID: caseID,
+        emd: false
+    });
+    chatInput.value = '';
 }
 
 function SendToServer(data) {

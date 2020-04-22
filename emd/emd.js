@@ -17,8 +17,24 @@ const closeJournalButton = document.getElementById('exit-journal-button');
 const closeCaseButton = document.getElementById('close-case-button');
 const dispatcherNotesButton = document.getElementById('dispatcher-notes-button');
 const chatHeader = document.getElementById('chat-header');
+const chatLog = document.getElementById('chat-log');
+const chatInput = document.getElementById('chat-input');
+const chatSendButton = document.getElementById("chat-send");
 let currentCaseID = null;
 let ws = new WebSocket("ws://localhost:3001");
+
+chatSendButton.onclick = function() {
+    let msg = "Dispatcher: " + chatInput.value + "<br>";
+	chatLog.innerHTML += msg;
+    chatLog.scrollTop = chatLog.scrollHeight;
+    SendToServer({
+        type: "ChatMessage",
+        message: msg,
+        caseID: currentCaseID,
+        emd: true
+    });
+    chatInput.value = '';
+}
 
 closeJournalButton.addEventListener("click", function(){
     journalHeader.innerHTML = "Press Case ID to display patient journal";
@@ -53,7 +69,7 @@ ws.onmessage = function(event) {
             break;
         case "AllowOpenCase":
             currentCaseID = data.id;
-            map.setCenter(data.pos)
+            map.setCenter(GetTableRowByID(data.id).marker.position);
             UpdateJournal(data);
             UpdateChat(data);
             break;
@@ -65,6 +81,9 @@ ws.onmessage = function(event) {
             break;
         case "CaseClosed":
             CaseUpdated(data.id, false);
+            break;
+        case "ChatMessage":
+            chatLog.innerHTML += data.message;
             break;
         default:
             console.log("Received some weird data... ");
@@ -82,7 +101,7 @@ function AddCase(data) {
     let idBtn = document.createElement("BUTTON");
     idBtn.innerHTML = row.id;
     idBtnCell.appendChild(idBtn);
-    row.insertCell().innerHTML = (data.emdID == null) ? "Open" : "Locked";
+    row.insertCell().innerHTML = (data.available) ? "Open" : "Locked";
     row.insertCell().innerHTML = data.timeClock;
 
     //displaying the journal entry for the corresponding case ID
@@ -108,13 +127,13 @@ function UpdateJournal(data) {
     journalLocation.textContent = "Location: " + data.location;
     journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
     journalDescription.textContent = "Description: " + data.desc;
-    journalDispatcherNotes.textContent = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
+    journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
     journal.style.display = 'block';
 }
 
 function UpdateChat(data) {
     chatHeader.textContent = "Case ID: " + data.id;
-    chatLog.textContent = data.chatlog;
+    chatLog.innerHTML = data.chatLog;
 }
 
 function GetTableRowByID(id) {
