@@ -38,7 +38,7 @@
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2]; // Søger gennem describtions (dette kan ændres)
+            td = tr[i].getElementsByTagName("td")[2]; // Søger gennem descriptions (dette kan ændres)
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -53,7 +53,7 @@
 
     <div class="col-md-4">
         <div class="card my-4">
-            <h5 class="card-header">Search among post describtions</h5>
+            <h5 class="card-header">Search among post descriptions</h5>
             <div class="card-body">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
