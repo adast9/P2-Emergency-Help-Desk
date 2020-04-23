@@ -3,7 +3,7 @@ const {globalVariables} = require("./config/configuration");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const hbs = require("express-handlebars");
+const exphbs = require("express-handlebars");
 const {mongoDbUrl, PORT} = require("./config/configuration");
 const flash = require("connect-flash");
 const session = require("express-session");
@@ -53,7 +53,33 @@ app.use(fileUpload());
 
 
 /* Handlebars */
-app.engine("handlebars", hbs({defaultLayout: "default"}));
+const hbs = exphbs.create({
+    defaultLayout: "default",
+    helpers: {
+        dateFormat: function (time) {
+            let year = time.getFullYear();
+            let month = time.getMonth();
+            if (month < 10)
+                month = `0${month+1}`;
+            let day = time.getDate();
+            if (day < 10)
+                day = `0${day}`;
+            let hours = time.getHours();
+            if (hours < 10)
+                hours = `0${hours}`;
+            let minutes = time.getMinutes();
+            if (minutes < 10)
+                minutes = `0${minutes}`;
+            let seconds = time.getSeconds();
+            if (seconds < 10)
+                seconds = `0${seconds}`
+
+            return `${day}-${month}-${year}  ${hours}:${minutes}:${seconds}`;
+        }
+    }
+});
+
+app.engine("handlebars", hbs.engine);
 app.set("view engine" , "handlebars");
 
 app.use(methodOverride("newMethod"));

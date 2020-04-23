@@ -3,7 +3,11 @@
 <!-- Editor -->
 Bare kopier hele linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\editor\>
 
+npm install
+(installerer alle de packages, der står i package.json-filen)
+
 npm i nodemon mongodb mongoose connect-flash cors express express-handlebars express-session method-override handlebars@4.5.3 express-fileupload bcryptjs passport passport-local --save
+(den her betyder, at man både tilføjer dem til sin packet.json og installerer dem. Det er nemmere bare at skrive "npm install")
 
 
 

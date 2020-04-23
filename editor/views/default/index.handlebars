@@ -31,7 +31,7 @@
                   <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
               </div>
               <div class="card-footer text-muted">
-                  Posted on {{creationDate}} by {{author}}
+                  Posted on {{dateFormat creationDate}} by {{author}}
               </div>
               <script>
                   document.getElementById("{{id}}").title = "{{title}}";
