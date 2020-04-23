@@ -24,23 +24,24 @@ module.exports =  {
         let errors = [];
 
         if (!req.body.title) {
-          errors.push({message: "A title is required"});
+          errors.push({message: "A title is required!"});
+
         }
 
         if (!req.body.author) {
-          errors.push({message: "An author is required"});
+          errors.push({message: "An author is required!"});
         }
 
         // if (req.body.uploadedFile === "") {
-        //   errors.push({message: "An image is required"});
+        //   errors.push({message: "An image is required!"});
         // }
 
         if (!req.body.description) {
-          errors.push({message: "A description is required"});
+          errors.push({message: "A description is required!"});
         }
 
         // if (req.body.uploadedFile2 === "") {
-        //   errors.push({message: "A pdf-file is required"});
+        //   errors.push({message: "A pdf-file is required!"});
         // }
 
        //Check for input file
@@ -60,7 +61,7 @@ module.exports =  {
        }
 
        if (filename === "") {
-         errors.push({message: "An image is required"});
+         errors.push({message: "An image is required!"});
        }
 
        // if(filename === "") {
@@ -80,7 +81,7 @@ module.exports =  {
        }
 
        if (filename2 === "") {
-         errors.push({message: "A pdf-file is required"});
+         errors.push({message: "A pdf-file is required!"});
        }
 
        if(errors.length > 0) {
@@ -108,7 +109,8 @@ module.exports =  {
          file: `/uploads/images/${filename}`,
          description: req.body.description,
          status: req.body.status,
-         file2: `/uploads/pdf/${filename2}`
+         file2: `/uploads/pdf/${filename2}`,
+         timeSubmitted: new Date()
        });
 
        newPost.save().then(post => {
