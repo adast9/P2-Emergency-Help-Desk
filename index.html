@@ -6,8 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script async defer src="scripts/public/map.js"></script>
         <script async defer src="scripts/public/public.js"></script>
+        <script async defer src="scripts/public/map.js"></script>
+        <script async defer src="scripts/misc/chat.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&callback=InitMap"></script>
         <script async defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
@@ -50,13 +51,15 @@
             <div id = "chat-header">
                 <strong>Chat with a dispatcher</strong>
             </div>
-            <div id="chatlog"></div>
-            <div id="chatcontrols">
-                <input type="text" placeholder="Enter message here..." id="text">
-                <button id="chat-button-public">Send</button>
+            <div id="chat-log"></div>
+            <div id="chat-controls">
+                <input id="chat-input" type="text" placeholder="Enter message here...">
+                <button id="chat-send">Send</button>
             </div>
         </div>
       </main>
+
+        
 
         <div class="footer">
             <h3>For emergencies call 112 — For less acute issues call 114 — Developed by 112-gang</h3>

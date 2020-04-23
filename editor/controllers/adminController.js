@@ -21,20 +21,20 @@ module.exports =  {
     submitPosts: (req, res) => {
 
         //Error message if no input
-        let errors = [];
-
-        if (!req.body.title || !req.body.author || !req.body.description) {
-            req.flash("error-message", "You need to fill out all the fields");
-            if(req.body.title != ""){
-                res.render ("admin/posts/create", {
-                    title: req.body.title,
-                    author: req.body.author,
-                    description: req.body.description
-                });
-            }
+        // let errors = [];
+        //
+        // if (!req.body.title || !req.body.author || !req.body.description) {
+        //     req.flash("error-message", "You need to fill out all the fields");
+        //     if(req.body.title != ""){
+        //         res.render ("admin/posts/create", {
+        //             title: req.body.title,
+        //             author: req.body.author,
+        //             description: req.body.description
+        //         });
+        //     }
 
             // res.redirect("/admin/posts/create");
-        }
+        // }
 
         // if(errors.length > 0) {
         //     res.render("admin/posts/create", {

@@ -38,7 +38,7 @@ html, body {
     overflow: hidden;
 }
 
-#chatId {
+#chat-header {
     background: #343a40;
     top: 0;
     width: 100%;
@@ -47,25 +47,25 @@ html, body {
     color: white;
 }
 
-#chatlog {
+#chat-log {
     overflow-y: auto;
     height: 78%;
 }
 
-#chatcontrols {
+#chat-controls {
     bottom: 0;
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-#chatcontrols button {
+#chat-controls button {
     width: auto;
     background-color:;
     justify-content: right;
 }
 
-#chatcontrols input#text {
+#chat-controls input#chat-input {
     float: left;
     width: 100%;
     display: inline-block;

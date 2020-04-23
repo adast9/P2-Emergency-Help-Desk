@@ -3,33 +3,29 @@ const server = require('ws').Server;
 const s = new server({ port: 3001 });
 let emds = [];
 let cases = [];
-let clientCounter = 0;
-let caseCounter = 0;
+let counter = 0;
 
 console.log("Listening on port 3001...");
 //LoadCases();
 
 s.on('connection', function(client) {
-    // Gives each client a unique ID.
-    client.id = ++clientCounter;
 
     client.on('close', function() {
         // When a client disconnects, check if they are in the EMD array.
         // If they are, remove them from the array.
         let i = emds.indexOf(client);
         if (i !== -1) {
-
             // If the EMD had a case open, close it.
             cases.forEach(function(entry) {
-                if(entry.emdID == client.id) {
-                    entry.emdID = null;
+                if(entry.emd == client) {
+                    entry.emd = null;
+                    entry.available = true;
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: entry.id
                     });
                 }
             });
-
             console.log("EMD disconnected.");
             emds.splice(i, 1);
         }
@@ -48,44 +44,64 @@ s.on('connection', function(client) {
                 break;
             case "Case":
                 // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
-                data.id = ++caseCounter;
-                data.creatorID = client.id;
-                data.emdID = null;
+                data.id = ++counter;
+                data.creator = client;
+                data.emd = null;
+                data.available = true;
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = "";
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
+                client.send(JSON.stringify({
+                    type: "CaseCreated",
+                    id: data.id
+                }));
                 BroadcastToEMDs(SimpleCase(data));
                 //SaveCases();
                 break;
             case "RequestOpenCase":
-                var c = GetCaseByID(data.id);
-                if (c != null) {
-                    if (c.emdID != null) {
-                        client.send(JSON.stringify({
-                            type: "DenyOpenCase"
-                        }));
-                    } else {
-                        c.emdID = client.id;
-                        let caseToSend = JSON.parse(JSON.stringify(c));
-                        caseToSend.type = "AllowOpenCase";
-                        client.send(JSON.stringify(caseToSend));
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null) {
+                    if (caseObj.available) {
+                        caseObj.emd = client;
+                        caseObj.available = false;
+                        client.send(JSON.stringify(FullCase(caseObj)));
                         BroadcastToEMDs({
                             type: "CaseOpened",
                             id: data.id
                         })
+                    } else {
+                        client.send(JSON.stringify({
+                            type: "DenyOpenCase"
+                        }));
                     }
                 }
                 break;
             case "CloseCase":
-                var c = GetCaseByID(data.id);
-                if (c != null) {
-                    c.emdID = null;
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null) {
+                    caseObj.emd = null;
+                    caseObj.available = true;
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: data.id
                     });
+                }
+                break;
+            case "ChatMessage":
+                var caseObj = GetCaseByID(data.caseID);
+                if (caseObj != null) {
+                    msgObj = {
+                        type: "ChatMessage",
+                        message: data.message
+                    };
+                    if (data.emd)
+                        caseObj.creator.send(JSON.stringify(msgObj));
+                    else
+                        caseObj.emd.send(JSON.stringify(msgObj));
+
+                    caseObj.chatLog += data.message;
                 }
                 break;
             default:
@@ -109,8 +125,23 @@ function SimpleCase(data) {
         type: "Case",
         id: data.id,
         pos: data.pos,
-        emdID: data.emdID,
+        available: data.available,
         timeClock: data.timeClock
+    };
+}
+
+function FullCase(data) {
+    return {
+        type: "AllowOpenCase",
+        id: data.id,
+        name: data.name,
+        phone: data.phone,
+        cpr: data.cpr,
+        location: data.location,
+        desc: data.desc,
+        chatLog: data.chatLog,
+        timeClock: data.timeClock,
+        timeDate: data.timeDate
     };
 }
 

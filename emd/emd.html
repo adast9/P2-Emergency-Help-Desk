@@ -9,6 +9,7 @@
 
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&sensor=false"></script>
         <script async defer src="emd.js"></script>
+        <script async defer src="../scripts/misc/chat.js"></script>
         <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
 
@@ -17,9 +18,9 @@
             <table id="cases" class="table table-bordered table-hover" style="width: 100%; font-size:20px">
                 <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
-                        <th>Status</th>
-                        <th>Time</th>
+                        <th onclick="sortTable('sortById')">#</th>
+                        <th onclick="sortTable('sortByStatus')">Status</th>
+                        <th onclick="sortTable('sortById')">Time</th>
                     </tr>
                 </thead>
             </table>
@@ -27,13 +28,12 @@
 
         <div class="column-middle">
             <div id="map"></div>
-            <div id = "chat">
-                <div id = "chatId">
-                </div>
-                <div id = "chatlog"></div>
-                <div id = "chatcontrols">
-                    <input type = "text" placeholder = "Enter message here..." id = "text">
-                    <button id ="chat-button-dispatcher">Send</button>
+            <div id="chat">
+                <div id="chat-header"></div>
+                <div id="chat-log"></div>
+                <div id="chat-controls">
+                    <input id="chat-input" type="text" placeholder="Enter message here...">
+                    <button id="chat-send">Send</button>
                 </div>
             </div>
         </div>

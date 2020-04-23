@@ -9,6 +9,7 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Description</th>
+                <th>Time submitted</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
                 <td>{{title}}</td>
                 <td>{{author}}</td>
                 <td>{{description}}</td>
+                <td>{{dateFormat creationDate}}</td>
                 <td class="d-flex justify-content-center">
                     <a href="/admin/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
                     <form action="/admin/posts/delete/{{id}}?newMethod=DELETE" method="post">
@@ -38,7 +40,7 @@
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2]; // Søger gennem describtions (dette kan ændres)
+            td = tr[i].getElementsByTagName("td")[2]; // Søger gennem descriptions (dette kan ændres)
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
