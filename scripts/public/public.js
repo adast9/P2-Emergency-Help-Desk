@@ -4,11 +4,7 @@ const cpr =  document.getElementById('cpr');
 const loc = document.getElementById('location');
 const desc = document.getElementById('desc');
 const submitButton = document.getElementById('submit');
-const chatLog = document.getElementById('chat-log');
-const chatInput = document.getElementById('chat-input');
-const chatSendButton = document.getElementById("chat-send");
 let ws = new WebSocket("ws://localhost:3001");
-let caseID = null;
 
 submitButton.onclick = function() { SubmitCase() };
 
@@ -21,16 +17,16 @@ ws.onmessage = function(event) {
 
     switch (data.type) {
         case "CaseCreated":
-            caseID = data.id;
+            SetChatID(data.id);
             break;
         case "ChatMessage":
-            chatLog.innerHTML += data.message;
+            ChatMessage(data.message);
             break;
     }
 }
 
 function SubmitCase() {
-    if(markerPosition) {
+    if(marker) {
         let data = {
             type: "Case",
     		name: name.value,
@@ -38,7 +34,7 @@ function SubmitCase() {
 			cpr: cpr.value,
 			location: loc.value,
             desc: desc.value,
-            pos: markerPosition
+            pos: marker.position
         };
 
         SendToServer(data);
@@ -46,19 +42,6 @@ function SubmitCase() {
     } else {
         alert("You need to mark your location on the map.");
     }
-}
-
-chatSendButton.onclick = function() {
-    let msg = "Civillian: " + chatInput.value + "<br>";
-	chatLog.innerHTML += msg;
-    chatLog.scrollTop = chatLog.scrollHeight;
-    SendToServer({
-        type: "ChatMessage",
-        message: msg,
-        caseID: caseID,
-        emd: false
-    });
-    chatInput.value = '';
 }
 
 function SendToServer(data) {

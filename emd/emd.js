@@ -16,34 +16,13 @@ const journalDispatcherNotes = document.getElementById('journal-dispatcher-notes
 const closeJournalButton = document.getElementById('exit-journal-button');
 const closeCaseButton = document.getElementById('close-case-button');
 const dispatcherNotesButton = document.getElementById('dispatcher-notes-button');
-const chatHeader = document.getElementById('chat-header');
-const chatLog = document.getElementById('chat-log');
-const chatInput = document.getElementById('chat-input');
-const chatSendButton = document.getElementById("chat-send");
 let currentCaseID = null;
+SetChatEMD(true);
+SetChatName(prompt("Enter your live-chat name."));
 let ws = new WebSocket("ws://localhost:3001");
 
-chatSendButton.onclick = function() {
-    let msg = "Dispatcher: " + chatInput.value + "<br>";
-	chatLog.innerHTML += msg;
-    chatLog.scrollTop = chatLog.scrollHeight;
-    SendToServer({
-        type: "ChatMessage",
-        message: msg,
-        caseID: currentCaseID,
-        emd: true
-    });
-    chatInput.value = '';
-}
-
 closeJournalButton.addEventListener("click", function(){
-    journalHeader.innerHTML = "Press Case ID to display patient journal";
-    journal.style.display = "none";
-    chatHeader.textContent = "";
-    SendToServer({
-        type: "CloseCase",
-        id: currentCaseID
-    });
+     CloseCurrentCase();
 });
 
 closeCaseButton.onclick = function() {
@@ -68,6 +47,8 @@ ws.onmessage = function(event) {
             AddCase(data);
             break;
         case "AllowOpenCase":
+            if(currentCaseID != null)
+                CloseCurrentCase();
             currentCaseID = data.id;
             map.setCenter(GetTableRowByID(data.id).marker.position);
             UpdateJournal(data);
@@ -83,7 +64,7 @@ ws.onmessage = function(event) {
             CaseUpdated(data.id, false);
             break;
         case "ChatMessage":
-            chatLog.innerHTML += data.message;
+            ChatMessage(data.message);
             break;
         default:
             console.log("Received some weird data... ");
@@ -113,6 +94,18 @@ function AddCase(data) {
     }
 }
 
+function CloseCurrentCase() {
+    journalHeader.innerHTML = "Press Case ID to display patient journal";
+    journal.style.display = "none";
+    SetChatHeader("");
+    SetChatLog("");
+    SendToServer({
+        type: "CloseCase",
+        id: currentCaseID
+    });
+    currentCaseID = null
+}
+
 function CaseUpdated(id, opened) {
     var row = GetTableRowByID(id);
     if (row != null)
@@ -132,7 +125,8 @@ function UpdateJournal(data) {
 }
 
 function UpdateChat(data) {
-    chatHeader.textContent = "Case ID: " + data.id;
+    SetChatHeader("Case ID: " + data.id);
+    SetChatID(data.id);
     chatLog.innerHTML = data.chatLog;
 }
 

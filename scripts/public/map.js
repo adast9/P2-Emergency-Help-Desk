@@ -1,4 +1,4 @@
-let map, infoWindow, marker, markerPosition;
+let map, infoWindow, marker;
 const searchBar = document.getElementById('address');
 const searchButton = document.getElementById('search');
 const gpsButton = document.getElementById('gps');
@@ -13,7 +13,6 @@ function InitMap() {
 
     // This event listener will place the marker when the map is clicked.
     map.addListener('click', function(event) {
-        markerPosition = event.latLng;
         PlaceMarker(event.latLng);
     });
 
@@ -47,11 +46,6 @@ function PlaceMarker(location) {
             draggable: true,
             animation: google.maps.Animation.DROP
         });
-        //Zoom in map and center map on marker when it is clicked
-        /*marker.addListener('click', function() {
-            map.setZoom(map.getZoom() + 2);
-            map.setCenter(marker.getPosition());
-        });*/
     }
 }
 
@@ -80,7 +74,6 @@ function Search(geocoder, resultsMap) {
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
-            markerPosition = results[0].geometry.location;
             PlaceMarker(results[0].geometry.location);
             map.setZoom(16);
         } else {
