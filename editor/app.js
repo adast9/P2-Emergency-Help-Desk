@@ -60,7 +60,7 @@ const hbs = exphbs.create({
             let year = time.getFullYear();
             let month = time.getMonth();
             if (month < 10)
-                month = `0${month}`;
+                month = `0${month+1}`;
             let day = time.getDate();
             if (day < 10)
                 day = `0${day}`;
