@@ -21,6 +21,11 @@ email: {
 password: {
     type: String,
     required: true
+},
+
+keyValue: {
+    type: Boolean,
+    required: true
 }
 
 });

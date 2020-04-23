@@ -23,96 +23,58 @@ module.exports =  {
         //Error message if no input
         let errors = [];
 
-        if (!req.body.title) {
-          errors.push({message: "A title is required"});
+        if (!req.body.title || !req.body.author || !req.body.description) {
+            req.flash("error-message", "You need to fill out all the fields");
+            if(req.body.title != ""){
+                res.render ("admin/posts/create", {
+                    title: req.body.title,
+                    author: req.body.author,
+                    description: req.body.description
+                });
+            }
+
+            // res.redirect("/admin/posts/create");
         }
 
-        if (!req.body.author) {
-          errors.push({message: "An author is required"});
-        }
-
-        // if (req.body.uploadedFile === "") {
-        //   errors.push({message: "An image is required"});
+        // if(errors.length > 0) {
+        //     res.render("admin/posts/create", {
+        //     errors: errors,
+        //     title: req.body.title,
+        //     author: req.body.author,
+        //     description: req.body.description
+        //     });
         // }
 
-        if (!req.body.description) {
-          errors.push({message: "A description is required"});
-        }
-
-        // if (req.body.uploadedFile2 === "") {
-        //   errors.push({message: "A pdf-file is required"});
-        // }
-
-       //Check for input file
-       let filename = "";
-       let filename2 = "";
-
-       if(!isEmpty(req.files)) {
+       if(!req.files) {
+           req.flash("error-message", " No files were uploaded!");
+           // res.redirect("/admin/posts/create");
+           return;
+       }
            let file = req.files.uploadedFile;
-           filename = file.name;
-
-           let uploadDir = "./public/uploads/images/";
-
-           file.mv(uploadDir+filename, (err) => {
-             if (err)
-              throw err;
-           });
-       }
-
-       if (filename === "") {
-         errors.push({message: "An image is required"});
-       }
-
-       // if(filename === "") {
-       //     filename = "stock-image.jpg";
-       // }
-
-       if(!isEmpty(req.files)) {
            let file2 = req.files.uploadedFile2;
-           filename2 = file2.name;
 
-           let uploadDir2 = "./public/uploads/pdf/";
-
-           file2.mv(uploadDir2+filename2, (err) => {
+           // Moves uploaded files to public/uploads
+           file.mv("./public/uploads/images/" + req.files.uploadedFile.name, (err) => {
              if (err)
               throw err;
            });
-       }
 
-       if (filename2 === "") {
-         errors.push({message: "A pdf-file is required"});
-       }
-
-       if(errors.length > 0) {
-           res.render("admin/posts/create", {
-               errors: errors,
-               title: req.body.title,
-               author: req.body.author,
-               description: req.body.description
+           file2.mv("./public/uploads/pdf/" + req.files.uploadedFile2.name, (err) => {
+             if (err)
+              throw err;
            });
-       }
-
-       // if(filename2 === "") {
-       //     filename2 = "no_pdf.pdf";
-       // }
-
-
-//        if(filename2 === "sample.pdf") {
-// // document.getElementById("file2").style.overflow = "hidden";
-// // document.getElementById("file2").style.display = "none";
-// filename2.style.display = "none";
 
        const newPost = new Post({
          title: req.body.title,
          author: req.body.author,
-         file: `/uploads/images/${filename}`,
+         file: "/uploads/images/" + req.files.uploadedFile.name,
          description: req.body.description,
          status: req.body.status,
-         file2: `/uploads/pdf/${filename2}`
+         file2: "/uploads/pdf/" + req.files.uploadedFile2.name
        });
 
        newPost.save().then(post => {
-         req.flash("success_message", "Post was created Successfully.");
+         req.flash("success-message", "Post was created Successfully.");
          res.redirect("/admin/posts");
        });
     },
@@ -193,7 +155,7 @@ module.exports =  {
                 // }
 
                 post.save().then(updatePost => {
-                    req.flash("success_message", `The post ${updatePost.title} has been updated.`)
+                    req.flash("success-message", `The post ${updatePost.title} has been updated.`)
                     res.redirect("/admin/posts");
                 });
         });
@@ -202,7 +164,7 @@ module.exports =  {
     deletePost: (req, res) => {
       Post.findByIdAndDelete(req.params.id)
         .then(deletedPost => {
-          req.flash("success_message", `The post ${deletedPost.title} has been deleted.`);
+          req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
           res.redirect("/admin/posts");
       });
     }

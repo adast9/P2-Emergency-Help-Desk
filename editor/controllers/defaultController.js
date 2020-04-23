@@ -52,7 +52,7 @@ module.exports = {
         else {
             User.findOne({email: req.body.email}).then(user => {
                 if(user) {
-                    req.flash("error_message", "Email is already in use, try to login");
+                    req.flash("error-message", "Email is already in use, try to login");
                     res.redirect("/login");
                 }
                 else {
@@ -62,7 +62,7 @@ module.exports = {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             newUser.password = hash;
                             newUser.save().then(user => {
-                                req.flash("success_message", "You are now registered");
+                                req.flash("success-message", "You are now registered");
                                 res.redirect("/login");
                             });
                         });

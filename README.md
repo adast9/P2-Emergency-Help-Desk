@@ -15,15 +15,16 @@ For at slukke serveren skal man trykke "ctrl + c" og skrive y i ens terminal
 
 
 To do:
-- error_message(flash) for login-siden fungerer ikke og logout flash-message dur ikke
 - Fixe navbar generelt med hvad der skal vises og hvad der skal smides ud
 - I view/default/index.handlebars er der javascript kode til search bar som skal flyttes
 - Fixe file upload ved edit post (potentielt bruge Multer)
 - Fixe sådan at hvis man ikke uploader en pdf-fil skal den ikke sige "Cannot get pdf file"
 - Noget pagination ved x antal posts
+- Den skal kunne gemme input-data på create post og edit post hvis man får input-fejl 
 
 
 Done:
+- error_message(flash) for login-siden fungerer ikke og logout flash-message dur ikke
 - Fixe tal efter man har søgt
 - Creator of post skal være brugeren login og ikke bare admin.
 - Kommentarer skal fjernes

@@ -24,7 +24,7 @@ passport.use(new LocalStrategy({
 }, (req, email, password, done) => {
     User.findOne({email: email}).then(user => {
       if (!user) {
-        return done(null, false, req.flash("error_message", "User was not found with the given Email"));
+        return done(null, false, req.flash("error-message", "User was not found with the given Email"));
       }
 
       bcrypt.compare(password, user.password, (err, passwordMatched) => {
@@ -32,10 +32,10 @@ passport.use(new LocalStrategy({
               return err;
           }
           if (!passwordMatched) {
-            return done(null, false, req.flash("error_message", "Invalid Email or Password"));
+            return done(null, false, req.flash("error-message", "Invalid Email or Password"));
           }
 
-          return done(null, user, req.flash("success_message", "Login was successful"));
+          return done(null, user, req.flash("success-message", "Login was successful"));
       });
   });
 }));
@@ -51,17 +51,13 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-
 router.route("/login")
     .get(defaultController.loginGet)
     .post(passport.authenticate("local", {
         successRedirect: "/admin",
         failureRedirect: "/login",
-        failureFlash: true,
-        successFlash: true,
-        session: true
+        session: true,
     }), defaultController.loginPost);
-
 
 router.route("/register")
     .get(defaultController.registerGet)
@@ -72,7 +68,7 @@ router.route("/post/:id")
 
 router.get("/logout", (req, res) => {
     req.logOut();
-    req.flash('success_message', "Logout was successful");
+    req.flash('success-message', "Logout was successful");
     res.redirect("/");
 });
 

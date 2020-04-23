@@ -5,12 +5,12 @@ const mongoose = require("mongoose");
 const path = require("path");
 const hbs = require("express-handlebars");
 const {mongoDbUrl, PORT} = require("./config/configuration");
-const flash = require("connect-flash");
 const session = require("express-session");
 const mongodb = require("mongodb");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
 const passport = require("passport");
+const flash = require("connect-flash");
 
 /* Small const for easier use of express */
 const app = express();
@@ -51,7 +51,6 @@ app.use(globalVariables);
 /* File Upload */
 app.use(fileUpload());
 
-
 /* Handlebars */
 app.engine("handlebars", hbs({defaultLayout: "default"}));
 app.set("view engine" , "handlebars");
@@ -64,7 +63,6 @@ const adminRoutes = require("./routes/adminRoutes");
 
 app.use("/", defaultRoutes);
 app.use("/admin", adminRoutes);
-
 
 /* Start The Server */
 app.listen(PORT, () => {
