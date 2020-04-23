@@ -156,3 +156,71 @@ function PlaceMarker(id, location) {
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
+
+function sortTable(sortType) {
+   let rows, sorting = true, i, caseId1, caseId2, caseStatus1, caseStatus2, shouldSwap, dir, switchcount = 0;
+   let table = document.getElementById('cases');
+   dir = 'asc';
+
+   while (sorting) {
+
+      sorting = false;
+      rows = table.rows;
+      if (sortType === 'sortById') {
+         for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwap = false;
+            caseId1 = rows[i].getElementsByTagName("TD")[0];
+            caseId2 = rows[i + 1].getElementsByTagName("TD")[0];
+
+            if (dir == 'asc') {
+               if (Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+                  shouldSwap = true;
+                  break;
+               }
+            } else if (dir == 'desc') {
+               if (Number(caseId1.innerHTML) < Number(caseId2.innerHTML)) {
+                  shouldSwap = true;
+                  break;
+               }
+            }
+         }
+      }
+      else if (sortType === 'sortByStatus') {
+         for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwap = false;
+            caseStatus1 = rows[i].getElementsByTagName("TD")[1];
+            caseStatus2 = rows[i + 1].getElementsByTagName("TD")[1];
+            caseId1 = rows[i].getElementsByTagName("TD")[0];
+            caseId2 = rows[i + 1].getElementsByTagName("TD")[0];
+
+            if (dir == 'asc') {
+               if (caseStatus1.innerHTML < caseStatus2.innerHTML) {
+                  shouldSwap = true;
+                  break;
+               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+                  shouldSwap = true;
+                  break;
+               }
+            } else if (dir == 'desc') {
+               if (caseStatus1.innerHTML > caseStatus2.innerHTML) {
+                  shouldSwap = true;
+                  break;
+               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+                  shouldSwap = true;
+                  break;
+               }
+            }
+         }
+      }
+      if (shouldSwap) {
+         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+         sorting = true;
+         switchcount++;
+      } else {
+         if (switchcount == 0 && dir == 'asc') {
+            dir = 'desc';
+            sorting = true;
+         }
+      }
+   }
+}
