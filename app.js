@@ -30,7 +30,6 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true }
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "../emd")));
 
 /* Session*/
 app.use(session({
