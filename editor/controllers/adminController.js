@@ -20,49 +20,19 @@ module.exports =  {
 
     submitPosts: (req, res) => {
 
-        //Error message if no input
-        // let errors = [];
-        //
-        // if (!req.body.title || !req.body.author || !req.body.description) {
-        //     req.flash("error-message", "You need to fill out all the fields");
-        //     if(req.body.title != ""){
-        //         res.render ("admin/posts/create", {
-        //             title: req.body.title,
-        //             author: req.body.author,
-        //             description: req.body.description
-        //         });
-        //     }
+       let file = req.files.uploadedFile;
+       let file2 = req.files.uploadedFile2;
 
-            // res.redirect("/admin/posts/create");
-        // }
+       // Moves uploaded files to public/uploads
+       file.mv("./public/uploads/images/" + req.files.uploadedFile.name, (err) => {
+           if (err)
+           throw err;
+       });
 
-        // if(errors.length > 0) {
-        //     res.render("admin/posts/create", {
-        //     errors: errors,
-        //     title: req.body.title,
-        //     author: req.body.author,
-        //     description: req.body.description
-        //     });
-        // }
-
-       if(!req.files) {
-           req.flash("error-message", " No files were uploaded!");
-           // res.redirect("/admin/posts/create");
-           return;
-       }
-           let file = req.files.uploadedFile;
-           let file2 = req.files.uploadedFile2;
-
-           // Moves uploaded files to public/uploads
-           file.mv("./public/uploads/images/" + req.files.uploadedFile.name, (err) => {
-             if (err)
-              throw err;
-           });
-
-           file2.mv("./public/uploads/pdf/" + req.files.uploadedFile2.name, (err) => {
-             if (err)
-              throw err;
-           });
+       file2.mv("./public/uploads/pdf/" + req.files.uploadedFile2.name, (err) => {
+           if (err)
+           throw err;
+       });
 
        const newPost = new Post({
          title: req.body.title,
@@ -135,24 +105,6 @@ module.exports =  {
                     post.description = req.body.description;
                     post.file2 = `/uploads/pdf/${filename2}`;
                 }
-
-                // else if(filename === "" && filename2 != ""){
-                //     post.title = req.body.title;
-                //     post.author = req.body.author;
-                //     post.file = post.file;
-                //     post.status = req.body.status;
-                //     post.description = req.body.description;
-                //     post.file2 = `/uploads/pdf/${filename2}`;
-                // }
-                //
-                // else if(filename != "" && filename2 === ""){
-                //     post.title = req.body.title;
-                //     post.author = req.body.author;
-                //     post.file = `/uploads/images/${filename}`;
-                //     post.status = req.body.status;
-                //     post.description = req.body.description;
-                //     post.file2 = post.file2;
-                // }
 
                 post.save().then(updatePost => {
                     req.flash("success-message", `The post ${updatePost.title} has been updated.`)
