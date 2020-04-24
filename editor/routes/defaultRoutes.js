@@ -24,7 +24,7 @@ passport.use(new LocalStrategy({
 }, (req, email, password, done) => {
     User.findOne({email: email}).then(user => {
       if (!user) {
-        return done(null, false, req.flash("error-message", "The username or password is incorrect"));
+          return done(null, false, req.flash("InputEmail", req.body.InputEmail), req.flash("error-message", "The email or password is incorrect"));
       }
 
       bcrypt.compare(password, user.password, (err, passwordMatched) => {
@@ -32,14 +32,13 @@ passport.use(new LocalStrategy({
               return err;
           }
           if (!passwordMatched) {
-            return done(null, false, req.flash("error-message", "The username or password is incorrect"));
+            return done(null, false, req.flash("InputPassword", req.body.InputPassword), req.flash("error-message", "The email or password is incorrect"));
           }
 
           return done(null, user, req.flash("success-message", "Login was successful"));
       });
   });
 }));
-
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -53,11 +52,29 @@ passport.deserializeUser(function(id, done) {
 
 router.route("/login")
     .get(defaultController.loginGet)
-    .post(passport.authenticate("local", {
-        successRedirect: "/admin",
-        failureRedirect: "/login",
-        session: true,
-    }), defaultController.loginPost);
+
+router.post("/login", function(req, res, next) {
+    passport.authenticate("local", function (err, user, info) {
+        if(err)
+        return next(err);
+
+        if(!user){
+        return res.redirect('/login');
+        }
+
+        req.logIn(user, function(err) {
+           if (err){
+               return next(err);
+           }
+
+           if(user.keyValue === true) {
+               	return res.redirect('/admin');
+            } else if(user.keyValue === false) {
+                return res.redirect("/emd.html")
+            }
+       });
+   })(req, res, next);
+});
 
 router.route("/register")
     .get(defaultController.registerGet)
