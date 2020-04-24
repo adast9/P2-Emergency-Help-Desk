@@ -24,7 +24,7 @@ passport.use(new LocalStrategy({
 }, (req, email, password, done) => {
     User.findOne({email: email}).then(user => {
       if (!user) {
-        return done(null, false, req.flash("error-message", "User was not found with the given Email"));
+        return done(null, false, req.flash("error-message", "The username or password is incorrect"));
       }
 
       bcrypt.compare(password, user.password, (err, passwordMatched) => {
@@ -32,7 +32,7 @@ passport.use(new LocalStrategy({
               return err;
           }
           if (!passwordMatched) {
-            return done(null, false, req.flash("error-message", "Invalid Email or Password"));
+            return done(null, false, req.flash("error-message", "The username or password is incorrect"));
           }
 
           return done(null, user, req.flash("success-message", "Login was successful"));
