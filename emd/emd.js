@@ -17,8 +17,8 @@ const closeJournalButton = document.getElementById('exit-journal-button');
 const closeCaseButton = document.getElementById('close-case-button');
 const dispatcherNotesButton = document.getElementById('dispatcher-notes-button');
 let currentCaseID = null;
-SetChatEMD(true);
-SetChatName(prompt("Enter your live-chat name."));
+// SetChatEMD(true);
+// SetChatName(prompt("Enter your live-chat name."));
 let ws = new WebSocket("ws://localhost:3001");
 
 closeJournalButton.addEventListener("click", function(){
