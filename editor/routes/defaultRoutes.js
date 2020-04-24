@@ -70,7 +70,7 @@ router.post("/login", function(req, res, next) {
            if(user.keyValue === true) {
                	return res.redirect('/admin');
             } else if(user.keyValue === false) {
-                return res.redirect("/about")
+                return res.redirect("/emd.html")
             }
        });
    })(req, res, next);
