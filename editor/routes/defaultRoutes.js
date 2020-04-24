@@ -76,10 +76,6 @@ router.post("/login", function(req, res, next) {
    })(req, res, next);
 });
 
-router.route("/register")
-    .get(defaultController.registerGet)
-    .post(defaultController.registerPost);
-
 router.route("/post/:id")
     .get(defaultController.singlePost)
 
