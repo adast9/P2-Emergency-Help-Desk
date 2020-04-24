@@ -43,7 +43,7 @@
             td = tr[i].getElementsByTagName("td");
             let matches = false;
 
-            for (j = 0; j < td.length; j++) {
+            for (j = 0; j < 3; j++) {
                 if (td[j]) {
                     txtValue = td[j].textContent || td[j].innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -65,7 +65,7 @@
 
     <div class="col-md-4">
         <div class="card my-4">
-            <h5 class="card-header">Search among post descriptions</h5>
+            <h5 class="card-header">Search through all posts</h5>
             <div class="card-body">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">

@@ -40,7 +40,6 @@ passport.use(new LocalStrategy({
   });
 }));
 
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -73,13 +72,9 @@ router.post("/login", function(req, res, next) {
             } else if(user.keyValue === false) {
                 return res.redirect("/about")
             }
-
        });
    })(req, res, next);
 });
-
-
-
 
 router.route("/register")
     .get(defaultController.registerGet)
