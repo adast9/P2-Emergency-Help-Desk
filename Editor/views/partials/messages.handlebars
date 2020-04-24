@@ -22,3 +22,16 @@
     </div>
   {{/if}}
 </div>
+
+<!-- To enable the closing/opening of flash messages + logout button -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    setTimeout(function(){
+      $(".auto-hide").slideUp(300);
+  }, 5000);
+  });
+</script>

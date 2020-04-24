@@ -20,7 +20,7 @@ To do:
 - At kunne lade være med at uploade pdf sådan at man får en mere blank post
 - Fixe logout ved all posts og create post
 - Fixe shitty footer css
-- Post sidebar
+- Sortering af all posts
 
 
 Done:
@@ -34,3 +34,4 @@ Done:
 - hvis man ikke uploader et billede skal der komme et stock image op i stedet
 - Den skal kunne gemme input-data på create post og edit post hvis man får input-fejl
 - Fixe sådan at hvis man ikke uploader en pdf-fil skal den ikke sige "Cannot get pdf file"
+- Post sidebar uden jquery

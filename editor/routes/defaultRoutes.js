@@ -35,7 +35,7 @@ passport.use(new LocalStrategy({
             return done(null, false, req.flash("InputPassword", req.body.InputPassword), req.flash("error-message", "The email or password is incorrect"));
           }
 
-          return done(null, user, req.flash("success-message", "Login was successful"));
+          return done(null, user);
       });
   });
 }));
@@ -81,7 +81,6 @@ router.route("/post/:id")
 
 router.get("/logout", (req, res) => {
     req.logOut();
-    req.flash('success-message', "Logout was successful");
     res.redirect("/");
 });
 
