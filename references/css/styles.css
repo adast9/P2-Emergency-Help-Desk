@@ -9,65 +9,9 @@ html, body {
     margin: 0;
 }
 
-.navbar {
-    height: 52px;
-    width: 100%;
-    z-index: 5;
-    overflow: hidden;
-    background-color: #333;
-    top: 0;
-}
-
-/* Style the navigation bar links */
-.navbar a {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-}
-
-/* Right-aligned link */
-.navbar a.right {
-    float: right;
-}
-
-/* Change color on hover */
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-/* Active/current link */
-.navbar a.active {
-    background-color: #666;
-    color: white;
-}
-
-.nav-text {
-    cursor: pointer;
-    margin-right: auto;
-    text-align: center;
-    font-family: "Montserrat", sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    letter-spacing: 2px;
-    text-shadow: 1px 0.5px red;
-}
-
+/*Removes ugly google-translate banner*/
 .goog-te-banner-frame.skiptranslate {
     display: none !important;
-}
-
-.footer {
-    width: 100%;
-    padding: 0px 20px 0px;
-    float: left;
-    text-align: center;
-    border-top: 1px solid #e4e4e4;
-    border-bottom: 1px solid #e4e4e4;
 }
 
 /*Flexes the page so that it supports smartphone screens*/
@@ -92,6 +36,11 @@ html, body {
     }
 }
 
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
 
 /********   INDEX   *********/
 
@@ -112,51 +61,21 @@ textarea {
     max-width: 400px;
 }
 
-
-/********   INFO   *********/
-
-.row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+/*Public details area*/
+#details {
+    float: left;
 }
 
-.main-info {
-    -ms-flex: 70%;
-    flex: 70%;
-    background-color: white;
-    padding: 20px;
-}
-
-.side {
-    -ms-flex: 30%;
-    flex: 30%;
-    background-color: #f1f1f1;
-    padding: 20px;
-}
-
-.fakeimg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;
-}
-
-/**************** Corona *****************/
-section {
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT4kENpsfZGaw7Gr7HOYLW-fNsXIuVjyojTgg67UXMX0N3VlEmk");
-  background-size: 500px 150px;
-}
 
 /* Public Live Chat */
 
 #chat {
-    float: left;
-    width: 100%;
+    float: right;
+    width: 50%;
     height: 200px;
-    background-color:#e89db7;
+    background-color:lightgrey;
     overflow: auto;
-    border: #e097b1 3px inset;
+    border:white 3px inset;
 }
 
 #chat-header {

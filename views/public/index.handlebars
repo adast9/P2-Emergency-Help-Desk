@@ -1,4 +1,3 @@
-
 <main>
     <div id="google_translate_element"></div>
 
@@ -11,24 +10,28 @@
 
         <div id="map"></div>
 
-        <h2>Fill out with your details</h2>
-        <p><label>Name: </label><input type="text" id="citizen-name"></p>
-        <p><label>Phone Number: </label><input type="text" id="phone"></p>
-        <p><label>CPR Number: </label><input type="text" id="cpr"></p>
-        <p><label>Location: </label><input type="text" id="location"></p>
-        <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea></p>
+        <div id="details">
 
-        <input id="submit" type="button" value="Submit">
-    </div>
+            <h2>Fill out with your details</h2>
+            <p><label>Name:     </label><input type="text" id="citizen-name"></p>
+            <p><label>Phone Number:     </label><input type="text" id="phone"></p>
+            <p><label>CPR Number:   </label><input type="text" id="cpr"></p>
+            <p><label>Location:     </label><input type="text" id="location"></p>
+            <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea></p>
 
-    <div id="chat">
-        <div id = "chat-header">
-            <strong>Chat with a dispatcher</strong>f
+            <input id="submit" type="button" value="Submit">
+
         </div>
-        <div id="chat-log"></div>
-        <div id="chat-controls">
-            <input id="chat-input" type="text" placeholder="Enter message here...">
-            <button id="chat-send">Send</button>
+
+        <div id="chat">
+            <div id = "chat-header">
+                <strong>Chat with a dispatcher</strong>
+            </div>
+            <div id="chat-log"></div>
+            <div id="chat-controls">
+                <input id="chat-input" type="text" placeholder="Enter message here...">
+                <button id="chat-send">Send</button>
+            </div>
         </div>
     </div>
 </main>

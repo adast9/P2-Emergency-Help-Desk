@@ -23,11 +23,6 @@ const PostSchema = new Schema({
         default: () => Date.now()
     },
 
-  //   user: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "user"
-  // },
-
     file: {
         type: String,
         default: ""
