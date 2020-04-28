@@ -3,7 +3,7 @@ const {globalVariables} = require("./config/configuration");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const exphbs = require("express-handlebars");
+const hbs = require("express-handlebars");
 const {mongoDbUrl, PORT} = require("./config/configuration");
 const session = require("express-session");
 const mongodb = require("mongodb");
@@ -29,7 +29,7 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true }
 /* Express*/
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "references")));
 
 /* Session*/
 app.use(session({
@@ -51,44 +51,19 @@ app.use(globalVariables);
 /* File Upload */
 app.use(fileUpload());
 
-/* Handlebars */
-const hbs = exphbs.create({
-    defaultLayout: "default",
-    helpers: {
-        dateFormat: function (time) {
-            let year = time.getFullYear();
-            let month = time.getMonth();
-            if (month < 10)
-                month = `0${month+1}`;
-            let day = time.getDate();
-            if (day < 10)
-                day = `0${day}`;
-            let hours = time.getHours();
-            if (hours < 10)
-                hours = `0${hours}`;
-            let minutes = time.getMinutes();
-            if (minutes < 10)
-                minutes = `0${minutes}`;
-            let seconds = time.getSeconds();
-            if (seconds < 10)
-                seconds = `0${seconds}`
-
-            return `${day}-${month}-${year}  ${hours}:${minutes}:${seconds}`;
-        }
-    }
-});
-
-app.engine("handlebars", hbs.engine);
+app.engine("handlebars", hbs({defaultLayout: "public"}));
 app.set("view engine" , "handlebars");
 
 app.use(methodOverride("newMethod"));
 
 /* Routes */
-const defaultRoutes = require("./routes/defaultRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+const publicRoutes = require("./routes/publicRoutes");
+const editorRoutes = require("./routes/editorRoutes");
+const dispatcherRoutes = require("./routes/dispatcherRoutes");
 
-app.use("/", defaultRoutes);
-app.use("/admin", adminRoutes);
+app.use("/", publicRoutes);
+app.use("/editor", editorRoutes);
+app.use("/dispatcher", dispatcherRoutes);
 
 /* Start The Server */
 app.listen(PORT, () => {
