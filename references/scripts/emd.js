@@ -167,12 +167,12 @@ function sortTable(sortType) {
             caseId2 = rows[i + 1].getElementsByTagName("TD")[0];
 
             if (dir == 'asc') {
-               if (Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+               if (Number(caseId1.innerText) > Number(caseId2.innerText)) {
                   shouldSwap = true;
                   break;
                }
             } else if (dir == 'desc') {
-               if (Number(caseId1.innerHTML) < Number(caseId2.innerHTML)) {
+               if (Number(caseId1.innerText) < Number(caseId2.innerText)) {
                   shouldSwap = true;
                   break;
                }
@@ -191,7 +191,7 @@ function sortTable(sortType) {
                if (caseStatus1.innerHTML < caseStatus2.innerHTML) {
                   shouldSwap = true;
                   break;
-               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerText) > Number(caseId2.innerText)) {
                   shouldSwap = true;
                   break;
                }
@@ -199,7 +199,7 @@ function sortTable(sortType) {
                if (caseStatus1.innerHTML > caseStatus2.innerHTML) {
                   shouldSwap = true;
                   break;
-               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerHTML) > Number(caseId2.innerHTML)) {
+               } else if (caseStatus1.innerHTML == caseStatus2.innerHTML && Number(caseId1.innerText) > Number(caseId2.innerText)) {
                   shouldSwap = true;
                   break;
                }
