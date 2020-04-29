@@ -25,9 +25,9 @@ const caseSchema = new mongoose.Schema({
     name: String,
     phone: String,
     cpr: String,
-    location: {
-        lat: String,
-        lng: String
+    pos: {
+        lat: Number,
+        lng: Number
     },
     desc: String,
     chatLog: String,
@@ -139,11 +139,13 @@ s.on('connection', function(client) {
                 if (caseObj != null) {
                     BroadcastToEMDs(data);
 
+                    console.log(caseObj.pos);
+
                     const newCase = new Case({
                         name: caseObj.name,
                         phone: caseObj.phone,
                         cpr: caseObj.cpr,
-                        location: caseObj.location,
+                        pos: caseObj.pos,
                         desc: caseObj.desc,
                         chatLog: caseObj.chatLog,
                         timeClock: caseObj.timeClock,
