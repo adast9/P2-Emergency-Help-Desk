@@ -3,6 +3,10 @@ html, body {
     margin: 0;
 }
 
+th {
+  cursor: pointer;
+}
+
 .column-left {
     float: left;
     width: 25%;
