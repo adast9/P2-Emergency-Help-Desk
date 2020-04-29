@@ -192,7 +192,6 @@ function FullCase(data) {
         name: data.name,
         phone: data.phone,
         cpr: data.cpr,
-        location: data.location,
         desc: data.desc,
         chatLog: data.chatLog,
         timeClock: data.timeClock,

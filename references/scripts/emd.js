@@ -133,7 +133,7 @@ function UpdateJournal(data) {
     journalName.textContent = "Name: " + data.name;
     journalPhone.textContent = "Phone: " + data.phone;
     journalCPR.textContent = "CPR: " + data.cpr;
-    journalLocation.textContent = "Location: " + data.location;
+    journalLocation.textContent = "Location: " + GetTableRowByID(data.id).marker.position;
     journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
     journalDescription.textContent = "Description: " + data.desc;
     journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';

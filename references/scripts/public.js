@@ -1,7 +1,6 @@
 const name = document.getElementById('citizen-name');
 const phone = document.getElementById('phone');
 const cpr =  document.getElementById('cpr');
-const loc = document.getElementById('location');
 const desc = document.getElementById('desc');
 const submitButton = document.getElementById('submit');
 let ws = new WebSocket("ws://localhost:3001");
@@ -32,7 +31,6 @@ function SubmitCase() {
     		name: name.value,
 			phone: phone.value,
 			cpr: cpr.value,
-			location: loc.value,
             desc: desc.value,
             pos: marker.position
         };
