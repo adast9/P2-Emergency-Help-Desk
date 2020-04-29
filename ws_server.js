@@ -8,6 +8,35 @@ let counter = 0;
 console.log("Listening on port 3001...");
 //LoadCases();
 
+
+const mongodb = require("mongodb");
+const mongoose = require("mongoose");
+const mongoDbUrl = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
+
+/* Configure Mongoose to Connect to MongoDB */
+mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(response => {
+        console.log("MongoDB Connected Successfully.");
+    }).catch(err => {
+        console.log("Database connection failed.");
+});
+
+const caseSchema = new mongoose.Schema({
+    name: String,
+    phone: String,
+    cpr: String,
+    location: {
+        lat: String,
+        lng: String
+    },
+    desc: String,
+    chatLog: String,
+    timeClock: String,
+    timeDate: String
+});
+
+var Case = mongoose.model('Case', caseSchema);
+
 //Server handling events
 s.on('connection', function(client) {
 
@@ -109,6 +138,20 @@ s.on('connection', function(client) {
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     BroadcastToEMDs(data);
+
+                    const newCase = new Case({
+                        name: caseObj.name,
+                        phone: caseObj.phone,
+                        cpr: caseObj.cpr,
+                        location: caseObj.location,
+                        desc: caseObj.desc,
+                        chatLog: caseObj.chatLog,
+                        timeClock: caseObj.timeClock,
+                        timeDate: caseObj.timeDate
+                    });
+                    newCase.save().then(post => {
+                        console.log("asdasd");
+                    });
 
                     let i = cases.indexOf(caseObj);
                     cases.splice(i, 1);
