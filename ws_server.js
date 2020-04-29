@@ -8,6 +8,7 @@ let counter = 0;
 console.log("Listening on port 3001...");
 //LoadCases();
 
+//Server handling events
 s.on('connection', function(client) {
 
     client.on('close', function() {
@@ -104,6 +105,15 @@ s.on('connection', function(client) {
                     caseObj.chatLog += data.message;
                 }
                 break;
+            case "ArchiveCase":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null) {
+                    BroadcastToEMDs(data);
+
+                    let i = cases.indexOf(caseObj);
+                    cases.splice(i, 1);
+                }
+                break;
             default:
                 console.log("Received some weird data...");
                 break;
@@ -114,7 +124,7 @@ s.on('connection', function(client) {
 function GetCaseByID(id) {
     for (var i = 0; i < cases.length; i++) {
         if(cases[i].id == id)
-        return cases[i];
+            return cases[i];
     }
     return null;
 }
