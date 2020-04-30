@@ -123,6 +123,7 @@ textarea {
 #chat-input {
     height: 100%;
     width: 91%;
+    padding-left: 8px;
 }
 
 #chat-send {
