@@ -8,7 +8,6 @@ let counter = 0;
 console.log("Listening on port 3001...");
 //LoadCases();
 
-
 const mongodb = require("mongodb");
 const mongoose = require("mongoose");
 const mongoDbUrl = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
@@ -30,6 +29,7 @@ const caseSchema = new mongoose.Schema({
         lng: Number
     },
     desc: String,
+    notes: String,
     chatLog: String,
     timeClock: String,
     timeDate: String
@@ -81,6 +81,7 @@ s.on('connection', function(client) {
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = "";
+                data.notes = "";
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
                 client.send(JSON.stringify({
@@ -97,6 +98,7 @@ s.on('connection', function(client) {
                         caseObj.emd = client;
                         caseObj.available = false;
                         client.send(JSON.stringify(FullCase(caseObj)));
+                        ChatNotifications(caseObj, true);
                         BroadcastToEMDs({
                             type: "CaseOpened",
                             id: data.id
@@ -113,6 +115,7 @@ s.on('connection', function(client) {
                 if (caseObj != null) {
                     caseObj.emd = null;
                     caseObj.available = true;
+                    ChatNotifications(caseObj, false);
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: data.id
@@ -129,17 +132,20 @@ s.on('connection', function(client) {
                     if (data.emd)
                         caseObj.creator.send(JSON.stringify(msgObj));
                     else
-                        caseObj.emd.send(JSON.stringify(msgObj));
+                        if(caseObj.emd) caseObj.emd.send(JSON.stringify(msgObj));
 
                     caseObj.chatLog += data.message;
                 }
+                break;
+            case "SaveNotes":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null)
+                    caseObj.notes = data.notes;
                 break;
             case "ArchiveCase":
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     BroadcastToEMDs(data);
-
-                    console.log(caseObj.pos);
 
                     const newCase = new Case({
                         name: caseObj.name,
@@ -147,12 +153,13 @@ s.on('connection', function(client) {
                         cpr: caseObj.cpr,
                         pos: caseObj.pos,
                         desc: caseObj.desc,
+                        notes: caseObj.notes,
                         chatLog: caseObj.chatLog,
                         timeClock: caseObj.timeClock,
                         timeDate: caseObj.timeDate
                     });
                     newCase.save().then(post => {
-                        console.log("asdasd");
+                        console.log("Case archived (id: %d)", caseObj.id);
                     });
 
                     let i = cases.indexOf(caseObj);
@@ -165,6 +172,12 @@ s.on('connection', function(client) {
         }
     });
 });
+
+function ChatNotifications(caseObj, open) {
+    let msg = open ? "A dispatcher is now viewing your case..." : "A dispatcher has put your case on hold...";
+    msg += "<br>";
+    caseObj.creator.send(JSON.stringify({type: "ChatMessage", message: msg}));
+}
 
 function GetCaseByID(id) {
     for (var i = 0; i < cases.length; i++) {
@@ -193,6 +206,7 @@ function FullCase(data) {
         phone: data.phone,
         cpr: data.cpr,
         desc: data.desc,
+        notes: data.notes,
         chatLog: data.chatLog,
         timeClock: data.timeClock,
         timeDate: data.timeDate

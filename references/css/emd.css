@@ -14,18 +14,15 @@ th {
     overflow-y: auto;
 }
 
+#cases {
+    width: 100%;
+    font-size:20px;
+}
+
 .column-middle {
     float: left;
     width: 40%;
     height: 100%;
-}
-
-.column-right {
-    float: left;
-    width: 35%;
-    height: 100%;
-    overflow-y: auto;
-    background-color:#ccc;
 }
 
 #map {
@@ -40,38 +37,72 @@ th {
     height: 25%;
     background-color:#bbb;
     overflow: hidden;
+    display: flex;
+    flex-flow: column;
 }
 
 #chat-header {
     background: #343a40;
-    top: 0;
     width: 100%;
-    height: 10%;
+    height: auto;
     text-align: center;
     color: white;
 }
 
 #chat-log {
     overflow-y: auto;
-    height: 78%;
+    flex-grow : 1;
+    overflow-wrap: break-word;
+    margin-left: 5px;
 }
 
-#chat-controls {
-    bottom: 0;
-    display: flex;
-    flex-direction: row;
+#chat-footer {
     width: 100%;
+    text-align: center;
+    height: auto;
 }
 
-#chat-controls button {
-    width: auto;
-    background-color:;
-    justify-content: right;
-}
-
-#chat-controls input#chat-input {
+#chat-input {
+    height: 100%;
     float: left;
-    width: 100%;
-    display: inline-block;
-    justify-content: left;
+    width: 91%;
+}
+
+#chat-send {
+    float: right;
+    width: 9%;
+    height: 100%;
+    border-radius: 0;
+}
+
+.column-right {
+    float: left;
+    width: 35%;
+    height: 100%;
+    overflow-y: auto;
+    background-color:#ccc;
+}
+
+#journal-header {
+    margin: 5px;
+}
+
+#journal {
+    display:none;
+    margin: 10px;
+}
+
+#close-case-button {
+    position:absolute;
+    top:0;
+    right:0;
+    margin:5px;
+}
+
+#journal-notes {
+    width:60%;
+}
+
+#journal-buttons {
+    margin-top:10px;
 }

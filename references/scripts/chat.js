@@ -19,9 +19,8 @@ chatSendButton.onclick = function() {
     });
 }
 
-
 function SetChatHeader(value) { chatHeader.innerHTML = value; }
-function SetChatLog(log) {chatLog.innerHTML = log; };
+function SetChatLog(log) {chatLog.innerHTML = log; }
 function SetChatName(value) { chatName = value; }
 function SetChatID(id) { caseID = id; }
 function SetChatEMD(bool) { emd = bool; }

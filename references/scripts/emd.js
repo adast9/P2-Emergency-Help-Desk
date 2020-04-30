@@ -12,17 +12,18 @@ const journalCPR = document.getElementById('journal-cpr');
 const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
-const journalDispatcherNotes = document.getElementById('journal-dispatcher-notes');
+const journalNotes = document.getElementById('journal-notes');
 const saveCaseButton = document.getElementById('save-case-button');
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 let currentCaseID = null;
 SetChatEMD(true);
-SetChatName(prompt("Enter your live-chat name."));
+SetChatName("Dispatcher");
+ResetChat();
 let ws = new WebSocket("ws://localhost:3001");
 
 saveCaseButton.onclick = function() {
-    // save notes to case on server
+    SaveNotes();
 }
 
 closeCaseButton.addEventListener("click", function(){
@@ -30,8 +31,10 @@ closeCaseButton.addEventListener("click", function(){
 });
 
 archiveCaseButton.onclick = function() {
+    SaveNotes();
     SendToServer( {type: "ArchiveCase", id: currentCaseID} );
     ResetJournal();
+    ResetChat();
 }
 
 ws.onopen = function() {
@@ -85,6 +88,8 @@ function AddCase(data) {
     let idBtnCell = row.insertCell();
     let idBtn = document.createElement("BUTTON");
     idBtn.innerHTML = row.id;
+    idBtn.classList.add("btn");
+    idBtn.classList.add("btn-outline-dark");
     idBtnCell.appendChild(idBtn);
     row.insertCell().innerHTML = (data.available) ? "Open" : "Locked";
     row.insertCell().innerHTML = data.timeClock;
@@ -98,20 +103,20 @@ function AddCase(data) {
     }
 }
 
-function ResetJournal() {
-    journalHeader.innerHTML = "Press Case ID to display patient journal";
-    journal.style.display = "none";
-    SetChatHeader("");
-    SetChatLog("");
-    currentCaseID = null;
-}
-
 function CloseCurrentCase() {
     SendToServer({
         type: "CloseCase",
         id: currentCaseID
     });
     ResetJournal();
+    ResetChat();
+}
+
+function SaveNotes() {
+    SendToServer({
+        type: "SaveNotes",
+        id: currentCaseID,
+        notes: journalNotes.value});
 }
 
 function ArchiveCase(id) {
@@ -128,6 +133,20 @@ function CaseUpdated(id, opened) {
         row.cells[1].innerHTML = opened ? "Locked" : "Open";
 }
 
+function ResetJournal() {
+    journalHeader.innerHTML = "Press Case ID to display patient journal";
+    journal.style.display = "none";
+    currentCaseID = null;
+}
+
+function ResetChat() {
+    SetChatHeader("Press Case ID to display chat");
+    SetChatLog("");
+    chatInput.value = ""
+    chatInput.disabled = true;
+    chatSendButton.disabled = true;
+}
+
 function UpdateJournal(data) {
     journalHeader.textContent = "Case ID: " + data.id;
     journalName.textContent = "Name: " + data.name;
@@ -136,7 +155,7 @@ function UpdateJournal(data) {
     journalLocation.textContent = "Location: " + GetTableRowByID(data.id).marker.position;
     journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
     journalDescription.textContent = "Description: " + data.desc;
-    journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
+    journalNotes.value = data.notes;
     journal.style.display = 'block';
 }
 
@@ -144,6 +163,8 @@ function UpdateChat(data) {
     SetChatHeader("Case ID: " + data.id);
     SetChatID(data.id);
     chatLog.innerHTML = data.chatLog;
+    chatInput.disabled = false;
+    chatSendButton.disabled = false;
 }
 
 function GetTableRowByID(id) {
