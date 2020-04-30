@@ -8,6 +8,36 @@ let counter = 0;
 console.log("Listening on port 3001...");
 //LoadCases();
 
+
+const mongodb = require("mongodb");
+const mongoose = require("mongoose");
+const mongoDbUrl = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
+
+/* Configure Mongoose to Connect to MongoDB */
+mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(response => {
+        console.log("MongoDB Connected Successfully.");
+    }).catch(err => {
+        console.log("Database connection failed.");
+});
+
+const caseSchema = new mongoose.Schema({
+    name: String,
+    phone: String,
+    cpr: String,
+    pos: {
+        lat: Number,
+        lng: Number
+    },
+    desc: String,
+    chatLog: String,
+    timeClock: String,
+    timeDate: String
+});
+
+var Case = mongoose.model('Case', caseSchema);
+
+//Server handling events
 s.on('connection', function(client) {
 
     client.on('close', function() {
@@ -104,6 +134,31 @@ s.on('connection', function(client) {
                     caseObj.chatLog += data.message;
                 }
                 break;
+            case "ArchiveCase":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null) {
+                    BroadcastToEMDs(data);
+
+                    console.log(caseObj.pos);
+
+                    const newCase = new Case({
+                        name: caseObj.name,
+                        phone: caseObj.phone,
+                        cpr: caseObj.cpr,
+                        pos: caseObj.pos,
+                        desc: caseObj.desc,
+                        chatLog: caseObj.chatLog,
+                        timeClock: caseObj.timeClock,
+                        timeDate: caseObj.timeDate
+                    });
+                    newCase.save().then(post => {
+                        console.log("asdasd");
+                    });
+
+                    let i = cases.indexOf(caseObj);
+                    cases.splice(i, 1);
+                }
+                break;
             default:
                 console.log("Received some weird data...");
                 break;
@@ -114,7 +169,7 @@ s.on('connection', function(client) {
 function GetCaseByID(id) {
     for (var i = 0; i < cases.length; i++) {
         if(cases[i].id == id)
-        return cases[i];
+            return cases[i];
     }
     return null;
 }
@@ -137,7 +192,6 @@ function FullCase(data) {
         name: data.name,
         phone: data.phone,
         cpr: data.cpr,
-        location: data.location,
         desc: data.desc,
         chatLog: data.chatLog,
         timeClock: data.timeClock,

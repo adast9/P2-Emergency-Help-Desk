@@ -18,8 +18,10 @@ const app = express();
 /* Cors */
 app.use(require("cors")());
 
+let mongodbURL = "mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority";
+
 /* Configure Mongoose to Connect to MongoDB */
-mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => {
         console.log("MongoDB Connected Successfully.");
     }).catch(err => {

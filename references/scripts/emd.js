@@ -13,24 +13,25 @@ const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalDispatcherNotes = document.getElementById('journal-dispatcher-notes');
-const closeJournalButton = document.getElementById('exit-journal-button');
+const saveCaseButton = document.getElementById('save-case-button');
 const closeCaseButton = document.getElementById('close-case-button');
-const dispatcherNotesButton = document.getElementById('dispatcher-notes-button');
+const archiveCaseButton = document.getElementById('archive-case-button');
 let currentCaseID = null;
 SetChatEMD(true);
 SetChatName(prompt("Enter your live-chat name."));
 let ws = new WebSocket("ws://localhost:3001");
 
-closeJournalButton.addEventListener("click", function(){
+saveCaseButton.onclick = function() {
+    // save notes to case on server
+}
+
+closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
 });
 
-closeCaseButton.onclick = function() {
-    // delete case from the server
-}
-
-dispatcherNotesButton.onclick = function() {
-    // save notes to case on server
+archiveCaseButton.onclick = function() {
+    SendToServer( {type: "ArchiveCase", id: currentCaseID} );
+    ResetJournal();
 }
 
 ws.onopen = function() {
@@ -66,6 +67,9 @@ ws.onmessage = function(event) {
         case "ChatMessage":
             ChatMessage(data.message);
             break;
+        case "ArchiveCase":
+            ArchiveCase(data.id);
+            break;
         default:
             console.log("Received some weird data... ");
             break;
@@ -94,16 +98,28 @@ function AddCase(data) {
     }
 }
 
-function CloseCurrentCase() {
+function ResetJournal() {
     journalHeader.innerHTML = "Press Case ID to display patient journal";
     journal.style.display = "none";
     SetChatHeader("");
     SetChatLog("");
+    currentCaseID = null;
+}
+
+function CloseCurrentCase() {
     SendToServer({
         type: "CloseCase",
         id: currentCaseID
     });
-    currentCaseID = null
+    ResetJournal();
+}
+
+function ArchiveCase(id) {
+    console.log("delete: " + id);
+    for (var i = 0; i < caseList.rows.length; i++) {
+        if (caseList.rows[i].id == id)
+            caseList.deleteRow(i);
+    }
 }
 
 function CaseUpdated(id, opened) {
@@ -117,7 +133,7 @@ function UpdateJournal(data) {
     journalName.textContent = "Name: " + data.name;
     journalPhone.textContent = "Phone: " + data.phone;
     journalCPR.textContent = "CPR: " + data.cpr;
-    journalLocation.textContent = "Location: " + data.location;
+    journalLocation.textContent = "Location: " + GetTableRowByID(data.id).marker.position;
     journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
     journalDescription.textContent = "Description: " + data.desc;
     journalDispatcherNotes.innerHTML = 'Dispatcher notes: <input type="text" id="dispatcher-notes">';
