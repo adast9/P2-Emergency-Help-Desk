@@ -42,15 +42,40 @@ html, body {
     }
 }
 
-/********   INDEX   *********/
+/********   PUBLIC   *********/
 
 .main {
     padding: 20px;
 }
 
+#public-container {
+    max-width:900px;
+    margin-top: 10%;
+}
+
+#map-header {
+    width: 100%;
+    height:50px;
+    background-color: red;
+}
+
+#address {
+    height: 100%;
+    float: left;
+    width: 82%;
+    padding-left: 8px;
+}
+
+#search, #gps {
+    float: left;
+    width: 9%;
+    height: 100%;
+    border-radius: 0;
+}
+
 #map {
     height:450px;
-    max-width:900px;
+    width: 100%
 }
 
 textarea {
@@ -61,53 +86,48 @@ textarea {
     max-width: 400px;
 }
 
-/*Public details area*/
-#details {
-    float: left;
-}
-
 
 /* Public Live Chat */
 
 #chat {
-    float: right;
-    width: 50%;
-    height: 200px;
-    background-color:lightgrey;
-    overflow: auto;
-    border:white 3px inset;
+    float: left;
+    width: 100%;
+    height: 30em;
+    background-color:#bbb;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
 }
 
 #chat-header {
     background: #343a40;
-    top: 0;
     width: 100%;
-    height: 10%;
+    height: auto;
     text-align: center;
     color: white;
 }
 
 #chat-log {
     overflow-y: auto;
-    height: 78%;
+    flex-grow : 1;
+    overflow-wrap: break-word;
+    margin-left: 5px;
 }
 
-#chat-controls {
-    bottom: 0;
-    display: flex;
-    flex-direction: row;
+#chat-footer {
     width: 100%;
+    text-align: center;
+    height: auto;
 }
 
-#chat-controls button {
-    width: auto;
-    background-color:;
-    justify-content: right;
+#chat-input {
+    height: 100%;
+    width: 91%;
 }
 
-#chat-controls input#chat-input {
-    float: left;
-    width: 100%;
-    display: inline-block;
-    justify-content: left;
+#chat-send {
+    float: right;
+    width: 9%;
+    height: 100%;
+    border-radius: 0;
 }

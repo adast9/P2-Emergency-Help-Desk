@@ -66,6 +66,7 @@ th {
     height: 100%;
     float: left;
     width: 91%;
+    padding-left: 8px;
 }
 
 #chat-send {
@@ -103,6 +104,6 @@ th {
     width:60%;
 }
 
-#journal-buttons {
+#journal-button {
     margin-top:10px;
 }

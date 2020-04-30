@@ -3,37 +3,35 @@ const searchBar = document.getElementById('address');
 const searchButton = document.getElementById('search');
 const gpsButton = document.getElementById('gps');
 
-function InitMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 56.2, lng: 10.3333283},
-        zoom: 7,
-        tilt: 0
-    });
-    infoWindow = new google.maps.InfoWindow;
+map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 56.2, lng: 10.3333283},
+    zoom: 7,
+    tilt: 0
+});
+infoWindow = new google.maps.InfoWindow;
 
-    // This event listener will place the marker when the map is clicked.
-    map.addListener('click', function(event) {
-        PlaceMarker(event.latLng);
-    });
+// This event listener will place the marker when the map is clicked.
+map.addListener('click', function(event) {
+    PlaceMarker(event.latLng);
+});
 
-    let noPoi = [{
-        featureType: "poi",
-        stylers: [{visibility: "off"}]   
-    }];
-    map.setOptions({styles: noPoi});
+let noPoi = [{
+    featureType: "poi",
+    stylers: [{visibility: "off"}]
+}];
+map.setOptions({styles: noPoi});
 
-    let geocoder = new google.maps.Geocoder();
-    searchBar.addEventListener('keydown', function(event) {
-        //Checks if Enter key was pressed so search bar works without having to click "Search" button
-        if (event && event.keyCode == 13)
-            Search(geocoder, map);
-    });
+let geocoder = new google.maps.Geocoder();
+searchBar.addEventListener('keydown', function(event) {
+    //Checks if Enter key was pressed so search bar works without having to click "Search" button
+    if (event && event.keyCode == 13)
+        Search(geocoder, map);
+});
 
-    searchButton.addEventListener('click', function(){ Search(geocoder, map); });
-    gpsButton.addEventListener('click', function(){ Geolocate(); });
+searchButton.addEventListener('click', function(){ Search(geocoder, map); });
+gpsButton.addEventListener('click', function(){ Geolocate(); });
 
-    Geolocate();
-}
+Geolocate();
 
 function PlaceMarker(location) {
     if(marker) {
@@ -84,8 +82,8 @@ function Search(geocoder, resultsMap) {
 
 function HandleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ? 
-       'Error: The Geolocation service failed.' : 
+    infoWindow.setContent(browserHasGeolocation ?
+       'Error: The Geolocation service failed.' :
        'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }

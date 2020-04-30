@@ -6,9 +6,19 @@ let caseID = null;
 let emd = false;
 let chatName = "Civillian";
 
+chatInput.addEventListener('keydown', function(event) {
+    //Checks if Enter key was pressed so user doesn't have to click "Send" button
+    if (event && event.keyCode == 13)
+        SendMessage();
+});
+
 chatSendButton.onclick = function() {
+    SendMessage();
+}
+
+function SendMessage() {
     let msg = chatName + ": " + chatInput.value + "<br>";
-	ChatMessage(msg);
+    ChatMessage(msg);
     chatLog.scrollTop = chatLog.scrollHeight;
     chatInput.value = '';
     SendToServer({

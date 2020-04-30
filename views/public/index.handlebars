@@ -1,36 +1,56 @@
-<main>
-    <div id="google_translate_element"></div>
+<div id="google_translate_element"></div>
 
-    <div class="main">
-        <h2>Drag the Marker to the Emergency</h2>
-        <input id="address" type="textbox" value="" placeholder="Search Google Maps">
-        <input id="search" type="button" value="Search">
-        <input id="gps" type="button" value="GPS">
-        <br><br>
+<div id="public-container">
 
-        <div id="map"></div>
-
-        <div id="details">
-
-            <h2>Fill out with your details</h2>
-            <p><label>Name:     </label><input type="text" id="citizen-name"></p>
-            <p><label>Phone Number:     </label><input type="text" id="phone"></p>
-            <p><label>CPR Number:   </label><input type="text" id="cpr"></p>
-            <textarea id="desc" placeholder="Describe the emergency... (Who, what, where, when...)"></textarea></p>
-
-            <input id="submit" type="button" value="Submit">
-
+    <div id="map-stuff">
+        <h1 class="display-4">Drag the marker to the emergency</h1>
+        <hr>
+        <div id="map-header">
+            <input id="address" type="text" placeholder="Search Google Maps..."></input>
+            <button id="search" type="button" class="btn btn-primary">Search</button>
+            <button id="gps" type="button" class="btn btn-secondary">GPS</button>
         </div>
+        <div id="map"></div>
+        <hr>
+        <button id="next" type="button" style="float:right;" class="btn btn-primary">Next ❯</button>
+    </div>
 
-        <div id="chat">
-            <div id = "chat-header">
-                <strong>Chat with a dispatcher</strong>
+    <div id="details" style="display:none">
+        <h1 class="display-4">Please fill out your details</h1>
+        <hr>
+        <form>
+            <div class="form-group">
+                <label>Full name:</label>
+                <input class="form-control" id="citizen-name" placeholder="John Smith">
             </div>
-            <div id="chat-log"></div>
-            <div id="chat-controls">
-                <input id="chat-input" type="text" placeholder="Enter message here...">
-                <button id="chat-send">Send</button>
+            <div class="form-group">
+                <label>Phone number:</label>
+                <input class="form-control" id="phone" placeholder="12345678">
+            </div>
+            <div class="form-group">
+                <label>CPR number:</label>
+                <input class="form-control" id="cpr" placeholder="000000-0000">
+            </div>
+            <div class="form-group">
+                <label>Describe the emergency:</label>
+                <textarea class="form-control" id="desc" rows="3" placeholder="Who, what, when, where, etc..."></textarea>
+            </div>
+        </form>
+        <hr>
+        <button id="previous" type="button" style="float:left;" class="btn btn-secondary">❮ Previous</button>
+        <button id="submit" type="button" style="float:right;" class="btn btn-primary">Submit</button>
+    </div>
+
+    <div id="chat-stuff" style="display:none">
+        <h1 class="display-4">Chat with a dispatcher</h1>
+        <hr>
+        <div id="chat">
+            <div id="chat-header"></div>
+            <div id="chat-log">Your case has been submitted...<br></div>
+            <div id="chat-footer">
+                <input id="chat-input" type="text" placeholder="Enter message here..."></input>
+                <button id="chat-send" type="button" class="btn btn-primary">Send</button>
             </div>
         </div>
     </div>
-</main>
+</div>

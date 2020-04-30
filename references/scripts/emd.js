@@ -13,7 +13,6 @@ const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalNotes = document.getElementById('journal-notes');
-const saveCaseButton = document.getElementById('save-case-button');
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 let currentCaseID = null;
@@ -21,10 +20,6 @@ SetChatEMD(true);
 SetChatName("Dispatcher");
 ResetChat();
 let ws = new WebSocket("ws://localhost:3001");
-
-saveCaseButton.onclick = function() {
-    SaveNotes();
-}
 
 closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
@@ -104,6 +99,7 @@ function AddCase(data) {
 }
 
 function CloseCurrentCase() {
+    SaveNotes();
     SendToServer({
         type: "CloseCase",
         id: currentCaseID
@@ -120,7 +116,6 @@ function SaveNotes() {
 }
 
 function ArchiveCase(id) {
-    console.log("delete: " + id);
     for (var i = 0; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id)
             caseList.deleteRow(i);
