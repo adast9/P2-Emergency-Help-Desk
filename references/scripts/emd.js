@@ -189,13 +189,15 @@ function SendToServer(data) {
 }
 
 function sortTable(sortType) {
-   let rows, sorting = true, i, caseId1, caseId2, caseStatus1, caseStatus2, shouldSwap, dir, switchcount = 0;
+   let sorting = true;
+   let rows, i, caseId1, caseId2, caseStatus1, caseStatus2, shouldSwap, dir;
+   let switchcount = 0;
    let table = document.getElementById('cases');
    dir = 'asc';
 
    while (sorting) {
 
-      sorting = false;
+    sorting = false;
       rows = table.rows;
       if (sortType === 'sortById') {
          for (i = 1; i < (rows.length - 1); i++) {
@@ -253,5 +255,5 @@ function sortTable(sortType) {
             sorting = true;
          }
       }
-   }
+    }
 }
