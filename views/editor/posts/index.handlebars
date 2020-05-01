@@ -20,7 +20,7 @@
                 <th onclick="sortTable(0)">Title</th>
                 <th onclick="sortTable(1)">Author</th>
                 <th onclick="sortTable(2)">Description</th>
-                <th onclick="sortDate(3)">Time submitted</th>
+                <th onclick="sortTable(3)">Time submitted</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -57,23 +57,33 @@
                     </div>
                 </div>
             </div>
-            
+
             {{/each}}
         </tbody>
     </table>
 
 
     <script>
-        function sortDate(a,b) {
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (let i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[3];
-                let dateA = new Date(a).getTime();
-                let dateB = new Date(b).getTime();
-                return dateA > dateB ? 1 : -1;
-            }
+
+    /*Makes dates look better */
+    function convert(date) {
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+        // hours  = ("0" + date.getHours()).slice(-2);
+        // minutes = ("0" + date.getMinutes()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    }
+
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (let i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if(td){
+            date = new Date(td.textContent);
+            date = convert(date);
+            tr[i].getElementsByTagName("td")[3].textContent = date;
         }
+    }
 
     function search_posts() {
         let input, filter, table, tr, td, i, j, txtValue;
@@ -85,7 +95,7 @@
             td = tr[i].getElementsByTagName("td");
             let matches = false;
 
-            for (j = 0; j < 3; j++) {
+            for (j = 0; j < 4; j++) {
                 if (td[j]) {
                     txtValue = td[j].textContent || td[j].innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
