@@ -20,6 +20,7 @@ SetChatEMD(true);
 SetChatName("Dispatcher");
 ResetChat();
 let ws = new WebSocket("ws://localhost:3001");
+let saveVar;
 
 closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
@@ -30,6 +31,12 @@ archiveCaseButton.onclick = function() {
     SendToServer( {type: "ArchiveCase", id: currentCaseID} );
     ResetJournal();
     ResetChat();
+}
+
+//Save journal notes x milliseconds after finishing typing
+journalNotes.onkeyup = function() {
+    clearTimeout(saveVar);
+    saveVar = setTimeout(SaveNotes, 1000);
 }
 
 ws.onopen = function() {
