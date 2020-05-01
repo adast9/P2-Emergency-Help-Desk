@@ -20,6 +20,7 @@ let currentCaseID = null;
 SetChatEMD(true);
 SetChatName("Dispatcher");
 ResetChat();
+ResetJournal();
 let ws = new WebSocket("ws://localhost:3001");
 let saveVar;
 
@@ -139,13 +140,13 @@ function CaseUpdated(id, opened) {
 }
 
 function ResetJournal() {
-    journalHeader.innerHTML = "Press Case ID to display patient journal";
+    journalHeader.innerHTML = "Open a case to display patient journal";
     journal.style.display = "none";
     currentCaseID = null;
 }
 
 function ResetChat() {
-    SetChatHeader("Press Case ID to display chat");
+    SetChatHeader("Open a case to display chat");
     SetChatLog("");
     chatInput.value = ""
     chatInput.disabled = true;
@@ -161,6 +162,7 @@ function UpdateJournal(data) {
     journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
     journalDescription.textContent = "Description: " + data.desc;
     journalNotes.value = data.notes;
+    saveText.textContent = "";
     journal.style.display = 'block';
 }
 
