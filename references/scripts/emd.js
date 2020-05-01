@@ -13,6 +13,7 @@ const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalNotes = document.getElementById('journal-notes');
+const saveText = document.getElementById('save-text');
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 let currentCaseID = null;
@@ -35,6 +36,7 @@ archiveCaseButton.onclick = function() {
 
 //Save journal notes x milliseconds after finishing typing
 journalNotes.onkeyup = function() {
+    saveText.innerText = "Saving...";
     clearTimeout(saveVar);
     saveVar = setTimeout(SaveNotes, 1000);
 }
@@ -116,6 +118,7 @@ function CloseCurrentCase() {
 }
 
 function SaveNotes() {
+    saveText.innerText = "Saved!";
     SendToServer({
         type: "SaveNotes",
         id: currentCaseID,
