@@ -37,7 +37,7 @@ archiveCaseButton.onclick = function() {
 
 //Save journal notes x milliseconds after finishing typing
 journalNotes.onkeyup = function() {
-    saveText.innerText = "Saving...";
+    saveText.innerText = "";
     clearTimeout(saveVar);
     saveVar = setTimeout(SaveNotes, 1000);
 }
