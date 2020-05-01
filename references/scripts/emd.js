@@ -4,7 +4,7 @@ const map = new google.maps.Map(document.getElementById("map"), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 const caseList = document.getElementById('cases');
-const journalHeader = document.getElementById('journal-header');
+const journalTitle = document.getElementById('journal-title');
 const journal = document.getElementById('journal');
 const journalName = document.getElementById('journal-name');
 const journalPhone = document.getElementById('journal-phone');
@@ -13,7 +13,7 @@ const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalNotes = document.getElementById('journal-notes');
-const saveText = document.getElementById('save-text');
+// const saveText = document.getElementById('save-text');
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 let currentCaseID = null;
@@ -37,7 +37,7 @@ archiveCaseButton.onclick = function() {
 
 //Save journal notes x milliseconds after finishing typing
 journalNotes.onkeyup = function() {
-    saveText.innerText = "";
+    // saveText.innerText = "";
     clearTimeout(saveVar);
     saveVar = setTimeout(SaveNotes, 1000);
 }
@@ -119,7 +119,7 @@ function CloseCurrentCase() {
 }
 
 function SaveNotes() {
-    saveText.innerText = "Saved!";
+    // saveText.innerText = "Saved!";
     SendToServer({
         type: "SaveNotes",
         id: currentCaseID,
@@ -140,7 +140,7 @@ function CaseUpdated(id, opened) {
 }
 
 function ResetJournal() {
-    journalHeader.innerHTML = "Open a case to display patient journal";
+    journalTitle.innerHTML = "Open a case to display patient journal";
     journal.style.display = "none";
     currentCaseID = null;
 }
@@ -154,15 +154,15 @@ function ResetChat() {
 }
 
 function UpdateJournal(data) {
-    journalHeader.textContent = "Case ID: " + data.id;
-    journalName.textContent = "Name: " + data.name;
-    journalPhone.textContent = "Phone: " + data.phone;
-    journalCPR.textContent = "CPR: " + data.cpr;
-    journalLocation.textContent = "Location: " + GetTableRowByID(data.id).marker.position;
-    journalTime.textContent = "Time created: " + data.timeDate + " " + data.timeClock;
-    journalDescription.textContent = "Description: " + data.desc;
+    journalTitle.textContent = "Case ID: " + data.id;
+    journalName.value = data.name;
+    journalPhone.value = data.phone;
+    journalCPR.value = data.cpr;
+    journalLocation.value = GetTableRowByID(data.id).marker.position;
+    journalTime.value = data.timeDate + " " + data.timeClock;
+    journalDescription.value = data.desc;
     journalNotes.value = data.notes;
-    saveText.textContent = "";
+    // saveText.textContent = "";
     journal.style.display = 'block';
 }
 
