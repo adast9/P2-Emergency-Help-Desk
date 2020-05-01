@@ -45,38 +45,78 @@
     </div>
 
     <div class="column-right">
-        <h2 id="journal-header"></h2>
+
+        <div id="journal-header">
+            <h2 id="journal-title"></h2>
+        </div>
         <div id="journal">
-            <button id="close-case-button" type="button" class="btn btn-light">X</button>
-            <p id="journal-name"></p>
-            <p id="journal-phone"></p>
-            <p id="journal-cpr"></p>
-            <p id="journal-location"></p>
-            <p id="journal-fulltime"></p>
-            <p id="journal-description"></p>
-            <textarea id="journal-notes" class="form-control" placeholder="Write notes on the case here..." rows="5"></textarea>
-            <p id="save-text"></p>
-            <button id="journal-button" type="button" class="btn btn-danger"  data-toggle="modal" data-target=".bd-example-modal-sm">Archive</button>
+            <form>
+                <div class="form-group">
+                    <label>Full name:</label>
+                    <input class="form-control" id="journal-name" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Phone number:</label>
+                    <input class="form-control" id="journal-phone" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>CPR number:</label>
+                    <input class="form-control" id="journal-cpr" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Location:</label>
+                    <input class="form-control" id="journal-location" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Time created:</label>
+                    <input class="form-control" id="journal-fulltime" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Emergency description:</label>
+                    <textarea class="form-control" id="journal-description" rows="3" style="max-width: none;" readonly></textarea>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Case notes:</label>
+                    <textarea class="form-control" id="journal-notes" rows="3" style="max-width: none;" placeholder="Write notes on the case here..."></textarea>
+                    <!-- <p id="save-text"></p> -->
+                </div>
+
+                <!-- <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">Button</button>
+                  </div>
+                </div> -->
+            </form>
+
+            <hr>
+            <button id="close-case-button" type="button" class="btn btn-light">Close</button>
+            <button id="journal-button" type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">Archive</button>
         </div>
     </div>
 
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-footer" style="justify-content: center;">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="archive-case-button" type="button" data-dismiss="modal" class="btn btn-danger">Archive</button>
-          </div>
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="archive-case-button" type="button" data-dismiss="modal" class="btn btn-danger">Archive</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-
 
 </body>
 
