@@ -3,7 +3,16 @@
         <h1>All Posts</h1>
     </div>
 
-
+    <div class="col-md-6 justify-content-center" style="padding:0; margin-left:25%;">
+        <div class="card my-4">
+            <h5 class="card-header">Search through all posts</h5>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <table class="table table-bordered" id="myTable">
         <thead class="bg-dark text-center">
@@ -25,11 +34,30 @@
                 <td>{{creationDate}}</td>
                 <td class="d-flex justify-content-center">
                     <a href="/editor/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
-                    <form action="/editor/posts/delete/{{id}}?newMethod=DELETE" method="post">
-                    <button class="btn btn-sm btn-danger" type="submit">Delete Post</button>
-                    </form>
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Post</button>
                 </td>
             </tr>
+
+            <!-- Modal for delete post -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <form action="/editor/posts/delete/{{id}}?newMethod=DELETE" method="post">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             {{/each}}
         </tbody>
     </table>
@@ -115,14 +143,6 @@
     }
     </script>
 
-    <div class="col-md-4">
-        <div class="card my-4">
-            <h5 class="card-header">Search through all posts</h5>
-            <div class="card-body">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for a Post" id="myInput" onkeyup="search_posts()">
-                </div>
-            </div>
-        </div>
-    </div>
+
+
 </div>

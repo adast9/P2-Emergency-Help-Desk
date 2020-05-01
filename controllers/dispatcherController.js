@@ -4,7 +4,7 @@ const {isEmpty} = require("../config/functions");
 module.exports =  {
 
 getEmd: (req, res) => {
-  res.render("dispatcher/index")
+  res.render("layouts/dispatcher")
 }
 
 };

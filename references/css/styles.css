@@ -79,8 +79,6 @@ html, body {
 }
 
 textarea {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 15px;
     width: 100%;
     height: 80px;
     max-width: 400px;

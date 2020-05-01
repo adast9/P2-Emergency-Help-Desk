@@ -3,53 +3,43 @@
         <h1 class="my-4">Health related posts </h1>
 
         <script>
-            let blogposts = document.getElementsByClassName('card mb-4');
+        let blogposts = document.getElementsByClassName('card mb-4');
 
-            function search_posts() {
-              let input = document.getElementById('searchbar').value
-              input = input.toLowerCase();
+        function search_posts() {
+            let input = document.getElementById('searchbar').value
+            input = input.toLowerCase();
 
-              for (i = 0; i < blogposts.length; i++) {
-                  if (!blogposts[i].title.toLowerCase().includes(input)) {
-                      blogposts[i].style.display = "none";
-                  }
-                  else {
-                      blogposts[i].style.display = "list-item";
-                  }
-              }
+            for (i = 0; i < blogposts.length; i++) {
+                if (!blogposts[i].title.toLowerCase().includes(input)) {
+                    blogposts[i].style.display = "none";
+                }
+                else {
+                    blogposts[i].style.display = "list-item";
+                }
             }
+        }
         </script>
 
         <ol style="list-style-type:none" id='list'>
 
-          {{#each posts}}
-          <li class="card mb-4" id="{{id}}">
-                  <img class="card-img-top" src="{{file}}" alt="Image is missing">
-              <div class="card-body">
-                  <h2 class="card-title">{{title}}</h2>
-                  <p class="card-text">{{description}}</p>
-                  <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
-              </div>
-              <div class="card-footer text-muted">
-                  Posted on {{creationDate}} by {{author}}
-              </div>
-              <script>
-                  document.getElementById("{{id}}").title = "{{title}}";
-              </script>
-          </li>
-          {{/each}}
-
-      </ol>
-
-        <!-- Pagination -->
-        <!-- <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-                <a class="page-link" href="#">&larr; Older</a>
+            {{#each posts}}
+            <li class="card mb-4" id="{{id}}">
+                <img class="card-img-top" src="{{file}}" alt="Image is missing">
+                <div class="card-body">
+                    <h2 class="card-title">{{title}}</h2>
+                    <p class="card-text">{{description}}</p>
+                    <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{creationDate}} by {{author}}
+                </div>
+                <script>
+                    document.getElementById("{{id}}").title = "{{title}}";
+                </script>
             </li>
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Newer &rarr;</a>
-            </li>
-        </ul> -->
+            {{/each}}
+
+        </ol>
 
     </div>
 
