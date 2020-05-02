@@ -191,6 +191,22 @@ function PlaceMarker(id, location) {
     });
 }
 
+function ToggleJournalField(button, id) {
+    if (button.locked == null) {
+        button.locked = false;
+    } else {
+        button.locked = !button.locked;
+    }
+
+    if (button.locked) {
+        button.innerHTML = "<i class='far fa-eye'></i>";
+        document.getElementById(id).readOnly = true;
+    } else {
+        button.innerHTML = "<i class='fas fa-pencil-alt'></i>";
+        document.getElementById(id).readOnly = false;
+    }
+}
+
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
