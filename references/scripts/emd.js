@@ -36,7 +36,7 @@ archiveCaseButton.onclick = function() {
 }
 
 //Save journal notes x milliseconds after finishing typing
-journalNotes.onkeyup = function() {
+journalNotes.onchange = function() {
     // saveText.innerText = "";
     clearTimeout(saveVar);
     saveVar = setTimeout(SaveNotes, 1000);
@@ -192,19 +192,13 @@ function PlaceMarker(id, location) {
 }
 
 function ToggleJournalField(button, id) {
-    if (button.locked == null) {
-        button.locked = false;
-    } else {
-        button.locked = !button.locked;
-    }
+    let inputField = document.getElementById(id);
+    inputField.readOnly = !inputField.readOnly;
 
-    if (button.locked) {
+    if (inputField.readOnly)
         button.innerHTML = "<i class='far fa-eye'></i>";
-        document.getElementById(id).readOnly = true;
-    } else {
+    else
         button.innerHTML = "<i class='fas fa-pencil-alt'></i>";
-        document.getElementById(id).readOnly = false;
-    }
 }
 
 function SendToServer(data) {
