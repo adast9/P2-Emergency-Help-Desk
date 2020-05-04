@@ -57,14 +57,14 @@
                     <label>Time created:</label>
                     <div class="input-group mb-3">
                         <input type="text" id="journal-fulltime" class="form-control" aria-describedby="basic-addon2" readonly>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" onclick="ToggleJournalField(this, 'journal-fulltime')" type="button">
-                                <i class="far fa-eye"></i>
-                            </button>
-                        </div>
                     </div>
-
-
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>Coordinates:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" id="journal-location" class="form-control" aria-describedby="basic-addon2" readonly>
+                    </div>
                 </div>
                 <hr>
                 <div class="form-group">
@@ -77,7 +77,6 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
                 <hr>
                 <div class="form-group">
@@ -90,7 +89,6 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
                 <hr>
                 <div class="form-group">
@@ -103,33 +101,13 @@
                             </button>
                         </div>
                     </div>
-
-                </div>
-                <hr>
-                <div class="form-group">
-                    <label>Coordinates:</label>
-                    <div class="input-group mb-3">
-                        <input type="text" id="journal-location" class="form-control" aria-describedby="basic-addon2" readonly>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" onclick="ToggleJournalField(this, 'journal-location')" type="button">
-                                <i class="far fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
+                </div>                
                 <hr>
                 <div class="form-group">
                     <label>Case description:</label>
                     <div class="input-group">
                         <textarea class="form-control" id="journal-description" readonly></textarea>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" onclick="ToggleJournalField(this, 'journal-description')" type="button">
-                                <i class="far fa-eye"></i>
-                            </button>
-                        </div>
                     </div>
-
                 </div>
                 <hr>
                 <div class="form-group">
@@ -137,7 +115,6 @@
                     <textarea class="form-control" id="journal-notes" rows="3" style="max-width: none;" placeholder="Write notes on the case here..."></textarea>
                 </div>
             </form>
-
             <hr>
             <button id="close-case-button" type="button" class="btn btn-light">Close</button>
             <button id="journal-button" type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">Archive</button>
