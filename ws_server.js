@@ -137,10 +137,25 @@ s.on('connection', function(client) {
                     caseObj.chatLog += data.message;
                 }
                 break;
+            case "SaveName":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null)
+                    caseObj.name = data.value;
+                break;
+            case "SavePhone":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null)
+                    caseObj.phone = data.value;
+                break;
+            case "SaveCPR":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null)
+                    caseObj.cpr = data.value;
+                break;
             case "SaveNotes":
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null)
-                    caseObj.notes = data.notes;
+                    caseObj.notes = data.value;
                 break;
             case "ArchiveCase":
                 var caseObj = GetCaseByID(data.id);

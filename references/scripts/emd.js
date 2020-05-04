@@ -22,24 +22,27 @@ SetChatName("Dispatcher");
 ResetChat();
 ResetJournal();
 let ws = new WebSocket("ws://localhost:3001");
-let saveVar;
+let saveName, savePhone, saveCPR, saveNotes;
 
 closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
 });
 
 archiveCaseButton.onclick = function() {
-    SaveNotes();
     SendToServer( {type: "ArchiveCase", id: currentCaseID} );
     ResetJournal();
     ResetChat();
 }
 
-//Save journal notes x milliseconds after finishing typing
-journalNotes.onkeyup = function() {
-    // saveText.innerText = "";
+journalName.onkeyup = function() { saveName = JournalFieldKeyUp(this, "SaveName", saveName) };
+journalPhone.onkeyup = function() { savePhone = JournalFieldKeyUp(this, "SavePhone", savePhone) };
+journalCPR.onkeyup = function() { saveCPR = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
+journalNotes.onkeyup = function() { saveNotes = JournalFieldKeyUp(this, "SaveNotes", saveNotes) };
+
+function JournalFieldKeyUp(field, type, saveVar) {
+    if (field.readOnly) return null;
     clearTimeout(saveVar);
-    saveVar = setTimeout(SaveNotes, 1000);
+    return setTimeout(SaveJournalField, 1000, type, field.value);
 }
 
 ws.onopen = function() {
@@ -109,7 +112,6 @@ function AddCase(data) {
 }
 
 function CloseCurrentCase() {
-    SaveNotes();
     SendToServer({
         type: "CloseCase",
         id: currentCaseID
@@ -118,12 +120,12 @@ function CloseCurrentCase() {
     ResetChat();
 }
 
-function SaveNotes() {
-    // saveText.innerText = "Saved!";
+function SaveJournalField(type, value) {
+    console.log(type);
     SendToServer({
-        type: "SaveNotes",
+        type: type,
         id: currentCaseID,
-        notes: journalNotes.value});
+        value: value});
 }
 
 function ArchiveCase(id) {
@@ -154,6 +156,7 @@ function ResetChat() {
 }
 
 function UpdateJournal(data) {
+    ResetJournalToggles();
     journalTitle.textContent = "Case ID: " + data.id;
     journalName.value = data.name;
     journalPhone.value = data.phone;
@@ -162,7 +165,6 @@ function UpdateJournal(data) {
     journalTime.value = data.timeDate + " " + data.timeClock;
     journalDescription.value = data.desc;
     journalNotes.value = data.notes;
-    // saveText.textContent = "";
     journal.style.display = 'block';
 }
 
@@ -191,14 +193,28 @@ function PlaceMarker(id, location) {
     });
 }
 
-function ToggleJournalField(button, id) {
-    let inputField = document.getElementById(id);
-    inputField.readOnly = !inputField.readOnly;
+function InitJournalToggle(button, id) {
+    button.field = document.getElementById(id);
+}
 
-    if (inputField.readOnly)
+function ToggleJournalField(button, id) {
+    if(!button.field) InitJournalToggle(button, id);
+    button.field.readOnly = !button.field.readOnly;
+
+    if (button.field.readOnly)
         button.innerHTML = "<i class='far fa-eye'></i>";
     else
         button.innerHTML = "<i class='fas fa-pencil-alt'></i>";
+}
+
+function ResetJournalToggles() {
+    let buttons = document.getElementsByClassName("journal-toggle");
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].innerHTML = "<i class='far fa-eye'></i>";
+        if (buttons[i].field)
+            buttons[i].field.readOnly = true;
+    }
 }
 
 function SendToServer(data) {
