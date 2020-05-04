@@ -1,0 +1,55 @@
+<div class="column-left">
+    <table id="cases" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th onclick="sortTable('sortById')">#</th>
+                <th onclick="sortTable('sortByStatus')">Status</th>
+                <th onclick="sortTable('sortById')">Time</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="column-middle">
+    <div id="map"></div>
+    <div id="chat">
+        <div id="chat-header">Chat</div>
+        <div id="chat-log"></div>
+        <div id="chat-footer">
+            <input id="chat-input" type="text" placeholder="Enter message here..." disabled></input>
+            <button id="chat-send" type="button" class="btn btn-primary" disabled>Send</button>
+        </div>
+    </div>
+</div>
+
+<div class="column-right">
+    <h2 id="journal-header">Press Case ID to display patient journal</h2>
+    <div id="journal">
+        <button id="close-case-button" type="button" class="btn btn-light">X</button>
+        <p id="journal-name"></p>
+        <p id="journal-phone"></p>
+        <p id="journal-cpr"></p>
+        <p id="journal-location"></p>
+        <p id="journal-fulltime"></p>
+        <p id="journal-description"></p>
+        <textarea id="journal-notes" class="form-control" placeholder="Write notes on the case here..." rows="5"></textarea>
+        <button id="journal-button" type="button" class="btn btn-danger"  data-toggle="modal" data-target=".bd-example-modal-sm">Archive</button>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="archive-case-button" type="button" data-dismiss="modal" class="btn btn-danger">Archive</button>
+      </div>
+    </div>
+  </div>
+</div>

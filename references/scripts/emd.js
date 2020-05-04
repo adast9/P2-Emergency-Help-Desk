@@ -121,7 +121,6 @@ function CloseCurrentCase() {
 }
 
 function SaveJournalField(type, value) {
-    console.log(type);
     SendToServer({
         type: type,
         id: currentCaseID,
