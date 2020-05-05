@@ -1,9 +1,14 @@
+// Table for cases in the left column
+const caseList = document.getElementById('cases');
+
+// The map in the middle column.
 const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 6.6,
     center: new google.maps.LatLng(56.263920, 9.501785),
     mapTypeId: google.maps.MapTypeId.ROADMAP
 });
-const caseList = document.getElementById('cases');
+
+// Journal input fields
 const journalTitle = document.getElementById('journal-title');
 const journal = document.getElementById('journal');
 const journalName = document.getElementById('journal-name');
@@ -13,16 +18,25 @@ const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
 const journalNotes = document.getElementById('journal-notes');
-// const saveText = document.getElementById('save-text');
+
+// Journal variables for editable fields
+const journalToggles = document.getElementsByClassName('journal-toggle');
+let saveName, savePhone, saveCPR, saveNotes;
+InitJournalToggles();
+
+journalName.onkeyup = function() { saveName = JournalFieldKeyUp(this, "SaveName", saveName) };
+journalPhone.onkeyup = function() { savePhone = JournalFieldKeyUp(this, "SavePhone", savePhone) };
+journalCPR.onkeyup = function() { saveCPR = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
+journalNotes.onkeyup = function() { saveNotes = JournalFieldKeyUp(this, "SaveNotes", saveNotes) };
+
+function JournalFieldKeyUp(field, type, saveVar) {
+    clearTimeout(saveVar);
+    return setTimeout(SaveJournalField, 1000, type, field.value);
+}
+
+// Journal buttons
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
-let currentCaseID = null;
-SetChatEMD(true);
-SetChatName("Dispatcher");
-ResetChat();
-ResetJournal();
-let ws = new WebSocket("ws://localhost:3001");
-let saveName, savePhone, saveCPR, saveNotes;
 
 closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
@@ -34,16 +48,15 @@ archiveCaseButton.onclick = function() {
     ResetChat();
 }
 
-journalName.onkeyup = function() { saveName = JournalFieldKeyUp(this, "SaveName", saveName) };
-journalPhone.onkeyup = function() { savePhone = JournalFieldKeyUp(this, "SavePhone", savePhone) };
-journalCPR.onkeyup = function() { saveCPR = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
-journalNotes.onkeyup = function() { saveNotes = JournalFieldKeyUp(this, "SaveNotes", saveNotes) };
+// Setup chat and journal
+let currentCaseID = null;
+SetChatEMD(true);
+SetChatName("Dispatcher");
+ResetChat();
+ResetJournal();
 
-function JournalFieldKeyUp(field, type, saveVar) {
-    if (field.readOnly) return null;
-    clearTimeout(saveVar);
-    return setTimeout(SaveJournalField, 1000, type, field.value);
-}
+// Connect to WebSocket server
+let ws = new WebSocket("ws://localhost:3001");
 
 ws.onopen = function() {
     console.log("Connected to the server.");
@@ -120,40 +133,6 @@ function CloseCurrentCase() {
     ResetChat();
 }
 
-function SaveJournalField(type, value) {
-    SendToServer({
-        type: type,
-        id: currentCaseID,
-        value: value});
-}
-
-function ArchiveCase(id) {
-    for (var i = 0; i < caseList.rows.length; i++) {
-        if (caseList.rows[i].id == id)
-            caseList.deleteRow(i);
-    }
-}
-
-function CaseUpdated(id, opened) {
-    var row = GetTableRowByID(id);
-    if (row != null)
-        row.cells[1].innerHTML = opened ? "Locked" : "Open";
-}
-
-function ResetJournal() {
-    journalTitle.innerHTML = "Open a case to display patient journal";
-    journal.style.display = "none";
-    currentCaseID = null;
-}
-
-function ResetChat() {
-    SetChatHeader("Open a case to display chat");
-    SetChatLog("");
-    chatInput.value = ""
-    chatInput.disabled = true;
-    chatSendButton.disabled = true;
-}
-
 function UpdateJournal(data) {
     ResetJournalToggles();
     journalTitle.textContent = "Case ID: " + data.id;
@@ -175,6 +154,55 @@ function UpdateChat(data) {
     chatSendButton.disabled = false;
 }
 
+function CaseUpdated(id, opened) {
+    var row = GetTableRowByID(id);
+    if (row != null)
+        row.cells[1].innerHTML = opened ? "Locked" : "Open";
+}
+
+function ArchiveCase(id) {
+    for (var i = 0; i < caseList.rows.length; i++) {
+        if (caseList.rows[i].id == id)
+            caseList.deleteRow(i);
+    }
+}
+
+function ResetJournal() {
+    journalTitle.innerHTML = "Open a case to display patient journal";
+    journal.style.display = "none";
+    currentCaseID = null;
+}
+
+function ResetChat() {
+    SetChatHeader("Open a case to display chat");
+    SetChatLog("");
+    chatInput.value = ""
+    chatInput.disabled = true;
+    chatSendButton.disabled = true;
+}
+
+function ResetJournalToggles() {
+    for (var i = 0; i < journalToggles.length; i++) {
+        journalToggles[i].innerHTML = "<i class='far fa-eye'></i>";
+        journalToggles[i].field.readOnly = true;
+    }
+}
+
+function ToggleJournalField(toggle) {
+    toggle.field.readOnly = !toggle.field.readOnly;
+    if (toggle.field.readOnly)
+        toggle.innerHTML = "<i class='far fa-eye'></i>";
+    else
+        toggle.innerHTML = "<i class='fas fa-pencil-alt'></i>";
+}
+
+function SaveJournalField(type, value) {
+    SendToServer({
+        type: type,
+        id: currentCaseID,
+        value: value});
+}
+
 function GetTableRowByID(id) {
     for (let i = 0; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id)
@@ -192,28 +220,9 @@ function PlaceMarker(id, location) {
     });
 }
 
-function InitJournalToggle(button, id) {
-    button.field = document.getElementById(id);
-}
-
-function ToggleJournalField(button, id) {
-    if(!button.field) InitJournalToggle(button, id);
-    button.field.readOnly = !button.field.readOnly;
-
-    if (button.field.readOnly)
-        button.innerHTML = "<i class='far fa-eye'></i>";
-    else
-        button.innerHTML = "<i class='fas fa-pencil-alt'></i>";
-}
-
-function ResetJournalToggles() {
-    let buttons = document.getElementsByClassName("journal-toggle");
-
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].innerHTML = "<i class='far fa-eye'></i>";
-        if (buttons[i].field)
-            buttons[i].field.readOnly = true;
-    }
+function InitJournalToggles() {
+    for (var i = 0; i < journalToggles.length; i++)
+        journalToggles[i].field = document.getElementById(journalToggles[i].id);
 }
 
 function SendToServer(data) {
