@@ -49,7 +49,6 @@ s.on('connection', function(client) {
             cases.forEach(function(entry) {
                 if(entry.emd == client) {
                     entry.emd = null;
-                    entry.available = true;
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: entry.id
@@ -77,7 +76,6 @@ s.on('connection', function(client) {
                 data.id = ++counter;
                 data.creator = client;
                 data.emd = null;
-                data.available = true;
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = "";
@@ -94,9 +92,8 @@ s.on('connection', function(client) {
             case "RequestOpenCase":
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
-                    if (caseObj.available) {
+                    if (caseObj.emd == null) {
                         caseObj.emd = client;
-                        caseObj.available = false;
                         client.send(JSON.stringify(FullCase(caseObj)));
                         ChatNotifications(caseObj, true);
                         BroadcastToEMDs({
@@ -114,7 +111,6 @@ s.on('connection', function(client) {
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.emd = null;
-                    caseObj.available = true;
                     ChatNotifications(caseObj, false);
                     BroadcastToEMDs({
                         type: "CaseClosed",
@@ -208,7 +204,7 @@ function SimpleCase(data) {
         type: "Case",
         id: data.id,
         pos: data.pos,
-        available: data.available,
+        available: (data.emd == null),
         timeClock: data.timeClock
     };
 }

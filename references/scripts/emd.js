@@ -41,7 +41,6 @@ const archiveCaseButton = document.getElementById('archive-case-button');
 closeCaseButton.addEventListener("click", function(){
      CloseCurrentCase();
 });
-
 archiveCaseButton.onclick = function() {
     SendToServer( {type: "ArchiveCase", id: currentCaseID} );
     ResetJournal();
