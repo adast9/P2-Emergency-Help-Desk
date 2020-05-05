@@ -1,10 +1,9 @@
 # P2-Emergency-Help-Desk
 
 <!-- Editor -->
-Bare kopier hele linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\editor\>
+Bare kopier linjen nedefor ind i terminalen i dir ..\GitHub\P2-Emergency-Help-Desk\editor\>
 
 npm i --save
-
 
 For at starte express serveren skriver man "npm start" i terminalen
 
@@ -16,8 +15,6 @@ For at slukke serveren skal man trykke "ctrl + c" og skrive y i ens terminal
 To do:
 - Noget pagination ved x antal posts
 - At kunne lade være med at uploade pdf sådan at man får en mere blank post
-- Sortering af all posts (mangler kun time submitted)
-- Popup med "are you sure you want to delete post"
 - Editor dashboard skal have en guide til brug af siden
 
 
@@ -37,3 +34,5 @@ Done:
 - I view/default/index.handlebars er der javascript kode til search bar som skal flyttes
 - Fixe logout ved all posts og create post
 - Fixe shitty footer css
+- Sortering af all posts (mangler kun time submitted)
+- Popup med "are you sure you want to delete post"

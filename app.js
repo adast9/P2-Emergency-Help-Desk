@@ -4,9 +4,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const hbs = require("express-handlebars");
-const {mongoDbUrl, PORT} = require("./config/configuration");
+const {mongodbURL, PORT} = require("./config/configuration");
 const session = require("express-session");
-const mongodb = require("mongodb");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
 const passport = require("passport");
@@ -14,11 +13,6 @@ const flash = require("connect-flash");
 
 /* Small const for easier use of express */
 const app = express();
-
-/* Cors */
-app.use(require("cors")());
-
-let mongodbURL = "mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority";
 
 /* Configure Mongoose to Connect to MongoDB */
 mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
