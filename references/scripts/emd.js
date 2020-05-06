@@ -68,8 +68,10 @@ ws.onmessage = function(event) {
 
     switch(data.type) {
         case "Case":
-            console.log(`New case received. ID: ${parseInt(data.id)}`);
             AddCase(data);
+            if(currentCaseID != null)
+                UpdateNearbyCases(GetTableRowByID(currentCaseID).marker.position);
+            console.log(`New case received. ID: ${parseInt(data.id)}`);
             break;
         case "AllowOpenCase":
             if(currentCaseID != null)
@@ -93,6 +95,8 @@ ws.onmessage = function(event) {
             break;
         case "ArchiveCase":
             ArchiveCase(data.id);
+            if(currentCaseID != null)
+                UpdateNearbyCases(GetTableRowByID(currentCaseID).marker.position);
             break;
         default:
             console.log("Received some weird data... ");
