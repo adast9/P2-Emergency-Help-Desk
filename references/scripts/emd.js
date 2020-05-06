@@ -17,6 +17,7 @@ const journalCPR = document.getElementById('journal-cpr');
 const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');
+const journalNearbyCases = document.getElementById('journal-nearby-cases');
 const journalNotes = document.getElementById('journal-notes');
 
 // Journal variables for editable fields
@@ -133,16 +134,41 @@ function CloseCurrentCase() {
 }
 
 function UpdateJournal(data) {
+    let pos = GetTableRowByID(data.id).marker.position;
     ResetJournalToggles();
+    UpdateNearbyCases(pos);
     journalTitle.textContent = "Case ID: " + data.id;
     journalName.value = data.name;
     journalPhone.value = data.phone;
     journalCPR.value = data.cpr;
-    journalLocation.value = GetTableRowByID(data.id).marker.position;
+    journalLocation.value = pos;
     journalTime.value = data.timeDate + " " + data.timeClock;
     journalDescription.value = data.desc;
     journalNotes.value = data.notes;
     journal.style.display = 'block';
+}
+
+function UpdateNearbyCases(currentCasePos) {
+    while (journalNearbyCases.rows.length > 1) {
+        journalNearbyCases.deleteRow(-1);
+    }
+    let distanceToCases = [];
+    for (var i = 1; i < caseList.rows.length; i++) {
+        distanceToCases.push({
+            id: caseList.rows[i].id,
+            dist: calcDistance(currentCasePos, caseList.rows[i].marker.position)
+        })
+    }
+    distanceToCases.sort(function(a, b){return a.dist - b.dist});
+    for (var i = 1; i < distanceToCases.length; i++) {
+        let row = journalNearbyCases.insertRow();
+        row.insertCell().innerHTML = distanceToCases[i].id;
+        row.insertCell().innerHTML = Math.round(distanceToCases[i].dist);
+    }
+}
+
+function calcDistance(p1, p2) {
+    return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2));
 }
 
 function UpdateChat(data) {
@@ -160,7 +186,7 @@ function CaseUpdated(id, opened) {
 }
 
 function ArchiveCase(id) {
-    for (var i = 0; i < caseList.rows.length; i++) {
+    for (var i = 1; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id)
             caseList.deleteRow(i);
     }
@@ -203,7 +229,7 @@ function SaveJournalField(type, value) {
 }
 
 function GetTableRowByID(id) {
-    for (let i = 0; i < caseList.rows.length; i++) {
+    for (let i = 1; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id)
             return caseList.rows[i];
     }

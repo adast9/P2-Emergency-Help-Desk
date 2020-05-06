@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/emd.css">
 
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&sensor=false"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&libraries=geometry"></script>
     <script async defer src="/scripts/chat.js"></script>
     <script async defer src="/scripts/emd.js"></script>
     <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -26,9 +26,9 @@
         <table id="cases" class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th onclick="sortTable('sortById')">#</th>
-                    <th onclick="sortTable('sortByStatus')">Status</th>
-                    <th onclick="sortTable('sortById')">Time</th>
+                    <th class="clickable" onclick="sortTable('sortById')">#</th>
+                    <th class="clickable" onclick="sortTable('sortByStatus')">Status</th>
+                    <th class="clickable" onclick="sortTable('sortById')">Time</th>
                 </tr>
             </thead>
         </table>
@@ -109,6 +109,16 @@
                         <textarea class="form-control" id="journal-description" readonly></textarea>
                     </div>
                 </div>
+                <hr>
+                <label>Nearby cases:</label>
+                <table id="journal-nearby-cases" class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Distance (m)</th>
+                        </tr>
+                    </thead>
+                </table>
                 <hr>
                 <div class="form-group">
                     <label>Case notes:</label>
