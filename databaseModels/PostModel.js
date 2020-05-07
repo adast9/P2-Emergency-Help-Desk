@@ -23,12 +23,12 @@ const PostSchema = new Schema({
         default: () => Date.now()
     },
 
-    file: {
+    imageFile: {
         type: String,
         default: ""
     },
 
-    file2: {
+    pdfFile: {
         type: String,
         default: ""
     }

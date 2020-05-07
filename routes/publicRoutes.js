@@ -4,7 +4,7 @@ const publicController = require("../controllers/publicController");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
-const User = require("../models/UserModel").User;
+const User = require("../databaseModels/UserModel").User;
 
 
 router.all("/*", (req, res, next) => {

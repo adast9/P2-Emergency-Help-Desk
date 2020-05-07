@@ -1,6 +1,4 @@
-const Post = require("../models/PostModel").Post;
-const {isEmpty} = require("../config/functions");
-
+const Post = require("../databaseModels/PostModel").Post;
 
 module.exports =  {
 
@@ -20,16 +18,16 @@ module.exports =  {
 
     submitPosts: (req, res) => {
 
-       let file = req.files.uploadedFile;
-       let file2 = req.files.uploadedFile2;
+       let imageFile = req.files.uploadedImageFile;
+       let pdfFile = req.files.uploadedPdfFile;
 
        // Moves uploaded files to public/uploads
-       file.mv("./references/uploads/images/" + req.files.uploadedFile.name, (err) => {
+       imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
            if (err)
            throw err;
        });
 
-       file2.mv("./references/uploads/pdf/" + req.files.uploadedFile2.name, (err) => {
+       pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
            if (err)
            throw err;
        });
@@ -37,14 +35,14 @@ module.exports =  {
        const newPost = new Post({
          title: req.body.title,
          author: req.body.author,
-         file: "/uploads/images/" + req.files.uploadedFile.name,
+         imageFile: "/uploads/images/" + req.files.uploadedImageFile.name,
          description: req.body.description,
          status: req.body.status,
-         file2: "/uploads/pdf/" + req.files.uploadedFile2.name
+         pdfFile: "/uploads/pdf/" + req.files.uploadedPdfFile.name
        });
 
        newPost.save().then(post => {
-         req.flash("success-message", "Post was created Successfully.");
+         req.flash("success-message", "Post was created successfully.");
          res.redirect("/editor/posts");
        });
     },
@@ -59,52 +57,48 @@ module.exports =  {
 
     editPostSubmit: (req, res) => {
 
-        let filename = "";
-        let filename2 = "";
+        let imageFile = req.files.uploadedImageFile;
+        let pdfFile = req.files.uploadedPdfFile;
 
-        if(!isEmpty(req.files)) {
-            let file = req.files.uploadedFile;
-            filename = file.name;
+        // Moves uploaded files to public/uploads
+        imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
+            if (err)
+            throw err;
+        });
 
-            let uploadDir = "./references/uploads/images/";
-
-            file.mv(uploadDir+filename, (err) => {
-              if (err)
-               throw err;
-            });
-
-            let file2 = req.files.uploadedFile2;
-            filename2 = file2.name;
-
-            let uploadDir2 = "./references/uploads/pdf/";
-
-            file2.mv(uploadDir2+filename2, (err) => {
-              if (err)
-               throw err;
-            });
-        }
+        pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
+            if (err)
+            throw err;
+        });
 
         const id = req.params.id;
 
         Post.findById(id)
             .then(post => {
-                if(filename === "" && filename2 === "") {
-                    post.title = req.body.title;
-                    post.author = req.body.author;
-                    post.file = post.file;
-                    post.status = req.body.status;
-                    post.description = req.body.description;
-                    post.file2 = post.file2;
-                }
+                // if(req.files.uploadedFile.name === "" && req.files.uploadedpdfFile.name === "") {
+                //     post.title = req.body.title;
+                //     post.author = req.body.author;
+                //     post.file = post.file;
+                //     post.status = req.body.status;
+                //     post.description = req.body.description;
+                //     post.pdfFile = post.pdfFile;
+                // }
 
-                else if(filename != "" && filename2 != ""){
-                    post.title = req.body.title;
-                    post.author = req.body.author;
-                    post.file = `/uploads/images/${filename}`;
-                    post.status = req.body.status;
-                    post.description = req.body.description;
-                    post.file2 = `/uploads/pdf/${filename2}`;
-                }
+                // else if(req.files.uploadedFile.name != "" && req.files.uploadedpdfFile.name != ""){
+                //     post.title = req.body.title;
+                //     post.author = req.body.author;
+                //     post.file = "/uploads/images/" + req.files.uploadedFile.name;
+                //     post.status = req.body.status;
+                //     post.description = req.body.description;
+                //     post.pdfFile = "/uploads/pdf/" + req.files.uploadedpdfFile.name;
+                // }
+
+                post.title = req.body.title;
+                post.author = req.body.author;
+                post.imageFile = "/uploads/images/" + req.files.uploadedImageFile.name;
+                post.status = req.body.status;
+                post.description = req.body.description;
+                post.pdfFile = "/uploads/pdf/" + req.files.uploadedPdfFile.name;
 
                 post.save().then(updatePost => {
                     req.flash("success-message", `The post ${updatePost.title} has been updated.`)
