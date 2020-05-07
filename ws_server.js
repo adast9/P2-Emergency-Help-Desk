@@ -180,9 +180,11 @@ s.on('connection', function(client) {
                     caseObj.notes = data.value;
                 break;
             case "RequestReopenCase":
+                // A civillian wants to open an already existing case.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if(caseObj.creator) {
+                        // Reject because there is already a civillian viewing the case.
                         client.send(JSON.stringify({
                             type: "DenyReopenCase",
                             reason: 1
@@ -199,6 +201,7 @@ s.on('connection', function(client) {
                         caseObj.chatLog += msg;
                     }                   
                 } else {
+                    // Reject because the case has been archived.
                     client.send(JSON.stringify({
                         type: "DenyReopenCase",
                         reason: 2
@@ -243,6 +246,8 @@ s.on('connection', function(client) {
     });
 });
 
+// Sends a chat message to the client without logging it in a case.
+// Useful for chat notifications.
 function SendChatMessage(client, msg) {
     if (client != null)
         client.send(JSON.stringify({type: "ChatMessage", message: msg}));
@@ -295,12 +300,13 @@ function BroadcastToEMDs(data) {
 function getTimeClock() {
     let time = new Date();
     let hours = time.getHours();
+    let minutes = time.getMinutes();
+    let seconds = time.getSeconds();
+    
     if (hours < 10)
         hours = `0${hours}`;
-    let minutes = time.getMinutes();
     if (minutes < 10)
         minutes = `0${minutes}`;
-    let seconds = time.getSeconds();
     if (seconds < 10)
         seconds = `0${seconds}`
 
