@@ -66,7 +66,7 @@ s.on('connection', function(client) {
                     entry.creator = null;
                     let msg = "The case creator has disconnected...<br>";
                     SendChatMessage(entry.emd, msg);
-                    caseObj.chatLog += msg;
+                    entry.chatLog += msg;
                 }
             });
         }
