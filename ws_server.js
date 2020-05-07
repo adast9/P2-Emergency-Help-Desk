@@ -8,6 +8,8 @@ let counter = 0;
 console.log("Listening on port 3001...");
 //LoadCases();
 
+
+// For connecting to the MongoDB server when archiving cases
 const mongodb = require("mongodb");
 const mongoose = require("mongoose");
 const mongoDbUrl = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
@@ -37,7 +39,7 @@ const caseSchema = new mongoose.Schema({
 
 var Case = mongoose.model('Case', caseSchema);
 
-//Server handling events
+// Server handling events
 s.on('connection', function(client) {
 
     client.on('close', function() {
@@ -45,7 +47,7 @@ s.on('connection', function(client) {
         // If they are, remove them from the array.
         let i = emds.indexOf(client);
         if (i !== -1) {
-            // If the EMD had a case open, close it.
+            // If the EMD had a case open, make it available to other EMDs.
             cases.forEach(function(entry) {
                 if(entry.emd == client) {
                     entry.emd = null;
@@ -60,11 +62,14 @@ s.on('connection', function(client) {
         }
     });
 
+    // A client has sent a message to the server.
     client.on('message', function(message) {
         let data = JSON.parse(message);
 
+        // Handle the message depening on what 'type' it has.
         switch(data.type) {
             case "EMDConnect":
+                // An EMD has connected to the server.
                 console.log("EMD connected.");
                 emds.push(client);
                 cases.forEach(function(entry) {
@@ -72,6 +77,7 @@ s.on('connection', function(client) {
                 });
                 break;
             case "Case":
+                // New case submitted to the server.
                 // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
                 data.id = ++counter;
                 data.creator = client;
@@ -90,17 +96,22 @@ s.on('connection', function(client) {
                 //SaveCases();
                 break;
             case "RequestOpenCase":
+                // An EMD wants to view a case. Allow if the case is available, reject if it is taken.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if (caseObj.emd == null) {
                         caseObj.emd = client;
+                        // Send the case details to the EMD.
                         client.send(JSON.stringify(FullCase(caseObj)));
+                        // Notify case creator that an EMD is now viewing the case.
                         ChatNotifications(caseObj, true);
+                        // Update the case list for all EMDs so they can see the case is no longer available.
                         BroadcastToEMDs({
                             type: "CaseOpened",
                             id: data.id
                         })
                     } else {
+                        // The case is not available. Deny the EMDs request.
                         client.send(JSON.stringify({
                             type: "DenyOpenCase"
                         }));
@@ -108,9 +119,11 @@ s.on('connection', function(client) {
                 }
                 break;
             case "CloseCase":
+                // An EMD has closed a case. (NOT ARCHIVED). Make the case available to other EMDs again.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.emd = null;
+                    // Notify the case creator that an EMD is no longer viewing their case.
                     ChatNotifications(caseObj, false);
                     BroadcastToEMDs({
                         type: "CaseClosed",
@@ -119,6 +132,8 @@ s.on('connection', function(client) {
                 }
                 break;
             case "ChatMessage":
+                // Send a chat message. If it is sent from an EMD, forward the message to case creator.
+                // If the message comes from case creator, forward it to the EMD (If there is one viewing the case).
                 var caseObj = GetCaseByID(data.caseID);
                 if (caseObj != null) {
                     msgObj = {
@@ -134,30 +149,37 @@ s.on('connection', function(client) {
                 }
                 break;
             case "SaveName":
+                // An EMD has edited the Name field in a patient journal.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null)
                     caseObj.name = data.value;
                 break;
             case "SavePhone":
+                // An EMD has edited the Phone field in a patient journal.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null)
                     caseObj.phone = data.value;
                 break;
             case "SaveCPR":
+                // An EMD has edited the CPR field in a patient journal.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null)
                     caseObj.cpr = data.value;
                 break;
             case "SaveNotes":
+                // An EMD has edited the Notes field in a patient journal.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null)
                     caseObj.notes = data.value;
                 break;
             case "ArchiveCase":
+                // An EMD wants to archive a case.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
+                    // Let all EMDs know so it gets removed from their case list.
                     BroadcastToEMDs(data);
 
+                    // Send the case to MongoDB.
                     const newCase = new Case({
                         name: caseObj.name,
                         phone: caseObj.phone,
@@ -173,23 +195,27 @@ s.on('connection', function(client) {
                         console.log("Case archived (id: %d)", caseObj.id);
                     });
 
+                    // Remove the case from the cases[] array.
                     let i = cases.indexOf(caseObj);
                     cases.splice(i, 1);
                 }
                 break;
             default:
+                // This should never happen.
                 console.log("Received some weird data...");
                 break;
         }
     });
 });
 
+// Notifies a case creator when an EMD is viewing or has stopping viewing their case.
 function ChatNotifications(caseObj, open) {
     let msg = open ? "A dispatcher is now viewing your case..." : "A dispatcher has put your case on hold...";
     msg += "<br>";
     caseObj.creator.send(JSON.stringify({type: "ChatMessage", message: msg}));
 }
 
+// Returns the case object with a specific id from the cases[] array.
 function GetCaseByID(id) {
     for (var i = 0; i < cases.length; i++) {
         if(cases[i].id == id)
@@ -198,7 +224,7 @@ function GetCaseByID(id) {
     return null;
 }
 
-// Makes a smaller version of a case because the full case details are sent to EMDs when they open the case.
+// Lite version of a case. This is all the data needed for adding it to the EMD case list.
 function SimpleCase(data) {
     return {
         type: "Case",
@@ -209,6 +235,7 @@ function SimpleCase(data) {
     };
 }
 
+// Full version of a case. This is all the data needed for the chat and patient journal.
 function FullCase(data) {
     return {
         type: "AllowOpenCase",
@@ -231,6 +258,23 @@ function BroadcastToEMDs(data) {
     });
 }
 
+// What time is it? This is the time created value on cases.
+function getTimeClock() {
+    let time = new Date();
+    let hours = time.getHours();
+    if (hours < 10)
+        hours = `0${hours}`;
+    let minutes = time.getMinutes();
+    if (minutes < 10)
+        minutes = `0${minutes}`;
+    let seconds = time.getSeconds();
+    if (seconds < 10)
+        seconds = `0${seconds}`
+
+    return hours + ":" + minutes + ":" + seconds;
+}
+
+/*
 // Saves current cases to file, which can be loaded in the case of a server restart/crash.
 // NOTE: Can be improved if we only add/delete entries in the file when they are added/deleted instead of saving the entire array constantly.
 function SaveCases() {
@@ -243,12 +287,11 @@ function SaveCases() {
     fs.writeFile('cases.txt', JSON.stringify(cases, ["type", "id", "time", "desc", "pos", "lat", "lng"], 4), (err) => {
         if (err) {
             console.log("Failed to save cases. " + err);
-        } /*else {
-            console.log("Cases saved successfully. ");
-        }*/
+        }
     });
-}
+}*/
 
+/*
 // Load current cases from file
 function LoadCases() {
     //console.log("Loading current cases from previous session... ");
@@ -269,20 +312,4 @@ function LoadCases() {
             }
         }
     });
-}
-
-//when the server receives the new case
-function getTimeClock() {
-    let time = new Date();
-    let hours = time.getHours();
-    if (hours < 10)
-        hours = `0${hours}`;
-    let minutes = time.getMinutes();
-    if (minutes < 10)
-        minutes = `0${minutes}`;
-    let seconds = time.getSeconds();
-    if (seconds < 10)
-        seconds = `0${seconds}`
-
-    return hours + ":" + minutes + ":" + seconds;
-}
+}*/

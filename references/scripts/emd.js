@@ -119,7 +119,6 @@ function AddCase(data) {
     row.insertCell().innerHTML = (data.available) ? "Open" : "Locked";
     row.insertCell().innerHTML = data.timeClock;
 
-    //displaying the journal entry for the corresponding case ID
     idBtn.onclick = function() {
         SendToServer({
             type: "RequestOpenCase",

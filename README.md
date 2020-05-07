@@ -12,10 +12,21 @@ Her kan man så finde sin side på localhost:3000
 For at slukke serveren skal man trykke "ctrl + c" og skrive y i ens terminal
 
 
+
+
+
+
+
+
+
+
+
+
 To do:
 - Noget pagination ved x antal posts
 - At kunne lade være med at uploade pdf sådan at man får en mere blank post
 - Editor dashboard skal have en guide til brug af siden
+- PDF viser ikke i ny post
 
 
 Done:
