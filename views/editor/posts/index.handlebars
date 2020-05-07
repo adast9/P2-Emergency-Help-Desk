@@ -17,10 +17,10 @@
     <table class="table table-bordered" id="myTable">
         <thead class="bg-dark text-center">
             <tr class="text-white">
-                <th onclick="sortTable(0)">Title</th>
-                <th onclick="sortTable(1)">Author</th>
-                <th onclick="sortTable(2)">Description</th>
-                <th onclick="sortTable(3)">Time submitted</th>
+                <th onclick="sortTable('myTable', 0, false)">Title</th>
+                <th onclick="sortTable('myTable', 1, false)">Author</th>
+                <th onclick="sortTable('myTable', 2, false)">Description</th>
+                <th onclick="sortTable('myTable', 3, false)">Time submitted</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -112,44 +112,6 @@
                 }
             }
         }
-
-    function sortTable(n) {
-        let rows, i, x, y, shouldSwap, table, direction, sorting, switchcount = 0;
-        table = document.getElementById("myTable");
-        sorting = true;
-        direction = "asc";
-
-        while (sorting) {
-            sorting = false;
-            rows = table.rows;
-            for(i = 1; i < (rows.length - 1); i++) {
-                shouldSwap = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-                if (direction == "asc") {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwap = true;
-                        break;
-                    }
-                } else if (direction == "desc") {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        shouldSwap = true;
-                        break;
-                    }
-                }
-            }
-            if(shouldSwap) {
-                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
-                sorting = true;
-                switchcount ++;
-            } else {
-                if (switchcount == 0 && direction == "asc") {
-                    direction = "desc";
-                    sorting = true;
-                }
-            }
-        }
-    }
     </script>
 
 

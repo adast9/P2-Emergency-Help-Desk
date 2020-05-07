@@ -13,6 +13,7 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&libraries=geometry"></script>
     <script async defer src="/scripts/chat.js"></script>
     <script async defer src="/scripts/emd.js"></script>
+    <script async defer src="/scripts/sort-table.js"></script>
     <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -26,9 +27,9 @@
         <table id="cases" class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th class="clickable" onclick="sortTable('sortById')">#</th>
-                    <th class="clickable" onclick="sortTable('sortByStatus')">Status</th>
-                    <th class="clickable" onclick="sortTable('sortById')">Time</th>
+                    <th class="clickable" onclick="sortTable('cases', 0, true)">#</th>
+                    <th class="clickable" onclick="sortTable('cases', 1, false)">Status</th>
+                    <th class="clickable" onclick="sortTable('cases', 2, false)">Time</th>
                 </tr>
             </thead>
         </table>
@@ -114,8 +115,8 @@
                 <table id="journal-nearby-cases" class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th>#</th>
-                            <th>Distance (m)</th>
+                            <th class="clickable" onclick="sortTable('journal-nearby-cases', 0, false)">#</th>
+                            <th class="clickable" onclick="sortTable('journal-nearby-cases', 1, false)">Distance (m)</th>
                         </tr>
                     </thead>
                 </table>
