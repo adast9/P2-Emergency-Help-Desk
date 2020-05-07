@@ -17,8 +17,8 @@
 
                 <div class="form-group">
                   <label for="file">Thumbnail upload</label>
-                  <p>Current uploaded image-file: {{post.file}} </p>
-                  <input type="file" class="form-control" id="file" name="uploadedFile" required>
+                  <p>Current uploaded image-file: {{post.imageFile}} </p>
+                  <input type="file" class="form-control" id="image-file" name="uploadedImageFile" required>
                 </div>
 
                 <div class="form-group">
@@ -27,9 +27,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="file2">PDF upload</label>
-                  <p>Current uploaded pdf-file: {{post.file2}} </p>
-                  <input type="file" class="form-control" id="file2" name="uploadedFile2" required>
+                  <label for="pdfFile">PDF upload</label>
+                  <p>Current uploaded pdf-file: {{post.pdfFile}} </p>
+                  <input type="file" class="form-control" id="pdf-file" name="uploadedPdfFile" required>
                 </div>
 
                 <button class="btn btn-outline-warning btn-lg" type="submit">Edit Post</button>

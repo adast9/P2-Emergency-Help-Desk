@@ -1,6 +1,6 @@
-const Post = require("../models/PostModel").Post;
+const Post = require("../databaseModels/PostModel").Post;
 const bcrypt = require("bcryptjs");
-const User = require("../models/UserModel").User;
+const User = require("../databaseModels/UserModel").User;
 
 module.exports = {
 

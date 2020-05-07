@@ -1,10 +1,9 @@
 /* Importing Different Modules */
-const {globalVariables} = require("./config/configuration");
+const {globalVariables} = require("./references/scripts/configuration");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const hbs = require("express-handlebars");
-const {mongodbURL, PORT} = require("./config/configuration");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
@@ -15,6 +14,8 @@ const flash = require("connect-flash");
 const app = express();
 
 /* Configure Mongoose to Connect to MongoDB */
+let mongodbURL = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
+
 mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => {
         console.log("MongoDB Connected Successfully.");
@@ -62,6 +63,8 @@ app.use("/editor", editorRoutes);
 app.use("/dispatcher", dispatcherRoutes);
 
 /* Start The Server */
+PORT = 3000;
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

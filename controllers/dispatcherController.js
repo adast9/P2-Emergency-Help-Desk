@@ -1,5 +1,4 @@
-const Post = require("../models/PostModel").Post;
-const {isEmpty} = require("../config/functions");
+const Post = require("../databaseModels/PostModel").Post;
 
 module.exports =  {
 
