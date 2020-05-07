@@ -10,7 +10,6 @@ console.log("Listening on port 3001...");
 
 
 // For connecting to the MongoDB server when archiving cases
-const mongodb = require("mongodb");
 const mongoose = require("mongoose");
 const mongoDbUrl = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
 
