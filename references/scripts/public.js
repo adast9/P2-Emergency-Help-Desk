@@ -30,6 +30,7 @@ previousButton.onclick = function() {
 submitButton.onclick = function() { 
     details.style.display = "none";
     chatStuff.style.display = "block";
+    chatLog.innerHTML = "Your case has been submitted...<br>";
     SubmitCase() 
 };
 
@@ -52,6 +53,21 @@ ws.onmessage = function(event) {
             // Received a chat message from a dispatcher.
             ChatMessage(data.message);
             break;
+        case "AllowReopenCase":
+            SetChatID(data.id);
+            ChatMessage("Case reopened...<br>");
+            chatLog.innerHTML += data.chatLog;
+            break;
+        case "DenyReopenCase":
+            switch (data.reason) {
+                case 1:
+                    ChatMessage("Request denied. Someone else has the case open.<br>");
+                    break;
+                case 2:
+                    ChatMessage("Request denied. The case has been closed.<br>");
+                    break;
+            }
+            break;
     }
 }
 
@@ -72,6 +88,16 @@ function SubmitCase() {
 
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
+}
+
+function ReopenCase(id) {
+    SendToServer({
+        type: "RequestReopenCase",
+        id: id
+    });
+    chatLog.innerHTML = "Your request to reopen the case has been sent...<br>";
+    mapStuff.style.display = "none";
+    chatStuff.style.display = "block";
 }
 
 function googleTranslateElementInit() {

@@ -1,3 +1,9 @@
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&sensor=false"></script>
+<script async defer src="scripts/chat.js"></script>
+<script async defer src="scripts/public.js"></script>
+<script async defer src="scripts/map.js"></script>
+<script async defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <div id="google_translate_element"></div>
 
 <div id="public-container">
@@ -13,6 +19,7 @@
         <div id="map"></div>
         <hr>
         <button id="next" type="button" style="float:right;" class="btn btn-primary">Next ❯</button>
+        <p>Already opened a case? <a href="#" onclick="ReopenCase(prompt('Please enter your case ID.'))">Click here.</a></p>
     </div>
 
     <div id="details" style="display:none">
@@ -46,7 +53,7 @@
         <hr>
         <div id="chat">
             <div id="chat-header"></div>
-            <div id="chat-log">Your case has been submitted...<br>Note: Do NOT close this window if you wish to speak with a dispatcher.<br></div>
+            <div id="chat-log"></div>
             <div id="chat-footer">
                 <input id="chat-input" type="text" placeholder="Enter message here..."></input>
                 <button id="chat-send" type="button" class="btn btn-primary">Send</button>

@@ -177,10 +177,13 @@ function UpdateNearbyCases(currentCasePos) {
     let distanceToCases = [];
     // Calculate distances to each case.
     for (var i = 1; i < caseList.rows.length; i++) {
-        distanceToCases.push({
-            id: caseList.rows[i].id,
-            dist: calcDistance(currentCasePos, caseList.rows[i].marker.position)
-        })
+        let dist = calcDistance(currentCasePos, caseList.rows[i].marker.position);
+        if (Math.round(dist) <= 1000) {
+            distanceToCases.push({
+                id: caseList.rows[i].id,
+                dist: dist
+            });
+        }
     }
     // Sort by distance in ascending order.
     distanceToCases.sort(function(a, b){return a.dist - b.dist});
@@ -199,7 +202,6 @@ function calcDistance(p1, p2) {
 
 // Set up chat for the current case.
 function UpdateChat(data) {
-    SetChatHeader("Case ID: " + data.id);
     SetChatID(data.id);
     chatLog.innerHTML = data.chatLog;
     chatInput.disabled = false;

@@ -51,6 +51,7 @@ s.on('connection', function(client) {
             cases.forEach(function(entry) {
                 if(entry.emd == client) {
                     entry.emd = null;
+                    SendChatMessage(entry.emd, "A dispatcher has put your case on hold...<br>"); 
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: entry.id
@@ -59,6 +60,16 @@ s.on('connection', function(client) {
             });
             console.log("EMD disconnected.");
             emds.splice(i, 1);
+        } else {
+            // Not an EMD, check if they created a case.
+            cases.forEach(function(entry) {
+                if(entry.creator == client) {
+                    entry.creator = null;
+                    let msg = "The case creator has disconnected...<br>";
+                    SendChatMessage(entry.emd, msg);
+                    caseObj.chatLog += msg;
+                }
+            });
         }
     });
 
@@ -104,7 +115,8 @@ s.on('connection', function(client) {
                         // Send the case details to the EMD.
                         client.send(JSON.stringify(FullCase(caseObj)));
                         // Notify case creator that an EMD is now viewing the case.
-                        ChatNotifications(caseObj, true);
+                        SendChatMessage(caseObj.creator, "A dispatcher is now viewing your case...<br>");
+
                         // Update the case list for all EMDs so they can see the case is no longer available.
                         BroadcastToEMDs({
                             type: "CaseOpened",
@@ -124,7 +136,7 @@ s.on('connection', function(client) {
                 if (caseObj != null) {
                     caseObj.emd = null;
                     // Notify the case creator that an EMD is no longer viewing their case.
-                    ChatNotifications(caseObj, false);
+                    SendChatMessage(caseObj.creator, "A dispatcher has put your case on hold...<br>");
                     BroadcastToEMDs({
                         type: "CaseClosed",
                         id: data.id
@@ -133,18 +145,14 @@ s.on('connection', function(client) {
                 break;
             case "ChatMessage":
                 // Send a chat message. If it is sent from an EMD, forward the message to case creator.
-                // If the message comes from case creator, forward it to the EMD (If there is one viewing the case).
+                // If the message comes from case creator, forward it to the EMD.
                 var caseObj = GetCaseByID(data.caseID);
                 if (caseObj != null) {
-                    msgObj = {
-                        type: "ChatMessage",
-                        message: data.message
-                    };
-                    if (data.emd)
-                        caseObj.creator.send(JSON.stringify(msgObj));
-                    else
-                        if(caseObj.emd) caseObj.emd.send(JSON.stringify(msgObj));
-
+                    if (data.emd)  
+                        SendChatMessage(caseObj.creator, data.message);
+                    else 
+                        SendChatMessage(caseObj.emd, data.message);
+                    
                     caseObj.chatLog += data.message;
                 }
                 break;
@@ -172,12 +180,40 @@ s.on('connection', function(client) {
                 if (caseObj != null)
                     caseObj.notes = data.value;
                 break;
+            case "RequestReopenCase":
+                var caseObj = GetCaseByID(data.id);
+                if (caseObj != null) {
+                    if(caseObj.creator) {
+                        client.send(JSON.stringify({
+                            type: "DenyReopenCase",
+                            reason: 1
+                        }));
+                    } else {
+                        caseObj.creator = client;
+                        client.send(JSON.stringify({
+                            type: "AllowReopenCase",
+                            id: data.id,
+                            chatLog: caseObj.chatLog
+                        }));
+                        let msg = "The case creator has reconnected...<br>";
+                        SendChatMessage(caseObj.emd, msg);
+                        caseObj.chatLog += msg;
+                    }                   
+                } else {
+                    client.send(JSON.stringify({
+                        type: "DenyReopenCase",
+                        reason: 2
+                    }));
+                }
+                break;
             case "ArchiveCase":
                 // An EMD wants to archive a case.
                 var caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     // Let all EMDs know so it gets removed from their case list.
                     BroadcastToEMDs(data);
+
+                    SendChatMessage(caseObj.creator, "Your case has now been closed. Further communication is not possible.<br>");
 
                     // Send the case to MongoDB.
                     const newCase = new Case({
@@ -208,11 +244,9 @@ s.on('connection', function(client) {
     });
 });
 
-// Notifies a case creator when an EMD is viewing or has stopping viewing their case.
-function ChatNotifications(caseObj, open) {
-    let msg = open ? "A dispatcher is now viewing your case..." : "A dispatcher has put your case on hold...";
-    msg += "<br>";
-    caseObj.creator.send(JSON.stringify({type: "ChatMessage", message: msg}));
+function SendChatMessage(client, msg) {
+    if (client != null)
+        client.send(JSON.stringify({type: "ChatMessage", message: msg}));
 }
 
 // Returns the case object with a specific id from the cases[] array.
