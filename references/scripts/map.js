@@ -1,43 +1,52 @@
-let map, infoWindow, marker;
-const searchBar = document.getElementById('address');
-const searchButton = document.getElementById('search');
-const gpsButton = document.getElementById('gps');
+// The map script used on the public side.
 
-map = new google.maps.Map(document.getElementById('map'), {
+// Center the map on Denmark :).
+const map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 56.2, lng: 10.3333283},
     zoom: 7,
     tilt: 0
 });
-infoWindow = new google.maps.InfoWindow;
-
-// This event listener will place the marker when the map is clicked.
-map.addListener('click', function(event) {
-    PlaceMarker(event.latLng);
-});
-
-let noPoi = [{
+// Hides shops, businesses, etc on the map.
+const noPoi = [{
     featureType: "poi",
     stylers: [{visibility: "off"}]
 }];
 map.setOptions({styles: noPoi});
 
-let geocoder = new google.maps.Geocoder();
+// Place/update the map marker when the map is clicked.
+map.addListener('click', function(event) {
+    PlaceMarker(event.latLng);
+});
+// Used in geolocation.
+const infoWindow = new google.maps.InfoWindow;
+
+// For searching google maps.
+const geocoder = new google.maps.Geocoder();
+let marker;
+
+const searchBar = document.getElementById('address');
 searchBar.addEventListener('keydown', function(event) {
-    //Checks if Enter key was pressed so search bar works without having to click "Search" button
+    // For using the searh bar with the Enter key.
     if (event && event.keyCode == 13)
         Search(geocoder, map);
 });
 
+const searchButton = document.getElementById('search');
 searchButton.addEventListener('click', function(){ Search(geocoder, map); });
+
+const gpsButton = document.getElementById('gps');
 gpsButton.addEventListener('click', function(){ Geolocate(); });
 
 Geolocate();
 
+// Place/move the map marker. 
 function PlaceMarker(location) {
     if(marker) {
+        // Marker already exists, so move it to the new location.
         marker.setPosition(location);
         marker.setAnimation(google.maps.Animation.DROP);
     } else {
+        // Create the marker at the location.
         marker = new google.maps.Marker({
             position: location,
             map: map,
@@ -47,8 +56,8 @@ function PlaceMarker(location) {
     }
 }
 
+// Uses HTML5 geolocation to try to locate the user automatically.
 function Geolocate() {
-    // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -62,14 +71,14 @@ function Geolocate() {
             HandleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
-        // Browser doesn't support Geolocation
+        // Browser doesn't support geolocation.
         HandleLocationError(false, infoWindow, map.getCenter());
     }
 }
 
+// Search google maps.
 function Search(geocoder, resultsMap) {
-    var address = document.getElementById('address').value;
-    geocoder.geocode({'address': address}, function(results, status) {
+    geocoder.geocode({'address': searchBar.value}, function(results, status) {
         if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
             PlaceMarker(results[0].geometry.location);

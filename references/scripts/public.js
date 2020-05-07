@@ -10,6 +10,7 @@ const desc = document.getElementById('desc');
 const chatStuff = document.getElementById('chat-stuff');
 let ws = new WebSocket("ws://localhost:3001");
 
+// Go to case details form when the next button is clicked.
 nextButton.onclick = function() {
     if(marker) {
         mapStuff.style.display = "none";
@@ -19,34 +20,42 @@ nextButton.onclick = function() {
     }
 }
 
+// Go back to the map when the previous button is clicked.
 previousButton.onclick = function() {
     mapStuff.style.display = "block";
     details.style.display = "none";
 }
 
+// Go to the live chat when the submit button is clicked.
 submitButton.onclick = function() { 
     details.style.display = "none";
     chatStuff.style.display = "block";
     SubmitCase() 
 };
 
+// Connected to the WebSocket server.
 ws.onopen = function() {
     console.log("Connected to the server.");
 }
 
+// Received a message from the server.
 ws.onmessage = function(event) {
     data = JSON.parse(event.data);
 
     switch (data.type) {
         case "CaseCreated":
+            // Our case has been created on the server!
+            // Pass the case ID on to the chat. This function is in chat.js
             SetChatID(data.id);
             break;
         case "ChatMessage":
+            // Received a chat message from a dispatcher.
             ChatMessage(data.message);
             break;
     }
 }
 
+// Submit our case to the server.
 function SubmitCase() {
     let data = {
         type: "Case",
@@ -72,31 +81,3 @@ function googleTranslateElementInit() {
         google.translate.TranslateElement.InlineLayout.SIMPLE
     }, "google_translate_element" );
 }
-
-//when the user presses the 'send' button, the time this chat message is received on the server is recorded
-/*function getTimeClock() {
-    let time = new Date();
-    let hours = time.getHours();
-    if (hours < 10)
-        hours = `0${hours}`;
-    let minutes = time.getMinutes();
-    if (minutes < 10)
-        minutes = `0${minutes}`;
-    let seconds = time.getSeconds();
-    if (seconds < 10)
-        seconds = `0${seconds}`
-
-    return hours + ":" + minutes + ":" + seconds;
-}*/
-
-/*chatButtonPublic.onclick = function() {
-    let chatMessage = ("[%s] %s: %s", getTimeClock(), name.value, text.value);
-    log.innerHTML += chatMessage; //needs to be saved on server * HUSK!
-    text.value = '';
-    log.scrollTop = log.scrollHeight;
-    SendToServer({
-        type: "ChatMessage",
-        user: "public",
-        message: chatMessage
-    });
-}*/
