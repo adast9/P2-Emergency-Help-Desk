@@ -57,7 +57,7 @@ router.route("/login")
     .get(publicController.loginGet)
 
 router.post("/login", function(req, res, next) {
-    passport.authenticate("local", function (err, user, info) {
+    passport.authenticate("local", function (err, user) {
         if(err)
         return next(err);
 
