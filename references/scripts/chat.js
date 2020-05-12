@@ -17,16 +17,18 @@ chatSendButton.onclick = function() {
 }
 
 function SendMessage() {
-    let msg = chatName + ": " + chatInput.value + "<br>";
+    let msg = chatName + ": " + chatInput.value;
+    
     ChatMessage(msg);
-    chatLog.scrollTop = chatLog.scrollHeight;
-    chatInput.value = '';
     SendToServer({
         type: "ChatMessage",
         message: msg,
         caseID: caseID,
         emd: emd
     });
+
+    chatLog.scrollTop = chatLog.scrollHeight;
+    chatInput.value = "";
 }
 
 function SetChatHeader(value) { chatHeader.innerHTML = value; }
@@ -37,4 +39,4 @@ function SetChatID(id) {
     SetChatHeader("Case ID: " + id);
 }
 function SetChatEMD(bool) { emd = bool; }
-function ChatMessage(msg) { chatLog.innerHTML += msg; }
+function ChatMessage(msg) { chatLog.innerHTML += msg + "<br>"; }

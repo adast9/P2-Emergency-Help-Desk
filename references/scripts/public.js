@@ -30,7 +30,8 @@ previousButton.onclick = function() {
 submitButton.onclick = function() { 
     details.style.display = "none";
     chatStuff.style.display = "block";
-    chatLog.innerHTML = "Your case has been submitted...<br>";
+
+    ChatMessage("Your case has been submitted...");
     SubmitCase() 
 };
 
@@ -55,16 +56,20 @@ ws.onmessage = function(event) {
             break;
         case "AllowReopenCase":
             SetChatID(data.id);
-            ChatMessage("Case reopened...<br>");
-            chatLog.innerHTML += data.chatLog;
+            ChatMessage("Case reopened...");
+            for (var i = 0; i < data.chatLog.length; i++) {
+                ChatMessage(data.chatLog[i]);
+            }
+            mapStuff.style.display = "none";
+            chatStuff.style.display = "block";
             break;
         case "DenyReopenCase":
             switch (data.reason) {
                 case 1:
-                    ChatMessage("Request denied. Someone else has the case open.<br>");
+                    alert("Request denied. Someone else has the case open.");
                     break;
                 case 2:
-                    ChatMessage("Request denied. The case has been closed.<br>");
+                    alert("Request denied. The case has been closed or it does not exist.");
                     break;
             }
             break;
@@ -95,9 +100,6 @@ function ReopenCase(id) {
         type: "RequestReopenCase",
         id: id
     });
-    chatLog.innerHTML = "Your request to reopen the case has been sent...<br>";
-    mapStuff.style.display = "none";
-    chatStuff.style.display = "block";
 }
 
 function googleTranslateElementInit() {

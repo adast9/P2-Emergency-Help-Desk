@@ -203,7 +203,10 @@ function calcDistance(p1, p2) {
 // Set up chat for the current case.
 function UpdateChat(data) {
     SetChatID(data.id);
-    chatLog.innerHTML = data.chatLog;
+    chatLog.innerHTML = "";
+    for (var i = 0; i < data.chatLog.length; i++) {
+        ChatMessage(data.chatLog[i]);
+    }
     chatInput.disabled = false;
     chatSendButton.disabled = false;
 }
@@ -218,8 +221,10 @@ function CaseUpdated(id, opened) {
 // An EMD has archived a case. Remove it from the case list.
 function ArchiveCase(id) {
     for (var i = 1; i < caseList.rows.length; i++) {
-        if (caseList.rows[i].id == id)
+        if (caseList.rows[i].id == id) {
+            caseList.rows[i].marker.setMap(null);
             caseList.deleteRow(i);
+        }
     }
 }
 
@@ -233,7 +238,7 @@ function ResetJournal() {
 // Not viewing a case. Set the chat to its default state.
 function ResetChat() {
     SetChatHeader("Open a case to display chat");
-    SetChatLog("");
+    chatLog.innerHTML = "";
     chatInput.value = ""
     chatInput.disabled = true;
     chatSendButton.disabled = true;
