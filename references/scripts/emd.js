@@ -131,10 +131,14 @@ function AddCase(data) {
     idBtn.classList.add("btn-outline-dark");
     idBtnCell.appendChild(idBtn);
     idBtn.onclick = function() {
-        SendToServer({
-            type: "RequestOpenCase",
-            id: row.id
-        });
+        if(currentCaseID != row.id) {
+            SendToServer({
+                type: "RequestOpenCase",
+                id: row.id
+            });
+        } else {
+            alert("You are already working on this case.");
+        }
     }
 
     // Case availability and time created.
