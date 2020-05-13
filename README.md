@@ -14,7 +14,7 @@ Install node modules with `npm i --save`
 ## Usage
 You can run START.bat to start the Express and WebSocket servers. Alternatively, you can navigate to the folder in your terminal and start the Express server with the command `npm start`. Then in another terminal window you will have to navigate to the folder again and run `node ws_server.js` to start the WebSocket server.
 
-When the servers are running you can open the WebApp in your favourite browser by entering `localhost:3000` in the address bar.
+When the servers are running you can open the web app in your favourite browser by entering `localhost:3000` in the address bar.
 
 - Editor login: yeso@gmail.com : 321
 - EMD login: yeeto@gmail.com : 123
