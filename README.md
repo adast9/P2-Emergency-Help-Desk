@@ -15,8 +15,8 @@ You can run `START.bat` to quickly start the Express and WebSocket servers. Alte
 
 When the servers are running you can open the web app in your favourite browser by entering `localhost:3000` in the address bar.
 
-- Editor login: yeso@gmail.com : 321
-- EMD login: yeeto@gmail.com : 123
+- Editor login: yeeto@gmail.com : 123
+- EMD login: yeso@gmail.com : 321
 
 To stop the servers press `ctrl + c` in your terminal. The express server will want you to confirm by writing `y` or `n`.
 
