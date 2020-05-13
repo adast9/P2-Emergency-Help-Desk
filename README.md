@@ -7,7 +7,7 @@ This project is a web app that is meant to serve as an online alternative to cal
 Install [Node.js](https://nodejs.org/en/)
 
 Download/clone the repository and navigate to the folder in your terminal: 
-  `cd ...\Documents\GitHub\P2-Emergency-Help-Desk\>`
+-  `cd ...\Documents\GitHub\P2-Emergency-Help-Desk\>`
 
 Install node modules with `npm i --save`
 
@@ -16,14 +16,10 @@ You can run START.bat to start the Express and WebSocket servers. Alternatively,
 
 When the servers are running you can open the WebApp in your favourite browser by entering `localhost:3000` in the address bar.
 
-Editor login:  yeso@gmail.com  : 321
-EMD login:     yeeto@gmail.com : 123
+- Editor login: yeso@gmail.com : 321
+- EMD login: yeeto@gmail.com : 123
 
 To stop the servers press `ctrl + c` in your terminal. The express server will want you to confirm by writing `y` or `n`.
-
-
-
-
 
 <!--
 To do:
