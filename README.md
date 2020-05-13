@@ -1,6 +1,4 @@
 # P2-Emergency-Help-Desk
-
-## About
 This project is a web app that is meant to serve as an online alternative to calling 112/114 with some extra features. People can submit their emergencies and then receive live support from a medical dispatcher through live chat. There is an EMD side where dispatchers can see and respond to all active emergencies and there is an info page which would be updated regularly with the latest important news. Editors can create new posts for the info page.
 
 ## Installation
