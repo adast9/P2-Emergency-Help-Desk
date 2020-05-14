@@ -4,7 +4,8 @@
   "description": "Nodejs CMS Application",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test": "jest"
   },
   "author": "C1-14 gang",
   "license": "",
@@ -23,6 +24,7 @@
     "ws": "^7.2.3"
   },
   "devDependencies": {
-    "handlebars": "^4.5.0"
+    "handlebars": "^4.5.0",
+    "jest": "^26.0.1"
   }
 }
