@@ -4,6 +4,7 @@ const s = new server({ port: 3001 });
 let emds = [];
 let cases = [];
 let counter = 0;
+let caseObj;
 
 console.log("Listening on port 3001...");
 
@@ -104,7 +105,7 @@ s.on('connection', function(client) {
                 break;
             case "RequestOpenCase":
                 // An EMD wants to view a case. Allow if the case is available, reject if it is taken.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if (caseObj.emd == null) {
                         caseObj.emd = client;
@@ -128,7 +129,7 @@ s.on('connection', function(client) {
                 break;
             case "CloseCase":
                 // An EMD has closed a case. Make the case available to other EMDs again.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.emd = null;
                     // Notify the case creator that an EMD is no longer viewing their case.
@@ -142,7 +143,7 @@ s.on('connection', function(client) {
             case "ChatMessage":
                 // Send a chat message. If it is sent from an EMD, forward the message to case creator.
                 // If the message comes from case creator, forward it to the EMD.
-                let caseObj = GetCaseByID(data.caseID);
+                caseObj = GetCaseByID(data.caseID);
                 if (caseObj != null) {
                     if (data.emd)  
                         SendChatMessage(caseObj.creator, data.message);
@@ -155,7 +156,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveName":
                 // An EMD has edited the Name field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.name = data.value;
                     SaveCases();
@@ -163,7 +164,7 @@ s.on('connection', function(client) {
                 break;
             case "SavePhone":
                 // An EMD has edited the Phone field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.phone = data.value;
                     SaveCases();
@@ -171,7 +172,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveCPR":
                 // An EMD has edited the CPR field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.cpr = data.value;
                     SaveCases();
@@ -179,7 +180,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveNotes":
                 // An EMD has edited the Notes field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.notes = data.value;
                     SaveCases();
@@ -187,7 +188,7 @@ s.on('connection', function(client) {
                 break;
             case "RequestReopenCase":
                 // A civillian wants to open an already existing case.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if(caseObj.creator) {
                         // Reject because there is already a civillian viewing the case.
@@ -215,7 +216,7 @@ s.on('connection', function(client) {
                 break;
             case "ArchiveCase":
                 // An EMD wants to archive a case.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     // Let all EMDs know so it gets removed from their case list.
                     BroadcastToEMDs(data);
