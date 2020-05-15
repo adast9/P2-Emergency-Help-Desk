@@ -143,7 +143,7 @@ s.on('connection', function(client) {
             case "ChatMessage":
                 // Send a chat message. If it is sent from an EMD, forward the message to case creator.
                 // If the message comes from case creator, forward it to the EMD.
-                caseObj = GetCaseByID(data.caseID);
+                caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if (data.emd)  
                         SendChatMessage(caseObj.creator, data.message);

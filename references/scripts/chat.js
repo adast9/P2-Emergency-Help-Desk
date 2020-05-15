@@ -23,7 +23,7 @@ function SendMessage() {
     SendToServer({
         type: "ChatMessage",
         message: msg,
-        caseID: caseID,
+        id: caseID,
         emd: emd
     });
 

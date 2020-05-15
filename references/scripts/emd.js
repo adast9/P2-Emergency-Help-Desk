@@ -25,9 +25,9 @@ const journalToggles = document.getElementsByClassName('journal-toggle');
 let saveName, savePhone, saveCPR, saveNotes;
 InitJournalToggles();
 
-journalName.onkeyup = function() { saveName = JournalFieldKeyUp(this, "SaveName", saveName) };
+journalName.onkeyup  = function() { saveName  = JournalFieldKeyUp(this, "SaveName", saveName) };
 journalPhone.onkeyup = function() { savePhone = JournalFieldKeyUp(this, "SavePhone", savePhone) };
-journalCPR.onkeyup = function() { saveCPR = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
+journalCPR.onkeyup   = function() { saveCPR   = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
 journalNotes.onkeyup = function() { saveNotes = JournalFieldKeyUp(this, "SaveNotes", saveNotes) };
 
 // Editable journal fields are saved x milliseconds after finishing typing.
