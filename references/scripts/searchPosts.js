@@ -29,7 +29,7 @@ function searchPostsEditor() {
 }
 
 // Search function for the public info page, where each post is listed as a list item
-let blogposts = document.getElementsByClassName('card mb-4');
+let blogposts = document.getElementsByName('list');
 
 function searchPostsPublic() {
     let input = document.getElementById('searchbar').value

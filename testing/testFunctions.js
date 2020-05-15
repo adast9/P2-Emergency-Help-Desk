@@ -95,26 +95,5 @@ const sortTable = (tableID, colIndex, sortByID) => {
     }
 };
 
-const toArray = () => {
-    let table = document.getElementById("myTable");
-    let tableArr = [];
-    for ( var i = 1; i < table.rows.length; i++ ) {
-        tableArr.push({
-            Title: table.rows[i].cells[0].innerHTML,
-            Author: table.rows[i].cells[1].innerHTML,
-            Description: table.rows[i].cells[2].innerHTML,
-            Time_submitted: table.rows[i].cells[3].innerHTML,
-        });
-    }
-
-    // tableArr = JSON.stringify(tableArr);
-
-    console.log(tableArr);
-
-    return tableArr;
-
-};
-
-exports.toArray = toArray;
 exports.sortTable = sortTable;
 exports.convert = convert;

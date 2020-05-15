@@ -11,7 +11,6 @@ const puppeteer = require("puppeteer");
 
 
 /*  Unit test for convert function */
-
 const {convert} = require("./testFunctions");
 
 test('should output date in a converted format', () => {
@@ -23,7 +22,6 @@ test('should output date in a converted format', () => {
 
 /*  End to end test with sortTable  */
 const {sortTable} = require("./testFunctions");
-const {toArray} = require("./testFunctions");
 
 test("should sort the table in regards to the title", async () => {
     const browser = await puppeteer.launch({
@@ -38,13 +36,16 @@ test("should sort the table in regards to the title", async () => {
 
     await page.click("#sort");
 
-    await page.$eval("#")
+    const title1 = await page.$eval('#titleElement1', el => el.textContent);
+    const title2 = await page.$eval('#titleElement2', el => el.textContent);
+    const title3 = await page.$eval('#titleElement3', el => el.textContent);
+    const title4 = await page.$eval('#titleElement4', el => el.textContent);
 
-    /* Table content after sort */   /* måske gøre table content til array */
-    // const afterSort = toArray();
+    const titleArr = [title3, title1, title2, title4];
 
+    const expectedArr = ["Burger King", "Corona", "McDonalds", "Sunset"];
 
+    expect(titleArr).toStrictEqual(expectedArr);
 
-    // expect().toBe("");
-
+    await browser.close();
 });
