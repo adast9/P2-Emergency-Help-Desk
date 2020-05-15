@@ -13,9 +13,9 @@ const map = new google.maps.Map(document.getElementById("map"), {
 // Journal input fields
 const journalTitle = document.getElementById('journal-title');
 const journal = document.getElementById('journal');
-const journalName = document.getElementById('journal-name');
-const journalPhone = document.getElementById('journal-phone');
-const journalCPR = document.getElementById('journal-cpr');
+const journalName = document.getElementById('journal-name-text');
+const journalPhone = document.getElementById('journal-phone-text');
+const journalCPR = document.getElementById('journal-cpr-text');
 const journalLocation = document.getElementById('journal-location');
 const journalTime = document.getElementById('journal-fulltime');
 const journalDescription = document.getElementById('journal-description');

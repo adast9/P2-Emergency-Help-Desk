@@ -1,8 +1,8 @@
 // File information
 
-const Post = require("../databaseModels/PostModel").Post;
+const Post = require("../databaseModels/postModel").Post;
 const bcrypt = require("bcryptjs");
-const User = require("../databaseModels/UserModel").User;
+const User = require("../databaseModels/userModel").User;
 
 module.exports = {
 
