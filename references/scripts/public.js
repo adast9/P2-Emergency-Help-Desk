@@ -57,7 +57,7 @@ ws.onmessage = function(event) {
         case "AllowReopenCase":
             SetChatID(data.id);
             ChatMessage("Case reopened...");
-            for (var i = 0; i < data.chatLog.length; i++) {
+            for (let i = 0; i < data.chatLog.length; i++) {
                 ChatMessage(data.chatLog[i]);
             }
             mapStuff.style.display = "none";

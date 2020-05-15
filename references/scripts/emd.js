@@ -180,7 +180,7 @@ function UpdateNearbyCases(currentCasePos) {
     }
     let distanceToCases = [];
     // Calculate distances to each case.
-    for (var i = 1; i < caseList.rows.length; i++) {
+    for (let i = 1; i < caseList.rows.length; i++) {
         let dist = calcDistance(currentCasePos, caseList.rows[i].marker.position);
         if (Math.round(dist) <= 1000) {
             distanceToCases.push({
@@ -192,7 +192,7 @@ function UpdateNearbyCases(currentCasePos) {
     // Sort by distance in ascending order.
     distanceToCases.sort(function(a, b){return a.dist - b.dist});
     // Update the table
-    for (var i = 1; i < distanceToCases.length; i++) {
+    for (let i = 1; i < distanceToCases.length; i++) {
         let row = journalNearbyCases.insertRow();
         row.insertCell().innerHTML = distanceToCases[i].id;
         row.insertCell().innerHTML = Math.round(distanceToCases[i].dist);
@@ -208,7 +208,7 @@ function calcDistance(p1, p2) {
 function UpdateChat(data) {
     SetChatID(data.id);
     chatLog.innerHTML = "";
-    for (var i = 0; i < data.chatLog.length; i++) {
+    for (let i = 0; i < data.chatLog.length; i++) {
         ChatMessage(data.chatLog[i]);
     }
     chatInput.disabled = false;
@@ -217,14 +217,14 @@ function UpdateChat(data) {
 
 // An EMD has is now viewing or no longer viewing a case. Update the case's status in the case list.
 function CaseUpdated(id, opened) {
-    var row = GetTableRowByID(id);
+    let row = GetTableRowByID(id);
     if (row != null)
         row.cells[1].innerHTML = opened ? "Locked" : "Open";
 }
 
 // An EMD has archived a case. Remove it from the case list.
 function ArchiveCase(id) {
-    for (var i = 1; i < caseList.rows.length; i++) {
+    for (let i = 1; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id) {
             caseList.rows[i].marker.setMap(null);
             caseList.deleteRow(i);
@@ -250,7 +250,7 @@ function ResetChat() {
 
 // Make editable fields in the journal locked.
 function ResetJournalToggles() {
-    for (var i = 0; i < journalToggles.length; i++) {
+    for (let i = 0; i < journalToggles.length; i++) {
         journalToggles[i].innerHTML = "<i class='far fa-eye'></i>";
         journalToggles[i].field.readOnly = true;
     }
@@ -293,7 +293,7 @@ function PlaceMarker(id, location) {
 }
 
 function InitJournalToggles() {
-    for (var i = 0; i < journalToggles.length; i++)
+    for (let i = 0; i < journalToggles.length; i++)
         journalToggles[i].field = document.getElementById(journalToggles[i].id);
 }
 

@@ -60,7 +60,7 @@ function PlaceMarker(location) {
 function Geolocate() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
+            let pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };

@@ -34,7 +34,7 @@ const caseSchema = new mongoose.Schema({
     timeClock: String,
     timeDate: String
 });
-var Case = mongoose.model('Case', caseSchema);
+let Case = mongoose.model('Case', caseSchema);
 
 LoadCases();
 
@@ -104,7 +104,7 @@ s.on('connection', function(client) {
                 break;
             case "RequestOpenCase":
                 // An EMD wants to view a case. Allow if the case is available, reject if it is taken.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if (caseObj.emd == null) {
                         caseObj.emd = client;
@@ -128,7 +128,7 @@ s.on('connection', function(client) {
                 break;
             case "CloseCase":
                 // An EMD has closed a case. Make the case available to other EMDs again.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.emd = null;
                     // Notify the case creator that an EMD is no longer viewing their case.
@@ -142,7 +142,7 @@ s.on('connection', function(client) {
             case "ChatMessage":
                 // Send a chat message. If it is sent from an EMD, forward the message to case creator.
                 // If the message comes from case creator, forward it to the EMD.
-                var caseObj = GetCaseByID(data.caseID);
+                let caseObj = GetCaseByID(data.caseID);
                 if (caseObj != null) {
                     if (data.emd)  
                         SendChatMessage(caseObj.creator, data.message);
@@ -155,7 +155,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveName":
                 // An EMD has edited the Name field in a patient journal.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.name = data.value;
                     SaveCases();
@@ -163,7 +163,7 @@ s.on('connection', function(client) {
                 break;
             case "SavePhone":
                 // An EMD has edited the Phone field in a patient journal.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.phone = data.value;
                     SaveCases();
@@ -171,7 +171,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveCPR":
                 // An EMD has edited the CPR field in a patient journal.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.cpr = data.value;
                     SaveCases();
@@ -179,7 +179,7 @@ s.on('connection', function(client) {
                 break;
             case "SaveNotes":
                 // An EMD has edited the Notes field in a patient journal.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.notes = data.value;
                     SaveCases();
@@ -187,7 +187,7 @@ s.on('connection', function(client) {
                 break;
             case "RequestReopenCase":
                 // A civillian wants to open an already existing case.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     if(caseObj.creator) {
                         // Reject because there is already a civillian viewing the case.
@@ -215,7 +215,7 @@ s.on('connection', function(client) {
                 break;
             case "ArchiveCase":
                 // An EMD wants to archive a case.
-                var caseObj = GetCaseByID(data.id);
+                let caseObj = GetCaseByID(data.id);
                 if (caseObj != null) {
                     // Let all EMDs know so it gets removed from their case list.
                     BroadcastToEMDs(data);
@@ -263,7 +263,7 @@ function SendChatMessage(client, msg) {
 
 // Returns the case object with a specific id from the cases[] array.
 function GetCaseByID(id) {
-    for (var i = 0; i < cases.length; i++) {
+    for (let i = 0; i < cases.length; i++) {
         if(cases[i].id == id)
             return cases[i];
     }
