@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script src="/scripts/searchPosts.js"></script>
 </head>
 
 <body>
@@ -33,43 +34,6 @@
     </nav>
 
 <div class="container">
-    <div class="container">
-      {{#if success_message}}
-
-        <div class="alert alert-success alert-dismissible fade show mt-2 auto-hide" role="alert">
-            <strong>{{success_message}}</strong>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">x</span>
-            </button>
-        </div>
-
-      {{/if}}
-
-      {{#if error_message}}
-
-        <div class="alert alert-danger alert-dismissible fade show mt-2 auto-hide" role="alert">
-            <strong>{{error_message}}</strong>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">x</span>
-            </button>
-        </div>
-      {{/if}}
-    </div>
-
-    <!-- To enable the closing/opening of flash messages + logout button -->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <script>
-      $(document).ready(function(){
-        setTimeout(function(){
-          $(".auto-hide").slideUp(300);
-      }, 5000);
-      });
-    </script>
     {{{ body }}}
 </div>
 

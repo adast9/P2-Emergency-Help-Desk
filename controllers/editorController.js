@@ -1,6 +1,6 @@
 // File information
 
-const Post = require("../databaseModels/PostModel").Post;
+const Post = require("../databaseModels/postModel").Post;
 
 // Module is exported so it can be imported in "editorRoutes"
 module.exports = {

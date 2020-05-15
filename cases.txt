@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "type": "case",
+        "id": 1,
+        "name": "",
+        "phone": "",
+        "cpr": "",
+        "desc": "",
+        "notes": "",
+        "chatLog": [],
+        "timeClock": "14:22:23",
+        "timeDate": "2020-5-15",
+        "pos": {
+            "lat": 57.0359808,
+            "lng": 9.9516416
+        }
+    }
+]
