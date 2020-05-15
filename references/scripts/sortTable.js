@@ -1,3 +1,5 @@
+// File information
+
 function sortTable(tableID, colIndex, sortByID) {
     let sorting = true;
     let rows, i, caseId1, caseId2, x, y, shouldSwap, direction;

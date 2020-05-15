@@ -1,3 +1,5 @@
+{{!-- This is the body of the public side, where a citizen can submit a case --}}
+
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&sensor=false"></script>
 <script async defer src="scripts/chat.js"></script>
 <script async defer src="scripts/public.js"></script>
@@ -19,7 +21,7 @@
         <div id="map"></div>
         <hr>
         <button id="next" type="button" style="float:right;" class="btn btn-primary">Next ❯</button>
-        <p>Already opened a case? <a href="#" onclick="ReopenCase(prompt('Please enter your case ID.'))">Click here.</a></p>
+        <p>Already opened a case? <a href="#" onclick="reopenCase(prompt('Please enter your case ID.'))">Click here.</a></p>
     </div>
 
     <div id="details" style="display:none">

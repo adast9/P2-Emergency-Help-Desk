@@ -1,8 +1,9 @@
+// File information, f.eks. hvor der eksporteres til nederst
+
 const express = require("express");
 const router = express.Router();
 const editorController = require("../controllers/editorController");
-const {isUserAuthenticated} = require("../references/scripts/functionForPosts");
-const LocalStrategy = require("passport-local").Strategy;
+const {isUserAuthenticated} = require("../references/scripts/userAuthentication");
 
 router.all("/*", isUserAuthenticated, (req, res, next) => {
 
@@ -22,20 +23,20 @@ router.route("/posts/create")
     .post(editorController.submitPosts);
 
 router.route("/posts/edit/:id")
-  .get(editorController.editPost)
-  .put(editorController.editPostSubmit);
+    .get(editorController.editPost)
+    .put(editorController.editPostSubmit);
 
 router.route("/posts/delete/:id")
-  .delete(editorController.deletePost);
+    .delete(editorController.deletePost);
 
 router.get("/logout", (req, res) => {
-      req.logOut();
-      res.redirect("/login");
+    req.logOut();
+    res.redirect("/login");
 });
 
 router.get("/posts/logout", (req, res) => {
-      req.logOut();
-      res.redirect("/login");
+    req.logOut();
+    res.redirect("/login");
 });
 
 module.exports = router;

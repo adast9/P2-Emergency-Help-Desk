@@ -1,10 +1,14 @@
+// File information
+
 const fs = require('fs');
 const server = require('ws').Server;
 const s = new server({ port: 3001 });
 let emds = [];
 let cases = [];
 let counter = 0;
+let caseObj;
 
+// skalrettes: den her viser vel ikke, at man rent faktisk har forbindelse til serveren? Den vil vel altid skrive det der ud i konsollen?
 console.log("Listening on port 3001...");
 
 // For connecting to the MongoDB server when archiving cases
@@ -34,9 +38,9 @@ const caseSchema = new mongoose.Schema({
     timeClock: String,
     timeDate: String
 });
-let Case = mongoose.model('Case', caseSchema);
+let Case = mongoose.model('case', caseSchema);
 
-LoadCases();
+loadCases();
 
 // Server handling events
 s.on('connection', function(client) {
@@ -50,9 +54,9 @@ s.on('connection', function(client) {
             cases.forEach(function(entry) {
                 if(entry.emd == client) {
                     entry.emd = null;
-                    SendChatMessage(entry.creator, "A dispatcher has put your case on hold..."); 
-                    BroadcastToEMDs({
-                        type: "CaseClosed",
+                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold..."); 
+                    broadcastToEMDs({
+                        type: "caseClosed",
                         id: entry.id
                     });
                 }
@@ -64,7 +68,7 @@ s.on('connection', function(client) {
                 if(entry.creator == client) {
                     entry.creator = null;
                     let msg = "The case creator has disconnected...";
-                    SendChatMessage(entry.emd, msg);
+                    sendChatMessage(entry.emd, msg);
                 }
             });
         }
@@ -80,10 +84,10 @@ s.on('connection', function(client) {
                 // An EMD has connected to the server.
                 emds.push(client);
                 cases.forEach(function(entry) {
-                    client.send(JSON.stringify(SimpleCase(entry)));
+                    client.send(JSON.stringify(simpleCase(entry)));
                 });
                 break;
-            case "Case":
+            case "case":
                 // New case submitted to the server.
                 // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
                 data.id = ++counter;
@@ -96,131 +100,131 @@ s.on('connection', function(client) {
                 console.log("Case created (id: %d)", data.id);
                 cases.push(data);
                 client.send(JSON.stringify({
-                    type: "CaseCreated",
+                    type: "caseCreated",
                     id: data.id
                 }));
-                BroadcastToEMDs(SimpleCase(data));
-                SaveCases();
+                broadcastToEMDs(simpleCase(data));
+                saveCases();
                 break;
-            case "RequestOpenCase":
-                // An EMD wants to view a case. Allow if the case is available, reject if it is taken.
-                let caseObj = GetCaseByID(data.id);
+            case "requestOpenCase":
+                // An EMD wants to view a case. Allow if the case is available, reject if it is taken
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     if (caseObj.emd == null) {
                         caseObj.emd = client;
                         // Send the case details to the EMD.
-                        client.send(JSON.stringify(FullCase(caseObj)));
+                        client.send(JSON.stringify(fullCase(caseObj)));
                         // Notify case creator that an EMD is now viewing the case.
-                        SendChatMessage(caseObj.creator, "A dispatcher is now viewing your case...");
+                        sendChatMessage(caseObj.creator, "A dispatcher is now viewing your case...");
 
                         // Update the case list for all EMDs so they can see the case is no longer available.
-                        BroadcastToEMDs({
-                            type: "CaseOpened",
+                        broadcastToEMDs({
+                            type: "caseOpened",
                             id: data.id
                         })
                     } else {
                         // The case is not available. Deny the EMDs request.
                         client.send(JSON.stringify({
-                            type: "DenyOpenCase"
+                            type: "denyOpenCase"
                         }));
                     }
                 }
                 break;
-            case "CloseCase":
+            case "closeCase":
                 // An EMD has closed a case. Make the case available to other EMDs again.
-                let caseObj = GetCaseByID(data.id);
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.emd = null;
                     // Notify the case creator that an EMD is no longer viewing their case.
-                    SendChatMessage(caseObj.creator, "A dispatcher has put your case on hold...");
-                    BroadcastToEMDs({
-                        type: "CaseClosed",
+                    sendChatMessage(caseObj.creator, "A dispatcher has put your case on hold...");
+                    broadcastToEMDs({
+                        type: "caseClosed",
                         id: data.id
                     });
                 }
                 break;
-            case "ChatMessage":
+            case "chatMessage":
                 // Send a chat message. If it is sent from an EMD, forward the message to case creator.
                 // If the message comes from case creator, forward it to the EMD.
-                let caseObj = GetCaseByID(data.caseID);
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     if (data.emd)  
-                        SendChatMessage(caseObj.creator, data.message);
+                        sendChatMessage(caseObj.creator, data.message);
                     else 
-                        SendChatMessage(caseObj.emd, data.message);
+                        sendChatMessage(caseObj.emd, data.message);
                     
                     caseObj.chatLog.push(data.message);
-	                SaveCases();
+	                saveCases();
                 }
                 break;
-            case "SaveName":
-                // An EMD has edited the Name field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+            case "saveName":
+                // An EMD has edited the Name field in a patient journal
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.name = data.value;
-                    SaveCases();
+                    saveCases();
                 }
                 break;
-            case "SavePhone":
-                // An EMD has edited the Phone field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+            case "savePhone":
+                // An EMD has edited the Phone field in a patient journal
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.phone = data.value;
-                    SaveCases();
+                    saveCases();
                 }
                 break;
-            case "SaveCPR":
-                // An EMD has edited the CPR field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+            case "saveCPR":
+                // An EMD has edited the CPR field in a patient journal
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.cpr = data.value;
-                    SaveCases();
+                    saveCases();
                 }
                 break;
-            case "SaveNotes":
-                // An EMD has edited the Notes field in a patient journal.
-                let caseObj = GetCaseByID(data.id);
+            case "saveNotes":
+                // An EMD has edited the Notes field in a patient journal
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.notes = data.value;
-                    SaveCases();
+                    saveCases();
                 }
                 break;
-            case "RequestReopenCase":
-                // A civillian wants to open an already existing case.
-                let caseObj = GetCaseByID(data.id);
+            case "requestReopenCase":
+                // A civillian wants to open an already existing case
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     if(caseObj.creator) {
                         // Reject because there is already a civillian viewing the case.
                         client.send(JSON.stringify({
-                            type: "DenyReopenCase",
+                            type: "denyReopenCase",
                             reason: 1
                         }));
                     } else {
                         caseObj.creator = client;
                         client.send(JSON.stringify({
-                            type: "AllowReopenCase",
+                            type: "allowReopenCase",
                             id: data.id,
                             chatLog: caseObj.chatLog
                         }));
                         let msg = "The case creator has reconnected...";
-                        SendChatMessage(caseObj.emd, msg);
+                        sendChatMessage(caseObj.emd, msg);
                     }                   
                 } else {
                     // Reject because the case has been archived.
                     client.send(JSON.stringify({
-                        type: "DenyReopenCase",
+                        type: "denyReopenCase",
                         reason: 2
                     }));
                 }
                 break;
-            case "ArchiveCase":
-                // An EMD wants to archive a case.
-                let caseObj = GetCaseByID(data.id);
+            case "archiveCase":
+                // An EMD wants to archive a case
+                caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     // Let all EMDs know so it gets removed from their case list.
-                    BroadcastToEMDs(data);
+                    broadcastToEMDs(data);
 
-                    SendChatMessage(caseObj.creator, "Your case has now been closed. Further communication is not possible.");
+                    sendChatMessage(caseObj.creator, "Your case has now been closed. Further communication is not possible.");
 
                     // Send the case to MongoDB.
                     const newCase = new Case({
@@ -239,15 +243,15 @@ s.on('connection', function(client) {
                         console.log("Case archived (id: %d)", caseObj.id);
                     });
 
-                    // Remove the case from the cases[] array.
+                    // Remove the case from the cases.txt [] array
                     let i = cases.indexOf(caseObj);
                     cases.splice(i, 1);
 
-                    SaveCases();
+                    saveCases();
                 }
                 break;
             default:
-                // This should never happen.
+                // This should never happen -> skalrettes: skriv i stedet, hvornår det her kan ske
                 console.log("Received some weird data...");
                 break;
         }
@@ -256,13 +260,13 @@ s.on('connection', function(client) {
 
 // Sends a chat message to the client without logging it in a case.
 // Useful for chat notifications.
-function SendChatMessage(client, msg) {
+function sendChatMessage(client, msg) {
     if (client != null)
-        client.send(JSON.stringify({type: "ChatMessage", message: msg}));
+        client.send(JSON.stringify({type: "chatMessage", message: msg}));
 }
 
 // Returns the case object with a specific id from the cases[] array.
-function GetCaseByID(id) {
+function getCaseByID(id) {
     for (let i = 0; i < cases.length; i++) {
         if(cases[i].id == id)
             return cases[i];
@@ -271,9 +275,9 @@ function GetCaseByID(id) {
 }
 
 // Lite version of a case. This is all the data needed for adding it to the EMD case list.
-function SimpleCase(data) {
+function simpleCase(data) {
     return {
-        type: "Case",
+        type: "case",
         id: data.id,
         pos: data.pos,
         available: (data.emd == null),
@@ -282,9 +286,9 @@ function SimpleCase(data) {
 }
 
 // Full version of a case. This is all the data needed for the chat and patient journal.
-function FullCase(data) {
+function fullCase(data) {
     return {
-        type: "AllowOpenCase",
+        type: "allowOpenCase",
         id: data.id,
         name: data.name,
         phone: data.phone,
@@ -298,13 +302,13 @@ function FullCase(data) {
 }
 
 // Sends data to all connected EMDs
-function BroadcastToEMDs(data) {
+function broadcastToEMDs(data) {
     emds.forEach(function(emd) {
         emd.send(JSON.stringify(data));
     });
 }
 
-// What time is it? This is the time created value on cases.
+// What time is it? This is the time created value on cases
 function getTimeClock() {
     let time = new Date();
     let hours = time.getHours();
@@ -324,7 +328,7 @@ function getTimeClock() {
 
 // Saves current cases to file, which can be loaded in the case of a server restart/crash.
 // NOTE: Can be improved if we only add/delete entries in the file when they are added/deleted instead of saving the entire array constantly.
-function SaveCases() {
+function saveCases() {
     //Delete any already existing data in save file
     fs.truncate('cases.txt', 0, function(){});
 
@@ -337,7 +341,7 @@ function SaveCases() {
 }
 
 // Load current cases from file
-function LoadCases() {
+function loadCases() {
     console.log("Loading active cases from previous session...");
 
     fs.readFile('cases.txt', {encoding: 'utf-8'}, function(err, data){

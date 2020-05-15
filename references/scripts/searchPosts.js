@@ -1,4 +1,7 @@
-function search_posts() {
+// File information
+
+// Search function for the editor page, where each post is listed as a table cell
+function searchPostsEditor() {
     let input, filter, table, tr, td, i, j, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -8,7 +11,7 @@ function search_posts() {
         td = tr[i].getElementsByTagName("td");
         let matches = false;
 
-        for (j = 0; j < 3; j++) {
+        for (j = 0; j < 4; j++) {
             if (td[j]) {
                 txtValue = td[j].textContent || td[j].innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -21,6 +24,23 @@ function search_posts() {
             tr[i].style.display = "";
         } else {
             tr[i].style.display = "none";
+        }
+    }
+}
+
+// Search function for the public info page, where each post is listed as a list item
+let blogposts = document.getElementsByClassName('card mb-4');
+
+function searchPostsPublic() {
+    let input = document.getElementById('searchbar').value
+    input = input.toLowerCase();
+
+    for (i = 0; i < blogposts.length; i++) {
+        if (!blogposts[i].title.toLowerCase().includes(input)) {
+            blogposts[i].style.display = "none";
+        }
+        else {
+            blogposts[i].style.display = "list-item";
         }
     }
 }

@@ -1,3 +1,5 @@
+// File information
+
 function googleTranslateElementInit() {
 	new google.translate.TranslateElement(
 		{pageLanguage: "en", layout:  /*Her indsættes det sprog man ønsker at oversætte fra */

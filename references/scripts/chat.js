@@ -1,3 +1,5 @@
+// File information
+
 const chatHeader = document.getElementById('chat-header');
 const chatLog = document.getElementById('chat-log');
 const chatInput = document.getElementById('chat-input');
@@ -7,21 +9,21 @@ let emd = false;
 let chatName = "Civillian";
 
 chatInput.onkeydown = function(event) {
-    //Checks if Enter key was pressed so user doesn't have to click "Send" button
+    //Checks if Enter key was pressed so user doen not have to click "Send" button
     if (event && event.keyCode == 13)
-        SendMessage();
+        sendMessage();
 }
 
 chatSendButton.onclick = function() {
-    SendMessage();
+    sendMessage();
 }
 
-function SendMessage() {
+function sendMessage() {
     let msg = chatName + ": " + chatInput.value;
     
-    ChatMessage(msg);
-    SendToServer({
-        type: "ChatMessage",
+    chatMessage(msg);
+    sendToServer({
+        type: "chatMessage",
         message: msg,
         caseID: caseID,
         emd: emd
@@ -31,12 +33,12 @@ function SendMessage() {
     chatInput.value = "";
 }
 
-function SetChatHeader(value) { chatHeader.innerHTML = value; }
-function SetChatLog(log) {chatLog.innerHTML = log; }
-function SetChatName(value) { chatName = value; }
-function SetChatID(id) { 
+function setChatHeader(value) { chatHeader.innerHTML = value; }
+function setChatLog(log) {chatLog.innerHTML = log; }
+function setChatName(value) { chatName = value; }
+function setChatID(id) { 
     caseID = id; 
-    SetChatHeader("Case ID: " + id);
+    setChatHeader("Case ID: " + id);
 }
-function SetChatEMD(bool) { emd = bool; }
-function ChatMessage(msg) { chatLog.innerHTML += msg + "<br>"; }
+function setChatEMD(bool) { emd = bool; }
+function chatMessage(msg) { chatLog.innerHTML += msg + "<br>"; }

@@ -1,24 +1,8 @@
+{{!-- This is the body of the public info page --}}
+
 <div class="row">
     <div class="col-md-8">
         <h1 class="my-4">Health related posts </h1>
-
-        <script>
-        let blogposts = document.getElementsByClassName('card mb-4');
-
-        function search_posts() {
-            let input = document.getElementById('searchbar').value
-            input = input.toLowerCase();
-
-            for (i = 0; i < blogposts.length; i++) {
-                if (!blogposts[i].title.toLowerCase().includes(input)) {
-                    blogposts[i].style.display = "none";
-                }
-                else {
-                    blogposts[i].style.display = "list-item";
-                }
-            }
-        }
-        </script>
 
         <ol style="list-style-type:none" id='list'>
 
@@ -49,9 +33,11 @@
             <h5 class="card-header">Search</h5>
             <div class="card-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="search_posts()">
+                    <input type="text" class="form-control" placeholder="Search for a Post" id="searchbar" onkeyup="searchPostsPublic()">
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="./references/scripts/searchPosts.js"></script>
 </div>

@@ -1,62 +1,61 @@
+// File information
+
 const Post = require("../databaseModels/PostModel").Post;
 
-module.exports =  {
+// Module is exported so it can be imported in "editorRoutes"
+module.exports = {
 
-   index:  (req, res) => {
+    index: (req, res) => {
         res.render('editor/index');
     },
 
     getPosts: (req, res) => {
-      Post.find().then(posts => {
-        res.render("editor/posts/index", {posts: posts});
-      });
+        Post.find().then(posts => {
+            res.render("editor/posts/index", {posts: posts});
+        });
     },
 
     createPosts: (req, res) => {
-       res.render('editor/posts/create');
+        res.render('editor/posts/create');
     },
 
     submitPosts: (req, res) => {
+        let imageFile = req.files.uploadedImageFile;
+        let pdfFile = req.files.uploadedPdfFile;
 
-       let imageFile = req.files.uploadedImageFile;
-       let pdfFile = req.files.uploadedPdfFile;
+        // Moves uploaded files to public/uploads
+        imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
+            if (err)
+            throw err;
+        });
 
-       // Moves uploaded files to public/uploads
-       imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
-           if (err)
-           throw err;
-       });
+        pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
+            if (err)
+            throw err;
+        });
 
-       pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
-           if (err)
-           throw err;
-       });
+        const newPost = new Post({
+            title: req.body.title,
+            author: req.body.author,
+            imageFile: "/uploads/images/" + req.files.uploadedImageFile.name,
+            description: req.body.description,
+            pdfFile: "/uploads/pdf/" + req.files.uploadedPdfFile.name
+        });
 
-       const newPost = new Post({
-         title: req.body.title,
-         author: req.body.author,
-         imageFile: "/uploads/images/" + req.files.uploadedImageFile.name,
-         description: req.body.description,
-         status: req.body.status,
-         pdfFile: "/uploads/pdf/" + req.files.uploadedPdfFile.name
-       });
-
-       newPost.save().then(post => {
-         req.flash("success-message", "Post was created successfully.");
-         res.redirect("/editor/posts");
-       });
+        newPost.save().then(post => {
+            req.flash("success-message", "Post was created successfully.");
+            res.redirect("/editor/posts");
+        });
     },
 
     editPost: (req, res) => {
-      const id = req.params.id;
-      Post.findById(id).then(post => {
-        res.render("editor/posts/edit", {post: post});
-      });
-
+        const id = req.params.id;
+        Post.findById(id).then(post => {
+            res.render("editor/posts/edit", {post: post});
+        });
     },
 
     editPostSubmit: (req, res) => {
-
         let imageFile = req.files.uploadedImageFile;
         let pdfFile = req.files.uploadedPdfFile;
 
@@ -75,28 +74,9 @@ module.exports =  {
 
         Post.findById(id)
             .then(post => {
-                // if(req.files.uploadedFile.name === "" && req.files.uploadedpdfFile.name === "") {
-                //     post.title = req.body.title;
-                //     post.author = req.body.author;
-                //     post.file = post.file;
-                //     post.status = req.body.status;
-                //     post.description = req.body.description;
-                //     post.pdfFile = post.pdfFile;
-                // }
-
-                // else if(req.files.uploadedFile.name != "" && req.files.uploadedpdfFile.name != ""){
-                //     post.title = req.body.title;
-                //     post.author = req.body.author;
-                //     post.file = "/uploads/images/" + req.files.uploadedFile.name;
-                //     post.status = req.body.status;
-                //     post.description = req.body.description;
-                //     post.pdfFile = "/uploads/pdf/" + req.files.uploadedpdfFile.name;
-                // }
-
                 post.title = req.body.title;
                 post.author = req.body.author;
                 post.imageFile = "/uploads/images/" + req.files.uploadedImageFile.name;
-                post.status = req.body.status;
                 post.description = req.body.description;
                 post.pdfFile = "/uploads/pdf/" + req.files.uploadedPdfFile.name;
 
@@ -104,14 +84,14 @@ module.exports =  {
                     req.flash("success-message", `The post ${updatePost.title} has been updated.`)
                     res.redirect("/editor/posts");
                 });
-        });
+            });
     },
 
     deletePost: (req, res) => {
-      Post.findByIdAndDelete(req.params.id)
-        .then(deletedPost => {
-          req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
-          res.redirect("/editor/posts");
-      });
+        Post.findByIdAndDelete(req.params.id)
+            .then(deletedPost => {
+                req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
+                res.redirect("/editor/posts");
+            });
     }
 };

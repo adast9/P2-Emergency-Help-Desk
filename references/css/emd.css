@@ -4,7 +4,7 @@ html, body {
 }
 
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .column-left {

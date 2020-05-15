@@ -1,3 +1,5 @@
+// File information
+
 const nextButton = document.getElementById('next');
 const previousButton = document.getElementById('previous');
 const submitButton = document.getElementById('submit');
@@ -31,39 +33,39 @@ submitButton.onclick = function() {
     details.style.display = "none";
     chatStuff.style.display = "block";
 
-    ChatMessage("Your case has been submitted...");
-    SubmitCase() 
+    chatMessage("Your case has been submitted.");
+    submitCase() 
 };
 
-// Connected to the WebSocket server.
+// Connected to the WebSocket server
 ws.onopen = function() {
     console.log("Connected to the server.");
 }
 
-// Received a message from the server.
+// Received a message from the server
 ws.onmessage = function(event) {
     data = JSON.parse(event.data);
 
     switch (data.type) {
-        case "CaseCreated":
+        case "caseCreated":
             // Our case has been created on the server!
             // Pass the case ID on to the chat. This function is in chat.js
-            SetChatID(data.id);
+            setChatID(data.id);
             break;
-        case "ChatMessage":
+        case "chatMessage":
             // Received a chat message from a dispatcher.
-            ChatMessage(data.message);
+            chatMessage(data.message);
             break;
-        case "AllowReopenCase":
-            SetChatID(data.id);
-            ChatMessage("Case reopened...");
+        case "allowReopenCase":
+            setChatID(data.id);
+            chatMessage("Case reopened...");
             for (let i = 0; i < data.chatLog.length; i++) {
-                ChatMessage(data.chatLog[i]);
+                chatMessage(data.chatLog[i]);
             }
             mapStuff.style.display = "none";
             chatStuff.style.display = "block";
             break;
-        case "DenyReopenCase":
+        case "denyReopenCase":
             switch (data.reason) {
                 case 1:
                     alert("Request denied. Someone else has the case open.");
@@ -76,10 +78,10 @@ ws.onmessage = function(event) {
     }
 }
 
-// Submit our case to the server.
-function SubmitCase() {
+// Function submits the citizen's case to the server
+function submitCase() {
     let data = {
-        type: "Case",
+        type: "case",
         name: name.value,
         phone: phone.value,
         cpr: cpr.value,
@@ -87,17 +89,17 @@ function SubmitCase() {
         pos: marker.position
     };
 
-    SendToServer(data);
+    sendToServer(data);
     console.log("Case submitted.")
 }
 
-function SendToServer(data) {
+function sendToServer(data) {
     ws.send(JSON.stringify(data));
 }
 
-function ReopenCase(id) {
-    SendToServer({
-        type: "RequestReopenCase",
+function reopenCase(id) {
+    sendToServer({
+        type: "requestReopenCase",
         id: id
     });
 }
@@ -105,7 +107,7 @@ function ReopenCase(id) {
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: "en",
-        layout:  /*Her indsættes det sprog man ønsker at oversætte fra */
+        layout:  /* the language you want to translate from */
         google.translate.TranslateElement.InlineLayout.SIMPLE
     }, "google_translate_element" );
 }

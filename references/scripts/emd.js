@@ -1,3 +1,5 @@
+// File information - overall infirmation
+
 // Table for cases in the left column
 const caseList = document.getElementById('cases');
 
@@ -23,38 +25,42 @@ const journalNotes = document.getElementById('journal-notes');
 // Journal variables for editable fields
 const journalToggles = document.getElementsByClassName('journal-toggle');
 let saveName, savePhone, saveCPR, saveNotes;
-InitJournalToggles();
+initJournalToggles();
 
-journalName.onkeyup = function() { saveName = JournalFieldKeyUp(this, "SaveName", saveName) };
-journalPhone.onkeyup = function() { savePhone = JournalFieldKeyUp(this, "SavePhone", savePhone) };
-journalCPR.onkeyup = function() { saveCPR = JournalFieldKeyUp(this, "SaveCPR", saveCPR) };
-journalNotes.onkeyup = function() { saveNotes = JournalFieldKeyUp(this, "SaveNotes", saveNotes) };
+journalName.onkeyup = function() { saveName = journalFieldKeyUp(this, "saveName", saveName) };
+journalPhone.onkeyup = function() { savePhone = journalFieldKeyUp(this, "savePhone", savePhone) };
+journalCPR.onkeyup = function() { saveCPR = journalFieldKeyUp(this, "saveCPR", saveCPR) };
+journalNotes.onkeyup = function() { saveNotes = journalFieldKeyUp(this, "saveNotes", saveNotes) };
 
 // Editable journal fields are saved x milliseconds after finishing typing.
-function JournalFieldKeyUp(field, type, saveVar) {
+function journalFieldKeyUp(field, type, saveVar) {
     clearTimeout(saveVar);
-    return setTimeout(SaveJournalField, 1000, type, field.value);
+    return setTimeout(saveJournalField, 1000, type, field.value);
 }
 
 // Journal buttons
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 
-closeCaseButton.addEventListener("click", function(){
-     CloseCurrentCase();
+closeCaseButton.addEventListener("click", function() {
+    closeCurrentCase();
 });
+
 archiveCaseButton.onclick = function() {
-    SendToServer( {type: "ArchiveCase", id: currentCaseID} );
-    ResetJournal();
-    ResetChat();
+    sendToServer( {
+        type: "archiveCase", 
+        id: currentCaseID
+    });
+    resetJournal();
+    resetChat();
 }
 
 // Setup chat and journal
 let currentCaseID = null;
-SetChatEMD(true);
-SetChatName("Dispatcher");
-ResetChat();
-ResetJournal();
+setChatEMD(true);
+setChatName("Dispatcher");
+resetChat();
+resetJournal();
 
 // Connect to WebSocket server
 let ws = new WebSocket("ws://localhost:3001");
@@ -63,52 +69,52 @@ let ws = new WebSocket("ws://localhost:3001");
 ws.onopen = function() {
     console.log("Connected to the server.");
     // Let the server know we are an EMD.
-    SendToServer( {type: "EMDConnect"} );
+    sendToServer( {type: "EMDConnect"} );
 }
 
 // Received a message from the server
 ws.onmessage = function(event) {
     data = JSON.parse(event.data);
 
-    // Handle the message depening on what 'type' it has.
+    // Handle the message depending on what type it has.
     switch(data.type) {
-        case "Case":
+        case "case":
             // A case has been created / we just connected so the server is sending us all the cases.
-            AddCase(data);
+            addCase(data);
             if(currentCaseID != null)
-                UpdateNearbyCases(GetTableRowByID(currentCaseID).marker.position);
+                updateNearbyCases(getTableRowByID(currentCaseID).marker.position);
             console.log(`New case received. ID: ${parseInt(data.id)}`);
             break;
-        case "AllowOpenCase":
+        case "allowOpenCase":
             // Server has allowed us to view a case. Update chat, journal & map position.
             if(currentCaseID != null)
-                CloseCurrentCase();
+                closeCurrentCase();
             currentCaseID = data.id;
-            map.setCenter(GetTableRowByID(data.id).marker.position);
-            UpdateJournal(data);
-            UpdateChat(data);
+            map.setCenter(getTableRowByID(data.id).marker.position);
+            updateJournal(data);
+            updateChat(data);
             break;
-        case "DenyOpenCase":
+        case "denyOpenCase":
             // Server didn't allow us to view a case.
             alert("This case is already being handled by another operator.");
             break;
-        case "CaseOpened":
-            // An EMD is now viewing a case
-            CaseUpdated(data.id, true);
+        case "caseOpened":
+            // A dispatcher is now viewing a case
+            caseUpdated(data.id, true);
             break;
-        case "CaseClosed":
-            // An EMD is no longer viewing a case
-            CaseUpdated(data.id, false);
+        case "caseClosed":
+            // A dispatcher is no longer viewing a case
+            caseUpdated(data.id, false);
             break;
-        case "ChatMessage":
-            // We recieved a chat message
-            ChatMessage(data.message);
+        case "chatMessage":
+            // We received a chat message
+            chatMessage(data.message);
             break;
-        case "ArchiveCase":
-            // A case has been archived.
-            ArchiveCase(data.id);
+        case "archiveCase":
+            // A case has been archived
+            archiveCase(data.id);
             if(currentCaseID != null)
-                UpdateNearbyCases(GetTableRowByID(currentCaseID).marker.position);
+                updateNearbyCases(getTableRowByID(currentCaseID).marker.position);
             break;
         default:
             console.log("Received some weird data... ");
@@ -116,14 +122,14 @@ ws.onmessage = function(event) {
     }
 }
 
-// Adds a case to the case list table.
-function AddCase(data) {
-    // Create new row in the table. Assign it with the case ID and location. (ID is for identifying which row corresponds to which case).
+// Adds a case to the case list table
+function addCase(data) {
+    // Creates new row in the table. Assigns it with the case ID and location. (ID is for identifying which row corresponds to which case)
     let row = caseList.insertRow();
     row.id = data.id;
-    row.marker = PlaceMarker(data.id, data.pos);
+    row.marker = placeMarker(data.id, data.pos);
 
-    // ID Button.
+    // ID Button
     let idBtnCell = row.insertCell();
     let idBtn = document.createElement("BUTTON");
     idBtn.innerHTML = row.id;
@@ -132,8 +138,8 @@ function AddCase(data) {
     idBtnCell.appendChild(idBtn);
     idBtn.onclick = function() {
         if(currentCaseID != row.id) {
-            SendToServer({
-                type: "RequestOpenCase",
+            sendToServer({
+                type: "requestOpenCase",
                 id: row.id
             });
         } else {
@@ -141,26 +147,26 @@ function AddCase(data) {
         }
     }
 
-    // Case availability and time created.
+    // Case availability and time created
     row.insertCell().innerHTML = (data.available) ? "Open" : "Locked";
     row.insertCell().innerHTML = data.timeClock;
 }
 
 // No longer viewing a case. Let the server know and update journal + chat.
-function CloseCurrentCase() {
-    SendToServer({
-        type: "CloseCase",
+function closeCurrentCase() {
+    sendToServer({
+        type: "closeCase",
         id: currentCaseID
     });
-    ResetJournal();
-    ResetChat();
+    resetJournal();
+    resetChat();
 }
 
 // Update patient journal with case data.
-function UpdateJournal(data) {
-    let pos = GetTableRowByID(data.id).marker.position;
-    ResetJournalToggles();
-    UpdateNearbyCases(pos);
+function updateJournal(data) {
+    let pos = getTableRowByID(data.id).marker.position;
+    resetJournalToggles();
+    updateNearbyCases(pos);
     journalTitle.textContent = "Case ID: " + data.id;
     journalName.value = data.name;
     journalPhone.value = data.phone;
@@ -172,14 +178,15 @@ function UpdateJournal(data) {
     journal.style.display = 'block';
 }
 
-// This is used to list the distance from the current case to other cases.
-function UpdateNearbyCases(currentCasePos) {
+// This is used to list the distance from the current case to other cases
+function updateNearbyCases(currentCasePos) {
     // Reset the table
     while (journalNearbyCases.rows.length > 1) {
         journalNearbyCases.deleteRow(-1);
     }
+
     let distanceToCases = [];
-    // Calculate distances to each case.
+    // Calculates distances to each case
     for (let i = 1; i < caseList.rows.length; i++) {
         let dist = calcDistance(currentCasePos, caseList.rows[i].marker.position);
         if (Math.round(dist) <= 1000) {
@@ -189,9 +196,10 @@ function UpdateNearbyCases(currentCasePos) {
             });
         }
     }
-    // Sort by distance in ascending order.
+
+    // Sorts by distance in ascending order
     distanceToCases.sort(function(a, b){return a.dist - b.dist});
-    // Update the table
+    // Updates the table
     for (let i = 1; i < distanceToCases.length; i++) {
         let row = journalNearbyCases.insertRow();
         row.insertCell().innerHTML = distanceToCases[i].id;
@@ -199,31 +207,31 @@ function UpdateNearbyCases(currentCasePos) {
     }
 }
 
-// Returns the distance between two map points in meters.
+// Returns the distance between two map points in meters
 function calcDistance(p1, p2) {
     return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2));
 }
 
-// Set up chat for the current case.
-function UpdateChat(data) {
-    SetChatID(data.id);
+// Set up chat for the current case
+function updateChat(data) {
+    setChatID(data.id);
     chatLog.innerHTML = "";
     for (let i = 0; i < data.chatLog.length; i++) {
-        ChatMessage(data.chatLog[i]);
+        chatMessage(data.chatLog[i]);
     }
     chatInput.disabled = false;
     chatSendButton.disabled = false;
 }
 
-// An EMD has is now viewing or no longer viewing a case. Update the case's status in the case list.
-function CaseUpdated(id, opened) {
-    let row = GetTableRowByID(id);
+// A dispatcher is now viewing or no longer viewing a case. The function updates the case's status in the case list
+function caseUpdated(id, opened) {
+    let row = getTableRowByID(id);
     if (row != null)
         row.cells[1].innerHTML = opened ? "Locked" : "Open";
 }
 
-// An EMD has archived a case. Remove it from the case list.
-function ArchiveCase(id) {
+// A dispatcher has archived a case. Function removes it from the case list
+function archiveCase(id) {
     for (let i = 1; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id) {
             caseList.rows[i].marker.setMap(null);
@@ -233,23 +241,23 @@ function ArchiveCase(id) {
 }
 
 // Not viewing a case. Set the journal to its default state.
-function ResetJournal() {
+function resetJournal() {
     journalTitle.innerHTML = "Open a case to display patient journal";
     journal.style.display = "none";
     currentCaseID = null;
 }
 
 // Not viewing a case. Set the chat to its default state.
-function ResetChat() {
-    SetChatHeader("Open a case to display chat");
+function resetChat() {
+    setChatHeader("Open a case to display chat");
     chatLog.innerHTML = "";
     chatInput.value = ""
     chatInput.disabled = true;
     chatSendButton.disabled = true;
 }
 
-// Make editable fields in the journal locked.
-function ResetJournalToggles() {
+// Makes editable fields in the journal locked
+function resetJournalToggles() {
     for (let i = 0; i < journalToggles.length; i++) {
         journalToggles[i].innerHTML = "<i class='far fa-eye'></i>";
         journalToggles[i].field.readOnly = true;
@@ -257,24 +265,26 @@ function ResetJournalToggles() {
 }
 
 // Toggle an editable field in the journal between editable and read only.
-function ToggleJournalField(toggle) {
+function toggleJournalField(toggle) {
     toggle.field.readOnly = !toggle.field.readOnly;
-    if (toggle.field.readOnly)
+    if (toggle.field.readOnly) {
         toggle.innerHTML = "<i class='far fa-eye'></i>";
-    else
+    } else {
         toggle.innerHTML = "<i class='fas fa-pencil-alt'></i>";
+    }
 }
 
-// An editable field has been edited. Send the new value to the server.
-function SaveJournalField(type, value) {
-    SendToServer({
+// An editable field has been edited. Send the new value to the server
+function saveJournalField(type, value) {
+    sendToServer({
         type: type,
         id: currentCaseID,
-        value: value});
+        value: value
+    });
 }
 
-// Returns the row in the case list that corresponds to the case with the specified ID.
-function GetTableRowByID(id) {
+// Returns the row in the case list that corresponds to the case with the specified ID
+function getTableRowByID(id) {
     for (let i = 1; i < caseList.rows.length; i++) {
         if (caseList.rows[i].id == id)
             return caseList.rows[i];
@@ -283,7 +293,7 @@ function GetTableRowByID(id) {
 }
 
 // Places a case marker on the map.
-function PlaceMarker(id, location) {
+function placeMarker(id, location) {
     return new google.maps.Marker({
         position: location,
         map: map,
@@ -292,11 +302,11 @@ function PlaceMarker(id, location) {
     });
 }
 
-function InitJournalToggles() {
+function initJournalToggles() {
     for (let i = 0; i < journalToggles.length; i++)
         journalToggles[i].field = document.getElementById(journalToggles[i].id);
 }
 
-function SendToServer(data) {
+function sendToServer(data) {
     ws.send(JSON.stringify(data));
 }

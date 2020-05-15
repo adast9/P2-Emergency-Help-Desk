@@ -1,7 +1,9 @@
+// File information, f.eks. hvor der eksporteres til (nederst)
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const postSchema = new Schema({
 
     title: {
         type: String,
@@ -34,4 +36,4 @@ const PostSchema = new Schema({
     }
 });
 
-module.exports = {Post: mongoose.model('post', PostSchema )};
+module.exports = {Post: mongoose.model('post', postSchema )};
