@@ -34,18 +34,34 @@ test("should sort the table in regards to the title", async () => {
         "file:///C:/Users/fred7/Documents/GitHub/P2-Emergency-Help-Desk/testing/tests.html"
     );
 
+    /* For ascending */
+
     await page.click("#sort");
 
-    const title1 = await page.$eval('#titleElement1', el => el.textContent);
-    const title2 = await page.$eval('#titleElement2', el => el.textContent);
-    const title3 = await page.$eval('#titleElement3', el => el.textContent);
-    const title4 = await page.$eval('#titleElement4', el => el.textContent);
+    let title1 = await page.$eval('#titleElement1', el => el.textContent);
+    let title2 = await page.$eval('#titleElement2', el => el.textContent);
+    let title3 = await page.$eval('#titleElement3', el => el.textContent);
+    let title4 = await page.$eval('#titleElement4', el => el.textContent);
 
-    const titleArr = [title3, title1, title2, title4];
+    const titleArrAsc = [title3, title1, title2, title4];
+    const expectedArrAsc = ["Burger King", "Corona", "McDonalds", "Sunset"];
 
-    const expectedArr = ["Burger King", "Corona", "McDonalds", "Sunset"];
+    /* For descending */
 
-    expect(titleArr).toStrictEqual(expectedArr);
+    await page.click("#sort");
+
+    let newtitle1 = await page.$eval('#titleElement1', el => el.textContent);
+    let newtitle2 = await page.$eval('#titleElement2', el => el.textContent);
+    let newtitle3 = await page.$eval('#titleElement3', el => el.textContent);
+    let newtitle4 = await page.$eval('#titleElement4', el => el.textContent);
+
+    const titleArrDsc = [title4, title2, title1, title3];
+    const expectedArrDsc = ["Sunset", "McDonalds", "Corona", "Burger King"];
+
+    const addedArray = titleArrAsc.concat(titleArrDsc);
+    const expectedAddedArray = expectedArrAsc.concat(expectedArrDsc);
+
+    expect(addedArray).toEqual(expectedAddedArray);
 
     await browser.close();
 });
