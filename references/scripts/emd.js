@@ -199,7 +199,7 @@ function UpdateNearbyCases(currentCasePos) {
     }
 }
 
-// Returns the distance between two map points in meters. 
+// Returns the distance between two map points in meters.
 function calcDistance(p1, p2) {
     return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2));
 }
@@ -300,4 +300,3 @@ function InitJournalToggles() {
 function SendToServer(data) {
     ws.send(JSON.stringify(data));
 }
-

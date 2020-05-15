@@ -1,4 +1,41 @@
-function sortTable(tableID, colIndex, sortByID) {
+/* This file contains isolated functions taken from javascript files
+ * throughout the project folder with the intention of testing them.
+ *
+ * The type of tests of the functions are listed as follow:
+ * Unit testing: 1 - ???
+ * Integration testing: ??? - ???
+ * End to end testing: ??? - ???
+ *
+*/
+
+/* 1 - Test of the convert function */
+const convert = (date) => {
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+    // hours  = ("0" + date.getHours()).slice(-2);
+    // minutes = ("0" + date.getMinutes()).slice(-2);
+    return [date.getFullYear(), mnth, day].join("-");
+};
+
+
+/* 2 - Test to see if Mongoose connects to MongoDB */
+
+// function connectDatabase() {
+//     let mongodbURL = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
+//
+//     mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+//         .then(response => {
+//             console.log("MongoDB Connected Successfully.");
+//         }).catch(err => {
+//             console.log("Database connection failed.");
+//     });
+// }
+// module.exports = connectDatabase;
+
+
+
+/* ??? - Test of the sortTable function */    /*skal nok være en end to end test*/
+const sortTable = (tableID, colIndex, sortByID) => {
     let sorting = true;
     let rows, i, caseId1, caseId2, x, y, shouldSwap, direction;
     let switchcount = 0;
@@ -56,4 +93,28 @@ function sortTable(tableID, colIndex, sortByID) {
             }
         }
     }
-}
+};
+
+const toArray = () => {
+    let table = document.getElementById("myTable");
+    let tableArr = [];
+    for ( var i = 1; i < table.rows.length; i++ ) {
+        tableArr.push({
+            Title: table.rows[i].cells[0].innerHTML,
+            Author: table.rows[i].cells[1].innerHTML,
+            Description: table.rows[i].cells[2].innerHTML,
+            Time_submitted: table.rows[i].cells[3].innerHTML,
+        });
+    }
+
+    // tableArr = JSON.stringify(tableArr);
+
+    console.log(tableArr);
+
+    return tableArr;
+
+};
+
+exports.toArray = toArray;
+exports.sortTable = sortTable;
+exports.convert = convert;

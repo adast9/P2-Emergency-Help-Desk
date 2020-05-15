@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS Testing</title>
+    <script src="testFunctions.js"></script>
+</head>
+
+<body>
+    <table id="myTable">
+      <tr>
+        <th id="sort" onclick="sortTable('myTable', 0, false); toArray();">Title</th>
+        <th onclick="sortTable('myTable', 1, false)">Author</th>
+        <th onclick="sortTable('myTable', 2, false)">Describtion</th>
+        <th onclick="sortTable('myTable', 3, false)">Time submitted</th>
+      </tr>
+      <tr>
+        <td id="titleElement1">Corona</td>
+        <td>Bob</td>
+        <td>something something corona</td>
+        <td>2002-05-11</td>
+      </tr>
+      <tr>
+        <td id="titleElement2">McDonalds</td>
+        <td>John</td>
+        <td>McDonalds is bad</td>
+        <td>2040-11-12</td>
+      </tr>
+      <tr>
+        <td id="titleElement3">Burger King</td>
+        <td>Carole</td>
+        <td>Burger King is worse</td>
+        <td>2050-12-05</td>
+      </tr>
+      <tr>
+        <td id="titleElement4">Sunset</td>
+        <td>Thor</td>
+        <td>Sunset is better</td>
+        <td>2999-05-12</td>
+    </tr>
+</table>
+
+</body>
+</html>
