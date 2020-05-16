@@ -2,12 +2,11 @@
 
 const express = require("express");
 const router = express.Router();
-const publicController = require("../controllers/publicController");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("../databaseModels/userModel").User;
-
+const Post = require("../databaseModels/postModel").Post;
 
 router.all("/*", (req, res, next) => {
 
@@ -16,11 +15,16 @@ router.all("/*", (req, res, next) => {
     next();
 });
 
-router.route("/")
-    .get(publicController.index);
+// public index endpoint
+router.get("/", (req, res) => {
+    res.render("public/index");
+});
 
-router.route("/info")
-    .get(publicController.info);
+//public info page endpoint
+router.get("/info", async (req, res) => {
+    const posts = await Post.find();
+    res.render('public/info', {posts: posts});
+});
 
 // Local
 passport.use(new localStrategy({
@@ -55,8 +59,12 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-router.route("/login")
-    .get(publicController.loginGet)
+// loginGet endpoint
+router.get("/login", (req, res) => {
+    res.render('public/login', {
+        message: req.flash('error')
+    });
+});
 
 router.post("/login", function(req, res, next) {
     passport.authenticate("local", function (err, user) {
@@ -81,8 +89,21 @@ router.post("/login", function(req, res, next) {
     }) (req, res, next);
 });
 
-router.route("/post/:id")
-    .get(publicController.singlePost)
+router.get("/post/:id", (req, res) => {
+    const id = req.params.id;
+
+    // skalrettes
+    // Dette skal redigeres senere
+    Post.findById(id)
+        .populate({path: "comments", populate: {path: "user", model: "user"}})
+        .then(post => {
+            if (!post) {
+                res.status(404).json({message: "No Post was found"});
+            } else {
+                res.render("public/singlePost", {post: post, comments: post.comments});
+            }
+        })
+});
 
 router.get("/logout", (req, res) => {
     req.logOut();
