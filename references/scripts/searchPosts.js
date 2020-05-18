@@ -2,19 +2,18 @@
 
 // Search function for the editor page, where each post is listed as a table cell
 function searchPostsEditor() {
-    let input, filter, table, tr, td, i, j, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-    for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
+    let input = document.getElementById("input").value;
+    searchBarInput = input.toLowerCase();
+    let table = document.getElementById("myTable");
+    let tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        let td = tr[i].getElementsByTagName("td");
         let matches = false;
 
-        for (j = 0; j < 4; j++) {
+        for (let j = 0; j < 4; j++) {
             if (td[j]) {
-                txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                let txtValue = td[j].textContent;
+                if (txtValue.toLowerCase().indexOf(searchBarInput) > -1) {
                     matches = true;
                 }
             }
