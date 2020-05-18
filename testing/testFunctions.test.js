@@ -26,7 +26,7 @@ const {sortTable} = require("./testFunctions");
 test("should sort the table in regards to the title", async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        slowMo: 20,
+        slowMo: 200,
         args: ["--window-size=1920,1080"]
     })
     const page = await browser.newPage();
@@ -35,33 +35,31 @@ test("should sort the table in regards to the title", async () => {
     );
 
     /* For ascending */
-
     await page.click("#sort");
 
-    let title1 = await page.$eval('#titleElement1', el => el.textContent);
-    let title2 = await page.$eval('#titleElement2', el => el.textContent);
-    let title3 = await page.$eval('#titleElement3', el => el.textContent);
-    let title4 = await page.$eval('#titleElement4', el => el.textContent);
+    const dataAsc = await page.evaluate(() => {
+    const tdsAsc = Array.from(document.querySelectorAll('table tr td'))
+    return tdsAsc.map(td => td.innerHTML)
+    });
 
-    const titleArrAsc = [title3, title1, title2, title4];
-    const expectedArrAsc = ["Burger King", "Corona", "McDonalds", "Sunset"];
+    const expectedArrAsc = ["Burger King", "Carole", "Burger King is worse", "2050-12-05", "Corona", "Bob",
+    "something something corona", "2002-05-11", "McDonalds", "John", "McDonalds is bad", "2040-11-12", "Sunset", "Thor", "Sunset is better", "2999-05-12"];
 
-    /* For descending */
-
+    /*For descending */
     await page.click("#sort");
 
-    let newtitle1 = await page.$eval('#titleElement1', el => el.textContent);
-    let newtitle2 = await page.$eval('#titleElement2', el => el.textContent);
-    let newtitle3 = await page.$eval('#titleElement3', el => el.textContent);
-    let newtitle4 = await page.$eval('#titleElement4', el => el.textContent);
+    const dataDsc = await page.evaluate(() => {
+    const tdsDsc = Array.from(document.querySelectorAll('table tr td'))
+    return tdsDsc.map(td => td.innerHTML)
+    });
 
-    const titleArrDsc = [title4, title2, title1, title3];
-    const expectedArrDsc = ["Sunset", "McDonalds", "Corona", "Burger King"];
+    const expectedArrDsc = ["Sunset", "Thor", "Sunset is better", "2999-05-12", "McDonalds", "John", "McDonalds is bad",
+    "2040-11-12", "Corona", "Bob", "something something corona", "2002-05-11", "Burger King", "Carole", "Burger King is worse", "2050-12-05",];
 
-    const addedArray = titleArrAsc.concat(titleArrDsc);
+    const addedArray = dataAsc.concat(dataDsc);
     const expectedAddedArray = expectedArrAsc.concat(expectedArrDsc);
 
     expect(addedArray).toEqual(expectedAddedArray);
 
     await browser.close();
-});
+}, 20000);
