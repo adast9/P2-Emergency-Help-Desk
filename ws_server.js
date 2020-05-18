@@ -45,35 +45,6 @@ loadCases();
 // Server handling events
 s.on('connection', function(client) {
 
-    client.on('close', function() {
-        // When a client disconnects, check if they are in the EMD array.
-        // If they are, remove them from the array.
-        let i = emds.indexOf(client);
-        if (i !== -1) {
-            // If the EMD had a case open, make it available to other EMDs.
-            cases.forEach(function(entry) {
-                if(entry.emd == client) {
-                    entry.emd = null;
-                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold..."); 
-                    broadcastToEMDs({
-                        type: "caseClosed",
-                        id: entry.id
-                    });
-                }
-            });
-            emds.splice(i, 1);
-        } else {
-            // Not an EMD, check if they created a case.
-            cases.forEach(function(entry) {
-                if(entry.creator == client) {
-                    entry.creator = null;
-                    let msg = "The case creator has disconnected...";
-                    sendChatMessage(entry.emd, msg);
-                }
-            });
-        }
-    });
-
     // A client has sent a message to the server.
     client.on('message', function(message) {
         let data = JSON.parse(message);
@@ -254,6 +225,36 @@ s.on('connection', function(client) {
                 // This should never happen -> skalrettes: skriv i stedet, hvornår det her kan ske
                 console.log("Received some weird data...");
                 break;
+        }
+    });
+
+    // A client has disconnected.
+    client.on('close', function() {
+        // Check if they are in the EMD array.
+        // If they are, remove them from the array.
+        let i = emds.indexOf(client);
+        if (i !== -1) {
+            // If the EMD had a case open, make it available to other EMDs.
+            cases.forEach(function(entry) {
+                if(entry.emd == client) {
+                    entry.emd = null;
+                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold..."); 
+                    broadcastToEMDs({
+                        type: "caseClosed",
+                        id: entry.id
+                    });
+                }
+            });
+            emds.splice(i, 1);
+        } else {
+            // Not an EMD, check if they created a case.
+            cases.forEach(function(entry) {
+                if(entry.creator == client) {
+                    entry.creator = null;
+                    let msg = "The case creator has disconnected...";
+                    sendChatMessage(entry.emd, msg);
+                }
+            });
         }
     });
 });
