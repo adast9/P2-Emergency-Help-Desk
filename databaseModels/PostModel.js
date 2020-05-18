@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-let today = new Date();
 
 const postSchema = new Schema({
 
@@ -23,7 +22,7 @@ const postSchema = new Schema({
 
     creationDate: {
         type: String,
-        default: today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate()
+        default: () => new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/'+ new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()
     },
 
     imageFile: {
