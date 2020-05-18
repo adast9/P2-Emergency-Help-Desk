@@ -80,7 +80,7 @@ s.on('connection', function(client) {
 
         // Handle the message depening on what 'type' it has.
         switch(data.type) {
-            case "EMDConnect":
+            case "dispatcherConnect":
                 // An EMD has connected to the server.
                 emds.push(client);
                 cases.forEach(function(entry) {
