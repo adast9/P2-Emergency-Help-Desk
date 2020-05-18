@@ -1,5 +1,3 @@
-// File information
-
 const fs = require('fs');
 const server = require('ws').Server;
 const s = new server({ port: 3001 });
@@ -8,7 +6,6 @@ let cases = [];
 let counter = 0;
 let caseObj;
 
-// skalrettes: den her viser vel ikke, at man rent faktisk har forbindelse til serveren? Den vil vel altid skrive det der ud i konsollen?
 console.log("Listening on port 3001...");
 
 // For connecting to the MongoDB server when archiving cases
