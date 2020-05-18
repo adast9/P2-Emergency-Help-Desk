@@ -2,7 +2,6 @@
 
 const express = require("express");
 const router = express.Router();
-const dispatcherController = require("../controllers/dispatcherController");
 const {isUserAuthenticated} = require("../references/scripts/userAuthentication");
 
 router.all("/*", isUserAuthenticated, (req, res, next) => {
@@ -12,7 +11,8 @@ router.all("/*", isUserAuthenticated, (req, res, next) => {
     next();
 });
 
-router.route("/")
-    .get(dispatcherController.getEmd);
+router.get("/", (req, res) => {
+    res.render("layouts/dispatcher")
+});
 
 module.exports = router;
