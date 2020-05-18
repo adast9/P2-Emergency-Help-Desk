@@ -22,7 +22,7 @@ const postSchema = new Schema({
 
     creationDate: {
         type: String,
-        default: () => new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/'+ new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()
+        default: () => new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/'+ new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()
     },
 
     imageFile: {

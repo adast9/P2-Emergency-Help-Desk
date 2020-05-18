@@ -69,7 +69,7 @@ let ws = new WebSocket("ws://localhost:3001");
 ws.onopen = function() {
     console.log("Connected to the server.");
     // Let the server know we are an EMD.
-    sendToServer( {type: "EMDConnect"} );
+    sendToServer( {type: "dispatcherConnect"} );
 }
 
 // Received a message from the server
