@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+let options = {year: "numeric", month: "2-digit", day: "2-digit", hour: "numeric", minute: "2-digit"}
 
 const postSchema = new Schema({
 
@@ -22,7 +23,7 @@ const postSchema = new Schema({
 
     creationDate: {
         type: String,
-        default: () => new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/'+ new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()
+        default: () => new Date().toLocaleString("da-DK", options)
     },
 
     imageFile: {
