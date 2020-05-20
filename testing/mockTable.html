@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JS Testing</title>
-    <script src="testFunctions.js"></script>
+    <script src="../references/scripts/sortTable.js"></script>
+    <script src="../references/scripts/searchPosts.js"></script>
 </head>
 
 <body>
+
+    <input type="text" placeholder="Search for a Post" id="input" onkeyup="searchPostsEditor()">
+
+    <br><br>
+
     <table id="myTable">
       <tr>
         <th id="sort" onclick="sortTable('myTable', 0, false)">Title</th>
