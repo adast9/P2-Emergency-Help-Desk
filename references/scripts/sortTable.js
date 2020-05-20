@@ -1,6 +1,6 @@
 // File information
 
-function sortTable(tableID, colIndex, sortByID) {
+const sortTable = (tableID, colIndex, sortByID) => {
     let sorting = true;
     let rows, i, caseId1, caseId2, x, y, shouldSwap, direction;
     let switchcount = 0;
@@ -59,3 +59,5 @@ function sortTable(tableID, colIndex, sortByID) {
         }
     }
 }
+
+exports.sortTable = sortTable;
