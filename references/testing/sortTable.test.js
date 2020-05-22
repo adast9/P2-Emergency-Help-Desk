@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 test("should sort the mock table from mockBrowser.html in regards to the title in asc and dsc order", async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        slowMo: 100,
+        slowMo: 30,
         args: ["--window-size=1920,1080"]
     })
     const page = await browser.newPage();
@@ -50,4 +50,4 @@ test("should sort the mock table from mockBrowser.html in regards to the title i
     expect(addedArray).toEqual(expectedAddedArray);
 
     await browser.close();
-}, 30000);
+}, 18000);

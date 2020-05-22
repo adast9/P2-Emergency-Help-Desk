@@ -1,8 +1,6 @@
 const puppeteer = require("puppeteer");
-const jsDom = require("@testing-library/jest-dom");
-const lib = require("@testing-library/dom/dist/@testing-library/dom.umd.js");
 
-test("should search for Burger King in the table of posts", async () => {
+test("should search for Burger King in the table of posts and only show the post with the title; Burger King", async () => {
     const browser = await puppeteer.launch({
         headless: false,
         slowMo: 50,
@@ -14,33 +12,18 @@ test("should search for Burger King in the table of posts", async () => {
     );
 
     await page.click("input#input");
-    await page.type("input#input", "Burger");
+    await page.type("input#input", "Burger King");
 
-    // let a;
-    //
-    // await page.evaluate((a) => {
-    //   document.querySelector('#titleElement1').value = a;
-    // }, a);
-    //
-    // function myFunction() {
-    //     var x = a;
-    //     if (window.getComputedStyle(x).visibility === "none") {
-    //         return true;
-    //     }
-    // }
-    //
-    // expect(myFunction()).toBe(true);
+    const isNotHidden = await page.$eval('#element3', (elem) => {
+    return elem.style.display !== 'none'
+    });
 
-//     const isNotHidden = await page.$eval('#titleElement3', (elem) => {
-//     return window.getComputedStyle(elem).getPropertyValue('display') !== 'none' && elem.offsetHeight
-// });
+    const isHidden = await page.$eval('#element2', (elem) => {
+    return elem.style.display === 'none'
+    });
 
-    expect(('#titleElement1').style.visibility).toBe("none");
-
-    // expect(isNotHidden).toBe ();
-    // expect(getByText("Corona")).not.toBeVisible();
-    // expect(getByText("McDonalds")).not.toBeVisible();
-    // expect(getByText("Sunset")).not.toBeVisible();
+    expect(isNotHidden).toBeTruthy();
+    expect(isHidden).toBeTruthy();
 
     await browser.close();
 

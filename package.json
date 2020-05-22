@@ -24,8 +24,6 @@
     "ws": "^7.2.3"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.5.7",
-    "@testing-library/jest-dom": "^5.8.0",
     "handlebars": "^4.5.0",
     "jest": "^26.0.1",
     "puppeteer": "^3.0.4"
