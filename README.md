@@ -10,7 +10,7 @@ Download/clone the repository and navigate to the folder in your terminal:
 
 Install node modules with `npm i --save`
 
-## Usage
+### Usage
 You can run `START.bat` to quickly start the Express and WebSocket servers. Alternatively, you can navigate to the folder in your terminal and start the Express server with the command `npm start`. Then in another terminal window you will have to navigate to the folder again and run `node ws_server.js` to start the WebSocket server.
 
 When the servers are running you can open the web app in your favourite browser by entering `localhost:3000` in the address bar.
@@ -19,6 +19,16 @@ When the servers are running you can open the web app in your favourite browser 
 - EMD login: yeso@gmail.com : 321
 
 To stop the servers press `ctrl + c` in your terminal. The express server will want you to confirm by writing `y` or `n`.
+
+## Team
+DAT2, C1-14, 27/05/2020
+* Adam Stück
+* Bianca Kevy 
+* Cecilie Hejlesen 
+* Frederik Stær
+* Lasse Rasmussen
+* Tais Hors
+
 
 <!--
 To do:
