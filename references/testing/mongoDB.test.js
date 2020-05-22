@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Post = require("./testModel.js").Test;
+const Post = require("../../databaseModels/postModel.js").Post;
 
 beforeAll(async () => {
     const mongodbURL = "mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority";
@@ -7,7 +7,7 @@ beforeAll(async () => {
     await mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
     await Post.insertMany({
-        title: "Some title",
+        title: "testtest title",
         author: "Bob",
         imageFile: "file",
         description: "a description",
