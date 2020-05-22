@@ -27,10 +27,10 @@ const journalToggles = document.getElementsByClassName('journal-toggle');
 let saveName, savePhone, saveCPR, saveNotes;
 initJournalToggles();
 
-journalName.onkeyup = function() { saveName = journalFieldKeyUp(this, "saveName", saveName) };
-journalPhone.onkeyup = function() { savePhone = journalFieldKeyUp(this, "savePhone", savePhone) };
-journalCPR.onkeyup = function() { saveCPR = journalFieldKeyUp(this, "saveCPR", saveCPR) };
-journalNotes.onkeyup = function() { saveNotes = journalFieldKeyUp(this, "saveNotes", saveNotes) };
+if(journalName) journalName.onkeyup = function() { saveName = journalFieldKeyUp(this, "saveName", saveName) };
+if(journalPhone) journalPhone.onkeyup = function() { savePhone = journalFieldKeyUp(this, "savePhone", savePhone) };
+if(journalCPR) journalCPR.onkeyup = function() { saveCPR = journalFieldKeyUp(this, "saveCPR", saveCPR) };
+if(journalNotes) journalNotes.onkeyup = function() { saveNotes = journalFieldKeyUp(this, "saveNotes", saveNotes) };
 
 // Editable journal fields are saved x milliseconds after finishing typing.
 function journalFieldKeyUp(field, type, saveVar) {
@@ -42,13 +42,13 @@ function journalFieldKeyUp(field, type, saveVar) {
 const closeCaseButton = document.getElementById('close-case-button');
 const archiveCaseButton = document.getElementById('archive-case-button');
 
-closeCaseButton.addEventListener("click", function() {
+if(closeCaseButton) closeCaseButton.addEventListener("click", function() {
     closeCurrentCase();
 });
 
-archiveCaseButton.onclick = function() {
+if(archiveCaseButton) archiveCaseButton.onclick = function() {
     sendToServer( {
-        type: "archiveCase", 
+        type: "archiveCase",
         id: currentCaseID
     });
     resetJournal();
@@ -57,6 +57,7 @@ archiveCaseButton.onclick = function() {
 
 // Setup chat and journal
 let currentCaseID = null;
+
 setChatEMD(true);
 setChatName("Dispatcher");
 resetChat();
@@ -80,7 +81,6 @@ ws.onmessage = function(event) {
     switch(data.type) {
         case "case":
             // A case has been created / we just connected so the server is sending us all the cases.
-            addCase(data);
             if(currentCaseID != null)
                 updateNearbyCases(getTableRowByID(currentCaseID).marker.position);
             console.log(`New case received. ID: ${parseInt(data.id)}`);
@@ -242,18 +242,22 @@ function archiveCase(id) {
 
 // Not viewing a case. Set the journal to its default state.
 function resetJournal() {
-    journalTitle.innerHTML = "Open a case to display patient journal";
-    journal.style.display = "none";
-    currentCaseID = null;
+    if (journal) {
+        journalTitle.innerHTML = "Open a case to display patient journal";
+        journal.style.display = "none";
+        currentCaseID = null;
+    }
 }
 
 // Not viewing a case. Set the chat to its default state.
 function resetChat() {
     setChatHeader("Open a case to display chat");
-    chatLog.innerHTML = "";
-    chatInput.value = ""
-    chatInput.disabled = true;
-    chatSendButton.disabled = true;
+    if(chatLog) {
+        chatLog.innerHTML = "";
+        chatInput.value = ""
+        chatInput.disabled = true;
+        chatSendButton.disabled = true;
+    }
 }
 
 // Makes editable fields in the journal locked

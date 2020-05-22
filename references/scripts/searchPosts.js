@@ -1,7 +1,5 @@
-// File information
-
 // Search function for the editor page, where each post is listed as a table cell
-const searchPostsEditor = () => {
+function searchPostsEditor () {
     let input = document.getElementById("input").value;
     searchBarInput = input.toLowerCase();
     let table = document.getElementById("myTable");
@@ -30,7 +28,7 @@ const searchPostsEditor = () => {
 // Search function for the public info page, where each post is listed as a list item
 let blogposts = document.getElementsByName('list');
 
-const searchPostsPublic = () => {
+function searchPostsPublic () {
     let input = document.getElementById('searchbar').value
     input = input.toLowerCase();
 
@@ -43,6 +41,3 @@ const searchPostsPublic = () => {
         }
     }
 }
-
-exports.searchPostsEditor = searchPostsEditor;
-exports.searchPostsPublic = searchPostsPublic;

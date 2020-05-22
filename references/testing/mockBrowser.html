@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JS Testing</title>
-    <script async defer src="../references/scripts/sortTable.js"></script>
-    <script async defer src="../references/scripts/searchPosts.js"></script>
-    <script async defer src="../references/scripts/emd.js"></script>
+    <script async defer src="../scripts/sortTable.js"></script>
+    <script async defer src="../scripts/searchPosts.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&libraries=geometry"></script>
+    <script async defer src="../scripts/chat.js"></script>
+    <script async defer src="../scripts/emd.js"></script>
 </head>
 
 <body>
@@ -47,6 +49,25 @@
         <td>Sunset is better</td>
         <td>2999-05-12</td>
     </tr>
+
+    <br><br><br>
+
+    <p id="insert" onclick='addCase({id: 1, pos: {lat: 56.263920, lng: 9.5017855}, timeClock: "12:45", available: true})'>Click me</p>
+
+    <table id="cases">
+        <tr>
+            <th>#</th>
+            <th>Status</th>
+            <th>Time</th>
+        </tr>
+    </table>
+
+    <br><br><br>
+
+    <div style=" width: 500px; height: 500px;" id="map"></div>
+
+
+
 
 </body>
 </html>
