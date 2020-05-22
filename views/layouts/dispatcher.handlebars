@@ -14,7 +14,6 @@
     <script async defer src="/scripts/chat.js"></script>
     <script async defer src="/scripts/emd.js"></script>
     <script async defer src="/scripts/translation.js"></script>
-    <script async defer src="/testing/emdTest.js"></script>
     <script async defer src="/scripts/sortTable.js"></script>
     <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -73,9 +72,9 @@
                 <div class="form-group">
                     <label>Full name:</label>
                     <div class="input-group mb-3">
-                        <input type="text" id="journal-name-text" class="form-control" aria-describedby="basic-addon2" readonly>
+                        <input type="text" id="journal-name" class="form-control" aria-describedby="basic-addon2" readonly>
                         <div class="input-group-append">
-                            <button id="journal-name-button" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
+                            <button id="journal-name" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
                                 <i class="far fa-eye"></i>
                             </button>
                         </div>
@@ -85,9 +84,9 @@
                 <div class="form-group">
                     <label>Phone number:</label>
                     <div class="input-group mb-3">
-                        <input type="text" id="journal-phone-text" class="form-control" aria-describedby="basic-addon2" readonly>
+                        <input type="text" id="journal-phone" class="form-control" aria-describedby="basic-addon2" readonly>
                         <div class="input-group-append">
-                            <button id="journal-phone-button" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
+                            <button id="journal-phone" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
                                 <i class="far fa-eye"></i>
                             </button>
                         </div>
@@ -97,9 +96,9 @@
                 <div class="form-group">
                     <label>CPR number:</label>
                     <div class="input-group mb-3">
-                        <input type="text" id="journal-cpr-text" class="form-control" aria-describedby="basic-addon2" readonly>
+                        <input type="text" id="journal-cpr" class="form-control" aria-describedby="basic-addon2" readonly>
                         <div class="input-group-append">
-                            <button id="journal-cpr-button" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
+                            <button id="journal-cpr" class="journal-toggle btn btn-outline-secondary" onclick="toggleJournalField(this)" type="button">
                                 <i class="far fa-eye"></i>
                             </button>
                         </div>
