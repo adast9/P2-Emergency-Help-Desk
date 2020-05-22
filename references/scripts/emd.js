@@ -81,6 +81,7 @@ ws.onmessage = function(event) {
     switch(data.type) {
         case "case":
             // A case has been created / we just connected so the server is sending us all the cases.
+            addCase(data);
             if(currentCaseID != null)
                 updateNearbyCases(getTableRowByID(currentCaseID).marker.position);
             console.log(`New case received. ID: ${parseInt(data.id)}`);

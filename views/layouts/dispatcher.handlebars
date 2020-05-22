@@ -13,6 +13,7 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAWN32yPAzJsiUC5R2lhSW1qGe0VY82Uk&libraries=geometry"></script>
     <script async defer src="/scripts/chat.js"></script>
     <script async defer src="/scripts/emd.js"></script>
+    <script async defer src="/scripts/translation.js"></script>
     <script async defer src="/testing/emdTest.js"></script>
     <script async defer src="/scripts/sortTable.js"></script>
     <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -20,7 +21,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-
 
 <body>
 
@@ -39,6 +39,7 @@
     <div class="column-middle">
         <div id="map"></div>
         <div id="chat">
+            <div id="google_translate_element"></div>
             <div id="chat-header">Chat</div>
             <div id="chat-log"></div>
             <div id="chat-footer">
