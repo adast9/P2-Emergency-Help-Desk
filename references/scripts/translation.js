@@ -1,15 +1,7 @@
-// File information
-
+// Initialize the Google Translate button.
 function googleTranslateElementInit() {
 	new google.translate.TranslateElement(
-		{pageLanguage: "en", layout:  /*Her indsættes det sprog man ønsker at oversætte fra */
-		google.translate.TranslateElement.InlineLayout.SIMPLE},
-		"google_translate_element"
-		);
-}
-
-function pushTextArea() {
-	let destination = document.getElementById("waitingForText");
-	let source = document.getElementById("textSource")
-	destination.innerHTML = source.value;
+		{ pageLanguage: "en", // Here you put the language of the webpage. In this case 'en' for English.
+		  layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 
+		"google_translate_element");
 }
