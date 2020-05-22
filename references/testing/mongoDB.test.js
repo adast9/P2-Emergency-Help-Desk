@@ -21,7 +21,7 @@ afterAll(async () => {
 });
 
 test("should connect to MongoDB and find the mock post", async () => {
-    const title = "Some title";
+    const title = "testtest title";
 
     const post = await Post.findOne({title});
 
