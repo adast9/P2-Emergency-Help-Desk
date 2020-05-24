@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 test("should sort the mock table from mockBrowser.html in regards to the title in asc and dsc order", async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        slowMo: 30,
+        slowMo: 0,
         args: ["--window-size=1920,1080"]
     })
     const page = await browser.newPage();

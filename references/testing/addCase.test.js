@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 test("should insert new case in table", async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        slowMo: 200,
+        slowMo: 0,
         args: ["--window-size=1920,1080"]
     })
     const page = await browser.newPage();
@@ -30,7 +30,6 @@ test("should insert new case in table", async () => {
       '12:45',
       '{"lat":56.26392,"lng":9.5017855}'
     ];
-
 
     expect(data).toEqual(expectedData);
 

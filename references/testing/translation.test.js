@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 test("should translate text from English to Danish", async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        slowMo: 200,
+        slowMo: 250,
         args: ["--window-size=1920,1080"]
     })
     const page = await browser.newPage();
@@ -13,7 +13,7 @@ test("should translate text from English to Danish", async () => {
 
     await page.mouse.click(10, 20);
 
-    await page.mouse.click(250, 270);
+    await page.mouse.click(250, 260);
 
     const text = await page.$eval('#someText', (elem) => {
     return elem.textContent;
@@ -23,4 +23,4 @@ test("should translate text from English to Danish", async () => {
 
     await browser.close();
 
-}, 10000);
+}, 40000);
