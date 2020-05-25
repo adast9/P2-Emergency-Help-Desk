@@ -1,3 +1,12 @@
+// 
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 // File information, f.eks. hvor der eksporteres til nederst
 
 const express = require("express");
@@ -86,27 +95,27 @@ router.put("/posts/edit/:id", (req, res) => {
     const id = req.params.id;
 
     Post.findById(id)
-        .then(post => {
-            post.title = req.body.title;
-            post.author = req.body.author;
-            post.imageFile = "/uploads/images/" + req.files.uploadedImageFile.name;
-            post.description = req.body.description;
-            post.pdfFile = "/uploads/pdf/" + req.files.uploadedPdfFile.name;
+    .then(post => {
+        post.title = req.body.title;
+        post.author = req.body.author;
+        post.imageFile = "/uploads/images/" + req.files.uploadedImageFile.name;
+        post.description = req.body.description;
+        post.pdfFile = "/uploads/pdf/" + req.files.uploadedPdfFile.name;
 
-            post.save().then(updatePost => {
-                req.flash("success-message", `The post ${updatePost.title} has been updated.`)
-                res.redirect("/editor/posts");
-            });
+        post.save().then(updatePost => {
+            req.flash("success-message", `The post ${updatePost.title} has been updated.`)
+            res.redirect("/editor/posts");
         });
+    });
 });
 
 // deletePost endpoint
 router.delete("/posts/delete/:id", (req, res) => {
     Post.findByIdAndDelete(req.params.id)
-        .then(deletedPost => {
-            req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
-            res.redirect("/editor/posts");
-        });
+    .then(deletedPost => {
+        req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
+        res.redirect("/editor/posts");
+    });
 });
 
 router.get("/logout", (req, res) => {

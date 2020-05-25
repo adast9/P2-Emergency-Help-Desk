@@ -1,3 +1,12 @@
+// 
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 // The map script used on the public side
 
 // Centers the map on Denmark
@@ -41,7 +50,7 @@ gpsButton.addEventListener('click', function() { geolocate(); });
 
 geolocate();
 
-// Place/move the map marker. 
+// Place/move the map marker.
 function placeMarker(location) {
     if(marker) {
         // Marker already exists, so move it to the new location.

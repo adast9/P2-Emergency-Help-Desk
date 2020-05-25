@@ -1,3 +1,12 @@
+// 
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 const puppeteer = require("puppeteer");
 
 test("should search for Burger King in the table of posts and only show the post with the title; Burger King", async () => {
