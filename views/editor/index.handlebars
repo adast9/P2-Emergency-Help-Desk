@@ -34,7 +34,7 @@
                 <td>{{creationDate}}</td>
                 <td class="d-flex justify-content-center">
                     <a href="/info#{{_id}}" target="_blank" class="btn btn-sm btn-success mr-2">View Post</a>
-                    <a href="/editor/posts/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
+                    <a href="/editor/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
                     <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Post</button>
                 </td>
             </tr>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <form action="/editor/posts/delete/{{id}}?newMethod=DELETE" method="post">
+                            <form action="/editor/delete/{{id}}?newMethod=DELETE" method="post">
                                 <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
                         </div>

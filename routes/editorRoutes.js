@@ -12,25 +12,20 @@ router.all("/*", isUserAuthenticated, (req, res, next) => {
     next();
 })
 
-// index endpoint
-// router.get("/", (req, res) => {
-//     res.render('editor/index');
-// });
-
-// getPosts endpoint
-router.get("/posts", (req, res) => {
+// getDashboard endpoint
+router.get("/", (req, res) => {
     Post.find().then(posts => {
-        res.render("editor/posts/index", {posts: posts});
+        res.render("editor/", {posts: posts});
     });
 });
 
 // createPosts endpoint
-router.get("/posts/create", (req, res) => {
-    res.render('editor/posts/create');
+router.get("/create", (req, res) => {
+    res.render('editor/create');
 });
 
 // submitPosts endpoint
-router.post("/posts/create", (req, res) => {
+router.post("/create", (req, res) => {
     let imageFile = req.files.uploadedImageFile;
     let pdfFile = req.files.uploadedPdfFile;
 
@@ -55,20 +50,20 @@ router.post("/posts/create", (req, res) => {
 
     newPost.save().then(post => {
         req.flash("success-message", "Post was created successfully.");
-        res.redirect("/editor/posts");
+        res.redirect("/editor/");
     });
 });
 
 //editPost endpoint
-router.get("/posts/edit/:id", (req, res) => {
+router.get("/edit/:id", (req, res) => {
     const id = req.params.id;
     Post.findById(id).then(post => {
-        res.render("editor/posts/edit", {post: post});
+        res.render("editor/edit", {post: post});
     });
 });
 
 //editPostSubmit endpoint
-router.put("/posts/edit/:id", (req, res) => {
+router.put("/edit/:id", (req, res) => {
     let imageFile = req.files.uploadedImageFile;
     let pdfFile = req.files.uploadedPdfFile;
 
@@ -95,17 +90,17 @@ router.put("/posts/edit/:id", (req, res) => {
 
             post.save().then(updatePost => {
                 req.flash("success-message", `The post ${updatePost.title} has been updated.`)
-                res.redirect("/editor/posts");
+                res.redirect("/editor/");
             });
         });
 });
 
 // deletePost endpoint
-router.delete("/posts/delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
     Post.findByIdAndDelete(req.params.id)
         .then(deletedPost => {
             req.flash("success-message", `The post ${deletedPost.title} has been deleted.`);
-            res.redirect("/editor/posts");
+            res.redirect("/editor/");
         });
 });
 
@@ -114,7 +109,7 @@ router.get("/logout", (req, res) => {
     res.redirect("/login");
 });
 
-router.get("/posts/logout", (req, res) => {
+router.get("/logout", (req, res) => {
     req.logOut();
     res.redirect("/login");
 });

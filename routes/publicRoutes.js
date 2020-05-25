@@ -81,7 +81,7 @@ router.post("/login", function(req, res, next) {
             }
 
             if(user.role === "editor") {
-               	return res.redirect('/editor/posts/');
+               	return res.redirect('/editor/');
             } else if(user.role === "dispatcher") {
                 return res.redirect("/dispatcher/")
             }
