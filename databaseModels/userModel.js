@@ -21,8 +21,8 @@ const userSchema = new Schema({
         type: String, required: true
     },
 
-    keyValue: {
-        type: Boolean, required: true
+    role: {
+        type: String, required: true
     }
 });
 

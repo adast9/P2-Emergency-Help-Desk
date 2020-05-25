@@ -80,9 +80,9 @@ router.post("/login", function(req, res, next) {
                 return next(err);
             }
 
-            if(user.keyValue === true) {
+            if(user.role === "editor") {
                	return res.redirect('/editor');
-            } else if(user.keyValue === false) {
+            } else if(user.role === "dispatcher") {
                 return res.redirect("/dispatcher/")
             }
         });
