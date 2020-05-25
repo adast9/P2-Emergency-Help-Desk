@@ -13,9 +13,9 @@ router.all("/*", isUserAuthenticated, (req, res, next) => {
 })
 
 // index endpoint
-router.get("/", (req, res) => {
-    res.render('editor/index');
-});
+// router.get("/", (req, res) => {
+//     res.render('editor/index');
+// });
 
 // getPosts endpoint
 router.get("/posts", (req, res) => {
