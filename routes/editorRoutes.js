@@ -102,8 +102,8 @@ router.put("/edit/:id", (req, res) => {
                 res.redirect("/editor/");
             });
         });
-    });
 });
+
 
 // deletePost endpoint
 router.delete("/delete/:id", (req, res) => {
