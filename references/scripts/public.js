@@ -16,7 +16,7 @@ let ws = new WebSocket("ws://localhost:3001");
 nextButton.onclick = function() {
     if(marker) {
         mapStuff.style.display = "none";
-        details.style.display = "block"; 
+        details.style.display = "block";
     } else {
         alert("You need to mark your location on the map.");
     }
@@ -29,12 +29,12 @@ previousButton.onclick = function() {
 }
 
 // Go to the live chat when the submit button is clicked.
-submitButton.onclick = function() { 
+submitButton.onclick = function() {
     details.style.display = "none";
     chatStuff.style.display = "block";
 
     chatMessage("Your case has been submitted.");
-    submitCase() 
+    submitCase()
 };
 
 // Connected to the WebSocket server
@@ -102,12 +102,4 @@ function reopenCase(id) {
         type: "requestReopenCase",
         id: id
     });
-}
-
-function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-        pageLanguage: "en",
-        layout:  /* the language you want to translate from */
-        google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, "google_translate_element" );
 }
