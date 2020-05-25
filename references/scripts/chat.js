@@ -1,3 +1,12 @@
+//
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 // File information
 
 const chatHeader = document.getElementById('chat-header');
@@ -11,7 +20,7 @@ let chatName = "Civillian";
 if(chatInput) chatInput.onkeydown = function(event) {
     //Checks if Enter key was pressed so user doen not have to click "Send" button
     if (event && event.keyCode == 13)
-        sendMessage();
+    sendMessage();
 }
 
 if(chatSendButton) chatSendButton.onclick = function() {

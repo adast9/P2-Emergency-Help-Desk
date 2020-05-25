@@ -1,3 +1,12 @@
+// 
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 // File information
 
 /* Importing Different Modules */
@@ -18,9 +27,9 @@ const app = express();
 /* Configure Mongoose to connect to MongoDB */
 let mongodbURL = 'mongodb+srv://dev:dev@clustercms-faqog.gcp.mongodb.net/cmsdb?retryWrites=true&w=majority';
 
-mongoose.connect(mongodbURL, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
+mongoose.connect(mongodbURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
     .then(response => {
         console.log("MongoDB connected successfully.");

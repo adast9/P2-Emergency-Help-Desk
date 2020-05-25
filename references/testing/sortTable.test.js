@@ -1,3 +1,12 @@
+// 
+// Authors:
+// Adam Stück, Bianca Kevy, Cecilie Hejlesen
+// Frederik Stær, Lasse Rasmussen and Tais Hors
+//
+// Group: DAT2 - C1-14
+// Date: 27/05-2020
+//
+
 /* The package puppeteer which is used for end to end tests and setting up a dummy browser */
 const puppeteer = require("puppeteer");
 
