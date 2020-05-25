@@ -6,7 +6,7 @@
 
 html, body {
     font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
+    margin-bottom: 5%;
 }
 
 /*Removes ugly google-translate banner*/
@@ -15,16 +15,6 @@ html, body {
 }
 
 /*Flexes the page so that it supports smartphone screens*/
-@media screen and (max-width: 700px) {
-    .navbar {
-        height: 52px;
-    }
-
-    .row {
-        flex-direction: column;
-    }
-}
-
 @media screen and (max-width: 400px) {
     .navbar {
         height: auto;
@@ -36,11 +26,6 @@ html, body {
     }
 }
 
-@media (min-width: 992px) {
-    body {
-        padding-top: 56px;
-    }
-}
 
 /********   PUBLIC   *********/
 
@@ -84,6 +69,9 @@ textarea {
     max-width: 400px;
 }
 
+#list {
+    padding-left: 0;
+}
 
 /* Public Live Chat */
 
