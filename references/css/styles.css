@@ -29,10 +29,6 @@ html, body {
 
 /********   PUBLIC   *********/
 
-.main {
-    padding: 20px;
-}
-
 #public-container {
     max-width:900px;
     margin-top: 4%;
@@ -41,21 +37,23 @@ html, body {
 #map-header {
     width: 100%;
     height:50px;
-    background-color: red;
+    position: relative;
 }
 
 #address {
     height: 100%;
     float: left;
-    width: 82%;
+    width: 100%;
     padding-left: 8px;
+    position: absolute;
 }
 
 #search, #gps {
-    float: left;
-    width: 9%;
+    float: right;
+    width: 80px;
     height: 100%;
     border-radius: 0;
+    position: relative;
 }
 
 #map {
