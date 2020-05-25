@@ -1,6 +1,7 @@
 const fs = require('fs');
 const server = require('ws').Server;
 const s = new server({ port: 3001 });
+const Case = require("./databaseModels/caseModel").Case;
 let emds = [];
 let cases = [];
 let counter = 0;
@@ -19,23 +20,6 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true }
     }).catch(err => {
         console.log("Database connection failed.");
 });
-
-const caseSchema = new mongoose.Schema({
-	id: Number,
-    name: String,
-    phone: String,
-    cpr: String,
-    pos: {
-        lat: Number,
-        lng: Number
-    },
-    desc: String,
-    notes: String,
-    chatLog: [String],
-    timeClock: String,
-    timeDate: String
-});
-let Case = mongoose.model('case', caseSchema);
 
 loadCases();
 
@@ -116,11 +100,11 @@ s.on('connection', function(client) {
                 // If the message comes from case creator, forward it to the EMD.
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    if (data.emd)  
+                    if (data.emd)
                         sendChatMessage(caseObj.creator, data.message);
-                    else 
+                    else
                         sendChatMessage(caseObj.emd, data.message);
-                    
+
                     caseObj.chatLog.push(data.message);
 	                saveCases();
                 }
@@ -176,7 +160,7 @@ s.on('connection', function(client) {
                         }));
                         let msg = "The case creator has reconnected...";
                         sendChatMessage(caseObj.emd, msg);
-                    }                   
+                    }
                 } else {
                     // Reject because the case has been archived.
                     client.send(JSON.stringify({
@@ -235,7 +219,7 @@ s.on('connection', function(client) {
             cases.forEach(function(entry) {
                 if(entry.emd == client) {
                     entry.emd = null;
-                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold..."); 
+                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold...");
                     broadcastToEMDs({
                         type: "caseClosed",
                         id: entry.id
@@ -312,7 +296,7 @@ function getTimeClock() {
     let hours = time.getHours();
     let minutes = time.getMinutes();
     let seconds = time.getSeconds();
-    
+
     if (hours < 10)
         hours = `0${hours}`;
     if (minutes < 10)
