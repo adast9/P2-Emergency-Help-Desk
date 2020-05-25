@@ -7,33 +7,26 @@ let options = {year: "numeric", month: "2-digit", day: "2-digit", hour: "numeric
 const postSchema = new Schema({
 
     title: {
-        type: String,
-        required: true
+        type: String, required: true
     },
 
     author: {
-        type: String,
-        required: true
+        type: String, required: true
     },
 
     description: {
-        type: String,
-        required: true
+        type: String, required: true
     },
 
     creationDate: {
-        type: String,
-        default: () => new Date().toLocaleString("da-DK", options)
+        type: String, default: () => new Date().toLocaleString("da-DK", options)
     },
 
     imageFile: {
-        type: String,
-        default: ""
+        type: String, default: ""
     },
 
-    pdfFile: {
-        type: String,
-        default: ""
+    pdfFile: { type: String, default: ""
     }
 });
 
