@@ -1,11 +1,13 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
+
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains whether the file connects to MongoDB and if a post gets uploaded.
+*/
 
 const mongoose = require("mongoose");
 const Post = require("../../databaseModels/postModel.js").Post;

@@ -1,16 +1,18 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the express server which is used when an editor 
+creates a new post for the public info page. It is also here all
+libraries are imported and the connection is created to the database.
+*/
 
 /* Importing Different Modules */
-const {globalVariables} = require("./references/scripts/configuration");
+const {globalVariables} = require("./references/scripts/flash");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -62,11 +64,12 @@ app.use(globalVariables);
 /* File upload */
 app.use(fileUpload());
 
-// skalrettes
+// Template engine is specified to the handlebars format. 
+// The default layout is set to public.handlebars from the layouts folder
 app.engine("handlebars", hbs({defaultLayout: "public"}));
 app.set("view engine" , "handlebars");
 
-// skalrettes
+// Makes us able to use other methods like .put and .delete
 app.use(methodOverride("newMethod"));
 
 /* Routes */

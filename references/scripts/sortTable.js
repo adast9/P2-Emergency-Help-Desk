@@ -1,13 +1,15 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the different sorting functions used to 
+sort through the case list on the dispatcher side and to
+sort through all posts on the editor side's dashboard
+*/
 
 function sortTable (tableID, colIndex, sortByID) {
     let sorting = true;

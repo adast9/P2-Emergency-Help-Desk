@@ -1,11 +1,14 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
+
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the test for the searchPosts function used on the editor side.
+The function can be found in searchPost.js
+*/
 
 const puppeteer = require("puppeteer");
 
