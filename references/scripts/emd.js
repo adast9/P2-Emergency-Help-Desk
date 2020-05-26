@@ -280,7 +280,6 @@ function resetJournalToggles() {
 
 // Toggle an editable field in the journal between editable and read only.
 function toggleJournalField(toggle) {
-    console.log(toggle.field.readOnly);
     toggle.field.readOnly = !toggle.field.readOnly;
     if (toggle.field.readOnly) {
         toggle.innerHTML = "<i class='far fa-eye'></i>";
@@ -319,7 +318,7 @@ function placeMarker(id, location) {
 
 function initJournalToggles() {
     for (let i = 0; i < journalToggles.length; i++)
-        journalToggles[i].field = document.getElementById(journalToggles[i].id);
+        journalToggles[i].field = document.getElementById(journalToggles[i].getAttribute('data-field'));
 }
 
 function sendToServer(data) {
