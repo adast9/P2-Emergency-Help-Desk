@@ -11,7 +11,7 @@ const fs = require('fs');
 const server = require('ws').Server;
 const s = new server({ port: 3001 });
 const Case = require("./databaseModels/caseModel").Case;
-let emds = [];
+let dispatchers = [];
 let cases = [];
 let counter = 0;
 let caseObj;
@@ -39,21 +39,21 @@ s.on('connection', function(client) {
     client.on('message', function(message) {
         let data = JSON.parse(message);
 
-        // Handle the message depening on what 'type' it has.
+        // Handle the message depending on what type it has.
         switch(data.type) {
             case "dispatcherConnect":
-                // An EMD has connected to the server.
-                emds.push(client);
+                // A dispatcher has connected to the server.
+                dispatchers.push(client);
                 cases.forEach(function(entry) {
                     client.send(JSON.stringify(simpleCase(entry)));
                 });
                 break;
             case "case":
                 // New case submitted to the server.
-                // Give the case an ID and save the client that created for livechat, then send the case to all EMDs.
+                // Give the case an ID and save the client that created for live chat, then send the case to all dispatchers.
                 data.id = ++counter;
-                data.creator = client;
-                data.emd = null;
+                data.citizen = client;
+                data.dispatcher = null;
                 data.timeDate = new Date().toLocaleDateString();
                 data.timeClock = getTimeClock();
                 data.chatLog = [];
@@ -64,27 +64,27 @@ s.on('connection', function(client) {
                     type: "caseCreated",
                     id: data.id
                 }));
-                broadcastToEMDs(simpleCase(data));
+                broadcastToDispatchers(simpleCase(data));
                 saveCases();
                 break;
             case "requestOpenCase":
-                // An EMD wants to view a case. Allow if the case is available, reject if it is taken
+                // A dispatcher wants to view a case. Allow if the case is available, reject if it is taken
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    if (caseObj.emd == null) {
-                        caseObj.emd = client;
-                        // Send the case details to the EMD.
+                    if (caseObj.dispatcher == null) {
+                        caseObj.dispatcher = client;
+                        // Send the case details to the dispatcher.
                         client.send(JSON.stringify(fullCase(caseObj)));
-                        // Notify case creator that an EMD is now viewing the case.
-                        sendChatMessage(caseObj.creator, "A dispatcher is now viewing your case...");
+                        // Notify citizen that a dispatcher is now viewing the case.
+                        sendChatMessage(caseObj.citizen, "A dispatcher is now viewing your case...");
 
-                        // Update the case list for all EMDs so they can see the case is no longer available.
-                        broadcastToEMDs({
+                        // Update the case list for all dispatchers so they can see the case is no longer available.
+                        broadcastToDispatchers({
                             type: "caseOpened",
                             id: data.id
                         })
                     } else {
-                        // The case is not available. Deny the EMDs request.
+                        // The case is not available. Deny the dispatcher's request.
                         client.send(JSON.stringify({
                             type: "denyOpenCase"
                         }));
@@ -92,34 +92,34 @@ s.on('connection', function(client) {
                 }
                 break;
             case "closeCase":
-                // An EMD has closed a case. Make the case available to other EMDs again.
+                // A dispatcher has closed a case. Make the case available to other dispatchers again.
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    caseObj.emd = null;
-                    // Notify the case creator that an EMD is no longer viewing their case.
-                    sendChatMessage(caseObj.creator, "A dispatcher has put your case on hold...");
-                    broadcastToEMDs({
+                    caseObj.dispatcher = null;
+                    // Notify the citizen that a dispatcher is no longer viewing their case.
+                    sendChatMessage(caseObj.citizen, "A dispatcher has put your case on hold...");
+                    broadcastToDispatchers({
                         type: "caseClosed",
                         id: data.id
                     });
                 }
                 break;
             case "chatMessage":
-                // Send a chat message. If it is sent from an EMD, forward the message to case creator.
-                // If the message comes from case creator, forward it to the EMD.
+                // Send a chat message. If it is sent from a dispatcher, forward the message to citizen.
+                // If the message comes from citizen, forward it to the dispatcher.
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    if (data.emd)
-                        sendChatMessage(caseObj.creator, data.message);
+                    if (data.dispatcher)
+                        sendChatMessage(caseObj.citizen, data.message);
                     else
-                        sendChatMessage(caseObj.emd, data.message);
+                        sendChatMessage(caseObj.dispatcher, data.message);
 
                     caseObj.chatLog.push(data.message);
 	                saveCases();
                 }
                 break;
             case "saveName":
-                // An EMD has edited the Name field in a patient journal
+                // An dispatcher has edited the Name field in a patient journal
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.name = data.value;
@@ -127,7 +127,7 @@ s.on('connection', function(client) {
                 }
                 break;
             case "savePhone":
-                // An EMD has edited the Phone field in a patient journal
+                // A dispatcher has edited the Phone field in a patient journal
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.phone = data.value;
@@ -135,7 +135,7 @@ s.on('connection', function(client) {
                 }
                 break;
             case "saveCPR":
-                // An EMD has edited the CPR field in a patient journal
+                // A dispatcher has edited the CPR field in a patient journal
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.cpr = data.value;
@@ -143,7 +143,7 @@ s.on('connection', function(client) {
                 }
                 break;
             case "saveNotes":
-                // An EMD has edited the Notes field in a patient journal
+                // A dispatcher has edited the Notes field in a patient journal
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
                     caseObj.notes = data.value;
@@ -151,24 +151,24 @@ s.on('connection', function(client) {
                 }
                 break;
             case "requestReopenCase":
-                // A civillian wants to open an already existing case
+                // A citizen wants to open an already existing case
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    if(caseObj.creator) {
-                        // Reject because there is already a civillian viewing the case.
+                    if(caseObj.citizen) {
+                        // Reject because there is already a citizen viewing the case.
                         client.send(JSON.stringify({
                             type: "denyReopenCase",
                             reason: 1
                         }));
                     } else {
-                        caseObj.creator = client;
+                        caseObj.citizen = client;
                         client.send(JSON.stringify({
                             type: "allowReopenCase",
                             id: data.id,
                             chatLog: caseObj.chatLog
                         }));
-                        let msg = "The case creator has reconnected...";
-                        sendChatMessage(caseObj.emd, msg);
+                        let msg = "The citizen has reconnected...";
+                        sendChatMessage(caseObj.dispatcher, msg);
                     }
                 } else {
                     // Reject because the case has been archived.
@@ -179,13 +179,13 @@ s.on('connection', function(client) {
                 }
                 break;
             case "archiveCase":
-                // An EMD wants to archive a case
+                // A dispatcher wants to archive a case
                 caseObj = getCaseByID(data.id);
                 if (caseObj != null) {
-                    // Let all EMDs know so it gets removed from their case list.
-                    broadcastToEMDs(data);
+                    // Let all dispatcher know so it gets removed from their case list.
+                    broadcastToDispatchers(data);
 
-                    sendChatMessage(caseObj.creator, "Your case has now been closed. Further communication is not possible.");
+                    sendChatMessage(caseObj.citizen, "Your case has now been closed. Further communication is not possible.");
 
                     // Send the case to MongoDB.
                     const newCase = new Case({
@@ -212,7 +212,7 @@ s.on('connection', function(client) {
                 }
                 break;
             default:
-                // This should never happen -> skalrettes: skriv i stedet, hvornår det her kan ske
+                // This should never happen
                 console.log("Received some weird data...");
                 break;
         }
@@ -220,29 +220,29 @@ s.on('connection', function(client) {
 
     // A client has disconnected.
     client.on('close', function() {
-        // Check if they are in the EMD array.
+        // Check if they are in the dispatcher array.
         // If they are, remove them from the array.
-        let i = emds.indexOf(client);
+        let i = dispatchers.indexOf(client);
         if (i !== -1) {
-            // If the EMD had a case open, make it available to other EMDs.
+            // If the dispatcher had a case open, make it available to other dispatchers.
             cases.forEach(function(entry) {
-                if(entry.emd == client) {
-                    entry.emd = null;
-                    sendChatMessage(entry.creator, "A dispatcher has put your case on hold...");
-                    broadcastToEMDs({
+                if(entry.dispatcher == client) {
+                    entry.dispatcher = null;
+                    sendChatMessage(entry.citizen, "A dispatcher has put your case on hold...");
+                    broadcastToDispatchers({
                         type: "caseClosed",
                         id: entry.id
                     });
                 }
             });
-            emds.splice(i, 1);
+            dispatchers.splice(i, 1);
         } else {
-            // Not an EMD, check if they created a case.
+            // Not a dispatcher, check if they created a case.
             cases.forEach(function(entry) {
-                if(entry.creator == client) {
-                    entry.creator = null;
-                    let msg = "The case creator has disconnected...";
-                    sendChatMessage(entry.emd, msg);
+                if(entry.citizen == client) {
+                    entry.citizen = null;
+                    let msg = "The citizen has disconnected...";
+                    sendChatMessage(entry.dispatcher, msg);
                 }
             });
         }
@@ -265,13 +265,13 @@ function getCaseByID(id) {
     return null;
 }
 
-// Lite version of a case. This is all the data needed for adding it to the EMD case list.
+// Lite version of a case. This is all the data needed for adding it to the dispatcher's case list.
 function simpleCase(data) {
     return {
         type: "case",
         id: data.id,
         pos: data.pos,
-        available: (data.emd == null),
+        available: (data.dispatcher == null),
         timeClock: data.timeClock
     };
 }
@@ -292,14 +292,14 @@ function fullCase(data) {
     };
 }
 
-// Sends data to all connected EMDs
-function broadcastToEMDs(data) {
-    emds.forEach(function(emd) {
-        emd.send(JSON.stringify(data));
+// Sends data to all connected dispatchers
+function broadcastToDispatchers(data) {
+    dispatchers.forEach(function(dispatcher) {
+        dispatcher.send(JSON.stringify(data));
     });
 }
 
-// What time is it? This is the time created value on cases
+// What time is it? This is the time created for cases
 function getTimeClock() {
     let time = new Date();
     let hours = time.getHours();

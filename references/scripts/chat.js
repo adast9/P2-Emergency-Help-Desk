@@ -14,8 +14,8 @@ const chatLog = document.getElementById('chat-log');
 const chatInput = document.getElementById('chat-input');
 const chatSendButton = document.getElementById("chat-send");
 let caseID = null;
-let emd = false;
-let chatName = "Civillian";
+let dispatcher = false;
+let chatName = "Citizen";
 
 if(chatInput) chatInput.onkeydown = function(event) {
     //Checks if Enter key was pressed so user doen not have to click "Send" button
@@ -35,7 +35,7 @@ function sendMessage() {
         type: "chatMessage",
         message: msg,
         id: caseID,
-        emd: emd
+        dispatcher: dispatcher
     });
 
     chatLog.scrollTop = chatLog.scrollHeight;
@@ -49,5 +49,5 @@ function setChatID(id) {
     caseID = id;
     setChatHeader("Case ID: " + id);
 }
-function setChatEMD(bool) { emd = bool; }
+function setChatDispatcher(bool) { dispatcher = bool; }
 function chatMessage(msg) { if(chatLog) chatLog.innerHTML += msg + "<br>"; }

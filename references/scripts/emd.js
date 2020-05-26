@@ -67,7 +67,7 @@ if(archiveCaseButton) archiveCaseButton.onclick = function() {
 // Setup chat and journal
 let currentCaseID = null;
 
-setChatEMD(true);
+setChatDispatcher(true);
 setChatName("Dispatcher");
 resetChat();
 resetJournal();
@@ -78,7 +78,7 @@ let ws = new WebSocket("ws://localhost:3001");
 // Successfully connected to the WebSocket server.
 ws.onopen = function() {
     console.log("Connected to the server.");
-    // Let the server know we are an EMD.
+    // Let the server know we are a dispatcher.
     sendToServer( {type: "dispatcherConnect"} );
 }
 
@@ -105,7 +105,7 @@ ws.onmessage = function(event) {
             updateChat(data);
             break;
         case "denyOpenCase":
-            // Server didn't allow us to view a case.
+            // Server did not allow us to view a case.
             alert("This case is already being handled by another operator.");
             break;
         case "caseOpened":
