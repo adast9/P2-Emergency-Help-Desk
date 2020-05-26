@@ -1,12 +1,13 @@
-//
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information, f.eks. hvor der eksporteres til (nederst)
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the scheme model to access user information in the database.
+*/
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -34,4 +35,5 @@ const userSchema = new Schema({
     }
 });
 
+// module is imported in publicRoutes.js
 module.exports = {User: mongoose.model('user', userSchema )};

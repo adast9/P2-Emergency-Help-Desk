@@ -1,11 +1,15 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
+
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the Websocket server used for the interaction
+between the public and the dispatcher side.
+Here the server endpoints are created manually with a switch.
+*/
 
 const fs = require('fs');
 const server = require('ws').Server;
@@ -316,11 +320,9 @@ function getTimeClock() {
     return hours + ":" + minutes + ":" + seconds;
 }
 
-
-// Saves current cases to file, which can be loaded in the case of a server restart/crash.
-// NOTE: Can be improved if we only add/delete entries in the file when they are added/deleted instead of saving the entire array constantly.
+// Saves current cases to txt file, which can be loaded in the case of a server restart/crash.
 function saveCases() {
-    //Delete any already existing data in save file
+    // Delete any already existing data in save file
     fs.truncate('cases.txt', 0, function(){});
 
     // Write this simplified cases array to a file the server can read from next time it starts.

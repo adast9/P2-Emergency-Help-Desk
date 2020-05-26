@@ -5,6 +5,8 @@ Frederik Stær, Lasse Rasmussen and Tais Hors
 
 Group: DAT2 - C1-14
 Date: 27/05-2020
+
+The body for the editor side when an editor wants to edit an existing post.
 -->
 
 <div class="container">
@@ -27,7 +29,7 @@ Date: 27/05-2020
                 <div class="form-group">
                   <label for="file">Thumbnail upload</label>
                   <p>Current uploaded image-file: {{post.imageFile}} </p>
-                  <input type="file" class="form-control" id="image-file" name="uploadedImageFile" required>
+                  <input type="file" class="form-control" id="image-file" name="uploadedImageFile">
                 </div>
 
                 <div class="form-group">
@@ -38,7 +40,7 @@ Date: 27/05-2020
                 <div class="form-group">
                   <label for="pdfFile">PDF upload</label>
                   <p>Current uploaded pdf-file: {{post.pdfFile}} </p>
-                  <input type="file" class="form-control" id="pdf-file" name="uploadedPdfFile" required>
+                  <input type="file" class="form-control" id="pdf-file" name="uploadedPdfFile">
                 </div>
 
                 <button class="btn btn-outline-warning btn-lg" type="submit">Edit Post</button>

@@ -1,13 +1,14 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// The map script used on the public side
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the map script used on the public side
+*/
+
 
 // Centers the map on Denmark
 const map = new google.maps.Map(document.getElementById('map'), {

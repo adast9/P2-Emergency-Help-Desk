@@ -1,13 +1,14 @@
-//
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information: fx hvor der eksporteres til
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the scheme model for a case journal in the dispatcher side.
+When archiving a case journal in the database, this is the model for the journal.
+*/
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -28,4 +29,5 @@ const caseSchema = new Schema({
     timeDate: String
 });
 
+// the module is imported in ws_server.js
 module.exports = {Case: mongoose.model('case', caseSchema )};

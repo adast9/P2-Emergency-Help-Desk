@@ -1,13 +1,13 @@
-// 
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the client side functionality for the public side.
+*/
 
 const nextButton = document.getElementById('next');
 const previousButton = document.getElementById('previous');

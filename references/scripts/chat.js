@@ -1,13 +1,14 @@
-//
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the functions used in the live chat feature between the
+public and the dispatcher side. 
+*/
 
 const chatHeader = document.getElementById('chat-header');
 const chatLog = document.getElementById('chat-log');
@@ -27,6 +28,7 @@ if(chatSendButton) chatSendButton.onclick = function() {
     sendMessage();
 }
 
+// A chat message is created and sent to the server.
 function sendMessage() {
     let msg = chatName + ": " + chatInput.value;
 

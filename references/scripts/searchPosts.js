@@ -1,11 +1,14 @@
-//
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
+
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the search functions used on the editor page and
+on the public info page
+*/
 
 // Search function for the editor page, where each post is listed as a table cell
 function searchPostsEditor () {

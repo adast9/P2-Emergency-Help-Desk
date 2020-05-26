@@ -1,13 +1,14 @@
-//
-// Authors:
-// Adam Stück, Bianca Kevy, Cecilie Hejlesen
-// Frederik Stær, Lasse Rasmussen and Tais Hors
-//
-// Group: DAT2 - C1-14
-// Date: 27/05-2020
-//
+/*
+Authors:
+Adam Stück, Bianca Kevy, Cecilie Hejlesen
+Frederik Stær, Lasse Rasmussen and Tais Hors
 
-// File information, f.eks. hvor der eksporteres til nederst
+Group: DAT2 - C1-14
+Date: 27/05-2020
+
+This file contains the routes/endpoints for the client interaction
+with the public side.
+*/
 
 const express = require("express");
 const router = express.Router();
@@ -91,17 +92,16 @@ router.post("/login", function(req, res, next) {
 router.get("/post/:id", (req, res) => {
     const id = req.params.id;
 
-    // skalrettes
-    // Dette skal redigeres senere
+    // A status message 404 is given if the post cannot be found. Else it renders the singlePost.handlebars file.
     Post.findById(id)
-        .populate({path: "comments", populate: {path: "user", model: "user"}})
+        .populate({path: "user", model: "user"})
         .then(post => {
             if (!post) {
                 res.status(404).json({message: "No Post was found"});
             } else {
-                res.render("public/singlePost", {post: post, comments: post.comments});
+                res.render("public/singlePost", {post: post});
             }
-        })
+        });
 });
 
 router.get("/logout", (req, res) => {
@@ -109,4 +109,5 @@ router.get("/logout", (req, res) => {
     res.redirect("/login");
 });
 
+// module is imported to app.js
 module.exports = router;
