@@ -1,4 +1,4 @@
-// 
+//
 // Authors:
 // Adam Stück, Bianca Kevy, Cecilie Hejlesen
 // Frederik Stær, Lasse Rasmussen and Tais Hors
@@ -46,9 +46,6 @@ passport.use(new localStrategy({
         }
 
         bcrypt.compare(password, user.password, (err, passwordMatched) => {
-            if(err) {
-                return err;
-            }
             if (!passwordMatched) {
                 return done(null, false, req.flash("InputPassword", req.body.InputPassword), req.flash("error-message", "The email or password is incorrect"));
             }
@@ -77,18 +74,11 @@ router.get("/login", (req, res) => {
 
 router.post("/login", function(req, res, next) {
     passport.authenticate("local", function (err, user) {
-        if(err)
-        return next(err);
-
         if(!user) {
         return res.redirect('/login');
         }
 
-        req.logIn(user, function(err) {
-            if (err) {
-                return next(err);
-            }
-
+        req.logIn(user, function() {
             if(user.role === "editor") {
                	return res.redirect('/editor/');
             } else if(user.role === "dispatcher") {

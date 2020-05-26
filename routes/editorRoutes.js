@@ -39,15 +39,8 @@ router.post("/create", (req, res) => {
     let pdfFile = req.files.uploadedPdfFile;
 
     // Moves uploaded files to public/uploads
-    imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
-        if (err)
-        throw err;
-    });
-
-    pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
-        if (err)
-        throw err;
-    });
+    imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name);
+    pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name);
 
     const newPost = new Post({
         title: req.body.title,
@@ -77,15 +70,8 @@ router.put("/edit/:id", (req, res) => {
     let pdfFile = req.files.uploadedPdfFile;
 
     // Moves uploaded files to public/uploads
-    imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name, (err) => {
-        if (err)
-        throw err;
-    });
-
-    pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name, (err) => {
-        if (err)
-        throw err;
-    });
+    imageFile.mv("./references/uploads/images/" + req.files.uploadedImageFile.name);
+    pdfFile.mv("./references/uploads/pdf/" + req.files.uploadedPdfFile.name);
 
     const id = req.params.id;
 
