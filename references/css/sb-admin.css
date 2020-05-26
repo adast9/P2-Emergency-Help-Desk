@@ -8,9 +8,12 @@ html {
   min-height: 100%; }
 
 .no-overflow {
-  max-width:1vh;
+  max-width:30em;
   overflow:hidden;
-}
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  }
 
 th {
   cursor:pointer;
