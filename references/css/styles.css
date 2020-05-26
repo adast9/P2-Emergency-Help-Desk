@@ -15,8 +15,10 @@ Date: 27/05-2020
 
 html, body {
     font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 5%;
 }
+
+/* Removes top 40px made by translate API*/
+body{top:0 !important;}
 
 /*Removes ugly google-translate banner*/
 .goog-te-banner-frame.skiptranslate {
