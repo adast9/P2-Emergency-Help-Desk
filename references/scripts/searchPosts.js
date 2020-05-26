@@ -9,27 +9,27 @@
 
 // Search function for the editor page, where each post is listed as a table cell
 function searchPostsEditor () {
-    let input = document.getElementById("input").value;
-    searchBarInput = input.toLowerCase();
+    let searchbarInput = document.getElementById("input").value;
+    searchbarInput = searchbarInput.toLowerCase();
     let table = document.getElementById("myTable");
-    let tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-        let td = tr[i].getElementsByTagName("td");
-        let matches = false;
+    let tableRow = table.getElementsByTagName("tr");
+    for (let i = 1; i < tableRow.length; i++) {
+        let tableCell = tableRow[i].getElementsByTagName("td");
+        let contentMatch = false;
 
         for (let j = 0; j < 4; j++) {
-            if (td[j]) {
-                let txtValue = td[j].textContent;
-                if (txtValue.toLowerCase().indexOf(searchBarInput) > -1) {
-                    matches = true;
+            if (tableCell[j]) {
+                let txtValue = tableCell[j].textContent;
+                if (txtValue.toLowerCase().indexOf(searchbarInput) > -1) {
+                    contentMatch = true;
                 }
             }
         }
 
-        if(matches === true) {
-            tr[i].style.display = "";
+        if(contentMatch === true) {
+            tableRow[i].style.display = "";
         } else {
-            tr[i].style.display = "none";
+            tableRow[i].style.display = "none";
         }
     }
 }
