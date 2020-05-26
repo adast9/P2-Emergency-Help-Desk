@@ -1,4 +1,4 @@
-<!-- 
+<!--
 Authors:
 Adam Stück, Bianca Kevy, Cecilie Hejlesen
 Frederik Stær, Lasse Rasmussen and Tais Hors
@@ -34,6 +34,10 @@ Date: 27/05-2020
             </tr>
         </thead>
 
+        <script>
+            let deleteID = null;
+        </script>
+
         <tbody class="text-center">
             {{#each posts}}
             <tr>
@@ -44,9 +48,11 @@ Date: 27/05-2020
                 <td class="d-flex justify-content-center">
                     <a href="/info#{{_id}}" target="_blank" class="btn btn-sm btn-success mr-2">View Post</a>
                     <a href="/editor/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
-                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Post</button>
+                    <button id="{{_id}}" type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('confirmDelete').setAttribute('action', '/editor/delete/' + this.id + '?newMethod=DELETE')" data-toggle="modal" data-target="#deleteModal">Delete Post</button>
                 </td>
             </tr>
+
+            {{/each}}
 
             <!-- Modal for delete post -->
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -60,15 +66,13 @@ Date: 27/05-2020
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <form action="/editor/delete/{{id}}?newMethod=DELETE" method="post">
-                                <button class="btn btn-danger" type="submit">Delete</button>
+                            <form id="confirmDelete" method="post">
+                               <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {{/each}}
         </tbody>
     </table>
 

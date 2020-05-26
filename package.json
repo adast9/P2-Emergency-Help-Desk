@@ -1,13 +1,13 @@
 {
-  "name": "CMS",
+  "name": "The-112-Web-Application",
   "version": "1.0.1",
-  "description": "Nodejs CMS Application",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
     "test": "jest"
   },
-  "author": "C1-14 gang",
+  "author": "The C1-14 mafia",
   "license": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
