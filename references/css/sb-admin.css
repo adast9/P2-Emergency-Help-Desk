@@ -7,8 +7,10 @@ html {
   position: relative;
   min-height: 100%; }
 
-body {
-  overflow-x: hidden; }
+.no-overflow {
+  max-width:1vh;
+  overflow:hidden;
+}
 
 th {
   cursor:pointer;

@@ -43,10 +43,10 @@ The body of the dashboard on the editor side, where all created posts are listed
         <tbody class="text-center">
             {{#each posts}}
             <tr>
-                <td>{{title}}</td>
-                <td>{{author}}</td>
-                <td>{{description}}</td>
-                <td>{{creationDate}}</td>
+                <td class="no-overflow">{{title}}</td>
+                <td class="no-overflow">{{author}}</td>
+                <td class="no-overflow">{{description}}</td>
+                <td class="no-overflow">{{creationDate}}</td>
                 <td class="d-flex justify-content-center">
                     <a href="/info#{{_id}}" target="_blank" class="btn btn-sm btn-success mr-2">View Post</a>
                     <a href="/editor/edit/{{_id}}" class="btn btn-sm btn-warning mr-2">Edit Post</a>
